@@ -1,6 +1,6 @@
 {
     "@@locale": "en",
-    "welcome": "Welcome to the VCC Test!",
+    "welcome": "Welcome to VCC Test!",
     "getStarted": "Get Started!",
     "fillEmail": "Please fill your email to start",
     "emailError": "Please enter a valid email",
@@ -95,5 +95,9 @@
     "clientRelationship": "Type of relationship with the client",
     "paymentMethod": "Payment method",
     "other": "Other",
-    "byOrder": "By order"
+    "byOrder": "By order",
+    "next": "Next",
+    "previous": "Previous question",
+    "complete": "Complete",
+    "scoreOverviewTitle": "Your Scores Overview"
 }

@@ -95,5 +95,9 @@
     "clientRelationship": "Tipo de relación con el cliente",
     "paymentMethod": "Forma de cobro",
     "other": "Otros",
-    "byOrder": "A pedido"
+    "byOrder": "A pedido",
+    "next": "Siguiente",
+    "previous": "Pregunta anterior",
+    "complete": "Completar",
+    "scoreOverviewTitle": "Tu Resumen de Puntaje"
 }
