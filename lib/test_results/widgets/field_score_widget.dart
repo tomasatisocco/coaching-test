@@ -6,6 +6,7 @@ class FieldScoreWidget extends StatelessWidget {
     required this.score,
     required this.title,
     required this.scoreColor,
+    this.maxRadio = 16,
     this.removeUpperPadding = false,
     this.radio = 45,
     this.padding = EdgeInsets.zero,
@@ -15,6 +16,7 @@ class FieldScoreWidget extends StatelessWidget {
   final Color scoreColor;
   final String title;
   final double radio;
+  final double maxRadio;
   final EdgeInsets padding;
   final bool removeUpperPadding;
 
@@ -44,8 +46,8 @@ class FieldScoreWidget extends StatelessWidget {
               child: Center(
                 child: Text(
                   score.toString(),
-                  style: const TextStyle(
-                    fontSize: 32,
+                  style: TextStyle(
+                    fontSize: radio * .9,
                     color: Colors.white,
                   ),
                 ),
@@ -58,9 +60,9 @@ class FieldScoreWidget extends StatelessWidget {
             child: Text(
               title,
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.white,
-                fontSize: 20,
+                fontSize: radio * .6 >= maxRadio ? maxRadio : radio * .6,
               ),
             ),
           ),

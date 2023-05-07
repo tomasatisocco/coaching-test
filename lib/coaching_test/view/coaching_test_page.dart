@@ -40,6 +40,7 @@ class CoachingTestPageView extends StatefulWidget {
 class _CoachingTestPageViewState extends State<CoachingTestPageView> {
   late List<QuestionModel> questionsList;
   late PageController _pageController;
+
   @override
   void initState() {
     super.initState();
@@ -55,6 +56,9 @@ class _CoachingTestPageViewState extends State<CoachingTestPageView> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
     return BlocListener<CoachingTestCubit, CoachingTestState>(
       listenWhen: (previous, current) => current is CoachingTestSuccess,
       listener: (context, state) {
@@ -66,6 +70,7 @@ class _CoachingTestPageViewState extends State<CoachingTestPageView> {
       child: PageView.builder(
         itemCount: questionsList.length,
         controller: _pageController,
+        scrollDirection: height > width ? Axis.horizontal : Axis.vertical,
         itemBuilder: (context, index) {
           return QuestionPage(
             question: questionsList[index],
