@@ -23,49 +23,50 @@ class QuestionPage extends StatefulWidget {
 
 class _QuestionPageState extends State<QuestionPage> {
   int? _selectedValue = 0;
-  late FocusNode focusNode;
 
   @override
   void initState() {
-    focusNode = FocusNode(
-      onKey: (node, event) {
-        if (event.isKeyPressed(LogicalKeyboardKey.enter)) {
-          if (_selectedValue == null) return KeyEventResult.handled;
-
-          final value = widget.question.answers.values.elementAt(
-            _selectedValue!,
-          );
-
-          widget.onCompleted(widget.question.key, value);
-          if (widget.question.key == '404') return KeyEventResult.handled;
-          widget.pageController.nextPage(
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.linear,
-          );
-        }
-        if (event.isKeyPressed(LogicalKeyboardKey.tab)) {
-          if (_selectedValue == null) return KeyEventResult.handled;
-          if (_selectedValue == widget.question.answers.length - 1) {
-            setState(() {
-              _selectedValue = 0;
-            });
-            return KeyEventResult.handled;
-          }
-          setState(() {
-            _selectedValue = _selectedValue! + 1;
-          });
-          return KeyEventResult.handled;
-        }
-        return KeyEventResult.ignored;
-      },
-    );
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return RawKeyboardListener(
-      focusNode: focusNode,
+      focusNode: FocusNode(
+        onKey: (node, event) => KeyEventResult.handled,
+      ),
+      autofocus: true,
+      onKey: (value) {
+        if (value.runtimeType != RawKeyDownEvent) return;
+        if (value.logicalKey == LogicalKeyboardKey.enter) {
+          if (_selectedValue == null) return;
+
+          final value = widget.question.answers.values.elementAt(
+            _selectedValue!,
+          );
+
+          widget.onCompleted(widget.question.key, value);
+          if (widget.question.key == '404') return;
+          widget.pageController.nextPage(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.linear,
+          );
+        }
+        if (value.logicalKey == LogicalKeyboardKey.tab) {
+          if (_selectedValue == null) return;
+          if (_selectedValue == widget.question.answers.length - 1) {
+            setState(() {
+              _selectedValue = 0;
+            });
+            return;
+          }
+          setState(() {
+            _selectedValue = _selectedValue! + 1;
+          });
+          return;
+        }
+        return;
+      },
       child: Scaffold(
         backgroundColor: const Color(0xFFF3F3F3),
         body: Padding(
@@ -114,7 +115,7 @@ class _QuestionPageState extends State<QuestionPage> {
                       height: 500,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(32),
-                        child: Image.asset('images/question.jpg'),
+                        child: Image.asset('assets/images/question.jpg'),
                       ),
                     ),
                     Column(

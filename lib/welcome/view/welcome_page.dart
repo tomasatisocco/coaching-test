@@ -145,7 +145,7 @@ class _WelcomePageState extends State<WelcomePage> {
           ),
           Expanded(
             child: Center(
-              child: Image.asset('images/welcome.png'),
+              child: Image.asset('assets/images/welcome.png'),
             ),
           )
         ],
