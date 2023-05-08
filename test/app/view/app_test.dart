@@ -10,7 +10,7 @@ void main() {
       await tester.pumpWidget(
         App(
           firestoreRepository: FirestoreRepository.development(),
-          dataPersistenceRepository: const DataPersistenceRepository(),
+          dataPersistenceRepository: DataPersistenceRepository(),
         ),
       );
       expect(find.byType(WelcomePage), findsOneWidget);

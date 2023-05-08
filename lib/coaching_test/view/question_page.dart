@@ -129,6 +129,7 @@ class _QuestionPageState extends State<QuestionPage> {
                                     },
                                     contentPadding: const EdgeInsets.all(4),
                                     title: Text(
+                                      // ignore: lines_longer_than_80_chars
                                       '${lettersMap[index] ?? ''} - ${widget.question.answers(context.l10n).keys.elementAt(index)}',
                                     ),
                                   ),
@@ -304,6 +305,7 @@ class _QuestionPageState extends State<QuestionPage> {
                                             contentPadding:
                                                 const EdgeInsets.all(4),
                                             title: Text(
+                                              // ignore: lines_longer_than_80_chars
                                               '${lettersMap[index] ?? ''} - ${widget.question.answers(context.l10n).keys.elementAt(index)}',
                                             ),
                                           ),
@@ -325,7 +327,9 @@ class _QuestionPageState extends State<QuestionPage> {
                                         );
 
                                     widget.onCompleted(
-                                        widget.question.key, value);
+                                      widget.question.key,
+                                      value,
+                                    );
                                     if (widget.question.key == '404') return;
                                     widget.pageController.nextPage(
                                       duration:

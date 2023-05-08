@@ -105,6 +105,7 @@ class _AppViewState extends State<AppView> {
         } catch (_) {
           return '/welcome';
         }
+        return null;
       },
     );
   }

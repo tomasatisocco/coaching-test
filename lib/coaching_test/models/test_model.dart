@@ -14,9 +14,10 @@ class CoachingTest {
 
   factory CoachingTest.newTest(String email) {
     return CoachingTest(
-        email: email,
-        coachingTestDate: DateTime.now(),
-        questions: emptyQuestions);
+      email: email,
+      coachingTestDate: DateTime.now(),
+      questions: emptyQuestions,
+    );
   }
 
   // Part 0 - General Information

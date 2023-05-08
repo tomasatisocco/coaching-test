@@ -338,6 +338,7 @@ class ResultsInformationWidget extends StatelessWidget {
           ),
         ),
         Text(
+          // ignore: lines_longer_than_80_chars
           ' • ${context.l10n.qualityOfService} \n • ${context.l10n.businessCreation} \n • ${context.l10n.personalWellness} \n • ${context.l10n.aportToTheCommunity}',
           style: TextStyle(
             fontSize: fontSize,
