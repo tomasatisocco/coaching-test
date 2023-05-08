@@ -1,5 +1,5 @@
 import 'package:coaching/coaching_test/cubit/coaching_test_cubit.dart';
-import 'package:coaching/coaching_test/models/test_model.dart';
+import 'package:coaching/coaching_test/models/question_model.dart';
 import 'package:coaching/coaching_test/view/question_page.dart';
 import 'package:coaching/test_results/view/coaching_test_results_page.dart';
 import 'package:data_persistence_repository/data_persistence_repository.dart';

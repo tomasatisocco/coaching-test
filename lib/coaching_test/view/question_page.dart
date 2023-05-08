@@ -1,5 +1,5 @@
 import 'package:coaching/coaching_test/cubit/coaching_test_cubit.dart';
-import 'package:coaching/coaching_test/models/test_model.dart';
+import 'package:coaching/coaching_test/models/question_model.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
