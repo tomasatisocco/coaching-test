@@ -89,9 +89,11 @@ class _AppViewState extends State<AppView> {
           path: '/coaching_test_result',
           name: CoachingTestResultPage.name,
           builder: (_, state) {
-            final testModel = state.extra as CoachingTest?;
+            final testModelMap =
+                context.read<DataPersistenceRepository>().getCoachingTest();
+            final testModel = CoachingTest.fromMap(testModelMap!);
             return CoachingTestResultPage(
-              testModel: testModel!,
+              testModel: testModel,
             );
           },
         )

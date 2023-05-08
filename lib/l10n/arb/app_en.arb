@@ -99,5 +99,6 @@
     "next": "Next",
     "previous": "Previous question",
     "complete": "Complete",
-    "scoreOverviewTitle": "Your Scores Overview"
+    "scoreOverviewTitle": "Your Scores Overview",
+    "newTest": "New Test"
 }

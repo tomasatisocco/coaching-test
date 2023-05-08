@@ -99,5 +99,6 @@
     "next": "Siguiente",
     "previous": "Pregunta anterior",
     "complete": "Completar",
-    "scoreOverviewTitle": "Tu Resumen de Puntaje"
+    "scoreOverviewTitle": "Tu Resumen de Puntaje",
+    "newTest": "Nuevo Test"
 }
