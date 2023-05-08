@@ -1,6 +1,8 @@
 import 'package:coaching/coaching_test/view/coaching_test_page.dart';
 import 'package:coaching/l10n/l10n.dart';
+import 'package:data_persistence_repository/data_persistence_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
@@ -27,6 +29,24 @@ class _WelcomePageState extends State<WelcomePage> {
   void dispose() {
     _textEditingController.dispose();
     super.dispose();
+  }
+
+  Future<void> onSubmit(BuildContext context) async {
+    final isEmailValid = validateEmail(
+      _textEditingController.text,
+    );
+    setState(() {
+      isError = !isEmailValid;
+    });
+    if (!isEmailValid) return;
+    await context.read<DataPersistenceRepository>().setEmail(
+          _textEditingController.text,
+        );
+    if (!mounted) return;
+    GoRouter.of(context).goNamed(
+      CoachingTestPage.name,
+      extra: _textEditingController.text,
+    );
   }
 
   @override
@@ -92,19 +112,7 @@ class _WelcomePageState extends State<WelcomePage> {
                             contentPadding:
                                 const EdgeInsets.symmetric(horizontal: 24),
                           ),
-                          onSubmitted: (value) {
-                            final isEmailValid = validateEmail(
-                              value,
-                            );
-                            setState(() {
-                              isError = !isEmailValid;
-                            });
-                            if (!isEmailValid) return;
-                            GoRouter.of(context).goNamed(
-                              CoachingTestPage.name,
-                              extra: value,
-                            );
-                          },
+                          onSubmitted: (_) => onSubmit(context),
                         ),
                       ),
                       Visibility(
@@ -119,19 +127,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       ),
                       const Spacer(),
                       ElevatedButton(
-                        onPressed: () {
-                          final isEmailValid = validateEmail(
-                            _textEditingController.text,
-                          );
-                          setState(() {
-                            isError = !isEmailValid;
-                          });
-                          if (!isEmailValid) return;
-                          GoRouter.of(context).goNamed(
-                            CoachingTestPage.name,
-                            extra: _textEditingController.text,
-                          );
-                        },
+                        onPressed: () => onSubmit(context),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFFA6FAAC),
                         ),
@@ -210,19 +206,7 @@ class _WelcomePageState extends State<WelcomePage> {
                             contentPadding:
                                 const EdgeInsets.symmetric(horizontal: 24),
                           ),
-                          onSubmitted: (value) {
-                            final isEmailValid = validateEmail(
-                              value,
-                            );
-                            setState(() {
-                              isError = !isEmailValid;
-                            });
-                            if (!isEmailValid) return;
-                            GoRouter.of(context).goNamed(
-                              CoachingTestPage.name,
-                              extra: value,
-                            );
-                          },
+                          onSubmitted: (_) => onSubmit(context),
                         ),
                       ),
                       Visibility(
@@ -237,19 +221,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       ),
                       const Spacer(),
                       ElevatedButton(
-                        onPressed: () {
-                          final isEmailValid = validateEmail(
-                            _textEditingController.text,
-                          );
-                          setState(() {
-                            isError = !isEmailValid;
-                          });
-                          if (!isEmailValid) return;
-                          GoRouter.of(context).goNamed(
-                            CoachingTestPage.name,
-                            extra: _textEditingController.text,
-                          );
-                        },
+                        onPressed: () => onSubmit(context),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFFA6FAAC),
                         ),

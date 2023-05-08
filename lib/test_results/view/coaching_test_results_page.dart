@@ -52,10 +52,14 @@ class CoachingTestResultPage extends StatelessWidget {
                           FieldScoreWidget(
                             title: context.l10n.qualityOfService,
                             radio: 30,
-                            score: testModel.getQualityOfServiceQualification,
+                            score: testModel.getGroupAnswersTotal(
+                              AnswerGroup.qualityOfService,
+                            ),
                             scoreColor: getScoreColor(
                               testModel
-                                  .getQualityOfServiceQualificationPercentage,
+                                  .getQualityOfServiceQualificationPercentage(
+                                AnswerGroup.qualityOfService,
+                              ),
                             ),
                             removeUpperPadding: true,
                           ),
@@ -65,11 +69,14 @@ class CoachingTestResultPage extends StatelessWidget {
                               FieldScoreWidget(
                                 title: context.l10n.businessCreation,
                                 radio: 30,
-                                score:
-                                    testModel.getBusinessCreationQualification,
+                                score: testModel.getGroupAnswersTotal(
+                                  AnswerGroup.business,
+                                ),
                                 scoreColor: getScoreColor(
                                   testModel
-                                      .getBusinessCreationQualificationPercentage,
+                                      .getQualityOfServiceQualificationPercentage(
+                                    AnswerGroup.business,
+                                  ),
                                 ),
                               ),
                               GeneralScoreWidget(
@@ -82,11 +89,14 @@ class CoachingTestResultPage extends StatelessWidget {
                               FieldScoreWidget(
                                 title: context.l10n.personalWellness,
                                 radio: 30,
-                                score:
-                                    testModel.getPersonalWellnessQualification,
+                                score: testModel.getGroupAnswersTotal(
+                                  AnswerGroup.personal,
+                                ),
                                 scoreColor: getScoreColor(
                                   testModel
-                                      .getPersonalWellnessQualificationPercentage,
+                                      .getQualityOfServiceQualificationPercentage(
+                                    AnswerGroup.personal,
+                                  ),
                                 ),
                               ),
                             ],
@@ -94,11 +104,14 @@ class CoachingTestResultPage extends StatelessWidget {
                           FieldScoreWidget(
                             title: context.l10n.aportToTheCommunity,
                             radio: 30,
-                            score: testModel
-                                .getContributionsToProfessionalCommunityQualification,
+                            score: testModel.getGroupAnswersTotal(
+                              AnswerGroup.community,
+                            ),
                             scoreColor: getScoreColor(
                               testModel
-                                  .getContributionsToProfessionalCommunityQualification,
+                                  .getQualityOfServiceQualificationPercentage(
+                                AnswerGroup.community,
+                              ),
                             ),
                           ),
                         ],
@@ -159,10 +172,14 @@ class CoachingTestResultPage extends StatelessWidget {
                           FieldScoreWidget(
                             title: context.l10n.qualityOfService,
                             radio: MediaQuery.of(context).size.width * .035,
-                            score: testModel.getQualityOfServiceQualification,
+                            score: testModel.getGroupAnswersTotal(
+                              AnswerGroup.qualityOfService,
+                            ),
                             scoreColor: getScoreColor(
                               testModel
-                                  .getQualityOfServiceQualificationPercentage,
+                                  .getQualityOfServiceQualificationPercentage(
+                                AnswerGroup.qualityOfService,
+                              ),
                             ),
                             removeUpperPadding: true,
                           ),
@@ -172,11 +189,14 @@ class CoachingTestResultPage extends StatelessWidget {
                               FieldScoreWidget(
                                 title: context.l10n.businessCreation,
                                 radio: MediaQuery.of(context).size.width * .035,
-                                score:
-                                    testModel.getBusinessCreationQualification,
+                                score: testModel.getGroupAnswersTotal(
+                                  AnswerGroup.business,
+                                ),
                                 scoreColor: getScoreColor(
                                   testModel
-                                      .getBusinessCreationQualificationPercentage,
+                                      .getQualityOfServiceQualificationPercentage(
+                                    AnswerGroup.business,
+                                  ),
                                 ),
                               ),
                               GeneralScoreWidget(
@@ -189,11 +209,14 @@ class CoachingTestResultPage extends StatelessWidget {
                               FieldScoreWidget(
                                 title: context.l10n.personalWellness,
                                 radio: MediaQuery.of(context).size.width * .035,
-                                score:
-                                    testModel.getPersonalWellnessQualification,
+                                score: testModel.getGroupAnswersTotal(
+                                  AnswerGroup.personal,
+                                ),
                                 scoreColor: getScoreColor(
                                   testModel
-                                      .getPersonalWellnessQualificationPercentage,
+                                      .getQualityOfServiceQualificationPercentage(
+                                    AnswerGroup.personal,
+                                  ),
                                 ),
                               ),
                             ],
@@ -201,11 +224,14 @@ class CoachingTestResultPage extends StatelessWidget {
                           FieldScoreWidget(
                             title: context.l10n.aportToTheCommunity,
                             radio: MediaQuery.of(context).size.width * .035,
-                            score: testModel
-                                .getContributionsToProfessionalCommunityQualification,
+                            score: testModel.getGroupAnswersTotal(
+                              AnswerGroup.community,
+                            ),
                             scoreColor: getScoreColor(
                               testModel
-                                  .getContributionsToProfessionalCommunityQualification,
+                                  .getQualityOfServiceQualificationPercentage(
+                                AnswerGroup.community,
+                              ),
                             ),
                           ),
                         ],

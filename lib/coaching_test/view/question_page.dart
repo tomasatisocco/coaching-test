@@ -1,7 +1,5 @@
-import 'dart:html';
-
 import 'package:coaching/coaching_test/cubit/coaching_test_cubit.dart';
-import 'package:coaching/coaching_test/models/question_model.dart';
+import 'package:coaching/coaching_test/models/test_model.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,11 +23,18 @@ class QuestionPage extends StatefulWidget {
 }
 
 class _QuestionPageState extends State<QuestionPage> {
-  int? _selectedValue = 0;
+  int? _selectedValue;
 
   @override
   void initState() {
     super.initState();
+    final initialValue = context.read<CoachingTestCubit>().getInitialValue(
+              widget.question.key,
+            ) ~/
+        widget.question.multiplier;
+    setState(() {
+      _selectedValue = initialValue;
+    });
   }
 
   @override
@@ -44,9 +49,9 @@ class _QuestionPageState extends State<QuestionPage> {
         if (value.logicalKey == LogicalKeyboardKey.enter) {
           if (_selectedValue == null) return;
 
-          final value = widget.question.answers.values.elementAt(
-            _selectedValue!,
-          );
+          final value = widget.question.answers(context.l10n).values.elementAt(
+                _selectedValue!,
+              );
 
           widget.onCompleted(widget.question.key, value);
           if (widget.question.key == '404') return;
@@ -57,7 +62,8 @@ class _QuestionPageState extends State<QuestionPage> {
         }
         if (value.logicalKey == LogicalKeyboardKey.tab) {
           if (_selectedValue == null) return;
-          if (_selectedValue == widget.question.answers.length - 1) {
+          if (_selectedValue ==
+              widget.question.answers(context.l10n).length - 1) {
             setState(() {
               _selectedValue = 0;
             });
@@ -89,7 +95,7 @@ class _QuestionPageState extends State<QuestionPage> {
                     child: Column(
                       children: [
                         Text(
-                          widget.question.question,
+                          widget.question.getQuestion(context.l10n),
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontSize: 20,
@@ -102,7 +108,8 @@ class _QuestionPageState extends State<QuestionPage> {
                           height: 400,
                           width: MediaQuery.of(context).size.width * 0.8,
                           child: ListView.builder(
-                            itemCount: widget.question.answers.length,
+                            itemCount:
+                                widget.question.answers(context.l10n).length,
                             itemBuilder: (context, index) {
                               return Padding(
                                 padding: const EdgeInsets.all(8),
@@ -114,6 +121,7 @@ class _QuestionPageState extends State<QuestionPage> {
                                   child: RadioListTile(
                                     value: index,
                                     groupValue: _selectedValue,
+                                    dense: true,
                                     onChanged: (value) {
                                       setState(() {
                                         _selectedValue = value;
@@ -121,7 +129,7 @@ class _QuestionPageState extends State<QuestionPage> {
                                     },
                                     contentPadding: const EdgeInsets.all(4),
                                     title: Text(
-                                      '${lettersMap[index] ?? ''} - ${widget.question.answers.keys.elementAt(index)}',
+                                      '${lettersMap[index] ?? ''} - ${widget.question.answers(context.l10n).keys.elementAt(index)}',
                                     ),
                                   ),
                                 ),
@@ -134,10 +142,12 @@ class _QuestionPageState extends State<QuestionPage> {
                           onPressed: () {
                             if (_selectedValue == null) return;
 
-                            final value =
-                                widget.question.answers.values.elementAt(
-                              _selectedValue!,
-                            );
+                            final value = widget.question
+                                .answers(context.l10n)
+                                .values
+                                .elementAt(
+                                  _selectedValue!,
+                                );
 
                             widget.onCompleted(widget.question.key, value);
                             if (widget.question.key == '404') return;
@@ -227,7 +237,7 @@ class _QuestionPageState extends State<QuestionPage> {
                         child: Column(
                           children: [
                             Text(
-                              widget.question.question,
+                              widget.question.getQuestion(context.l10n),
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 fontSize: 36,
@@ -237,7 +247,7 @@ class _QuestionPageState extends State<QuestionPage> {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              widget.question.description,
+                              widget.question.getDescription(context.l10n),
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 fontSize: 24,
@@ -271,7 +281,9 @@ class _QuestionPageState extends State<QuestionPage> {
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
                                   child: ListView.builder(
-                                    itemCount: widget.question.answers.length,
+                                    itemCount: widget.question
+                                        .answers(context.l10n)
+                                        .length,
                                     itemBuilder: (context, index) {
                                       return Padding(
                                         padding: const EdgeInsets.all(8),
@@ -292,7 +304,7 @@ class _QuestionPageState extends State<QuestionPage> {
                                             contentPadding:
                                                 const EdgeInsets.all(4),
                                             title: Text(
-                                              '${lettersMap[index] ?? ''} - ${widget.question.answers.keys.elementAt(index)}',
+                                              '${lettersMap[index] ?? ''} - ${widget.question.answers(context.l10n).keys.elementAt(index)}',
                                             ),
                                           ),
                                         ),
@@ -305,10 +317,12 @@ class _QuestionPageState extends State<QuestionPage> {
                                   onPressed: () {
                                     if (_selectedValue == null) return;
 
-                                    final value = widget.question.answers.values
+                                    final value = widget.question
+                                        .answers(context.l10n)
+                                        .values
                                         .elementAt(
-                                      _selectedValue!,
-                                    );
+                                          _selectedValue!,
+                                        );
 
                                     widget.onCompleted(
                                         widget.question.key, value);

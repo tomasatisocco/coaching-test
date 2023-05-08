@@ -3,21 +3,28 @@ import 'package:coaching/coaching_test/view/coaching_test_page.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/test_results/view/coaching_test_results_page.dart';
 import 'package:coaching/welcome/view/welcome_page.dart';
+import 'package:data_persistence_repository/data_persistence_repository.dart';
 import 'package:firestore_repository/firestore_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class App extends StatelessWidget {
-  const App({super.key, required this.firestoreRepository});
+  const App({
+    super.key,
+    required this.firestoreRepository,
+    required this.dataPersistenceRepository,
+  });
 
   final FirestoreRepository firestoreRepository;
+  final DataPersistenceRepository dataPersistenceRepository;
 
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(value: firestoreRepository),
+        RepositoryProvider.value(value: dataPersistenceRepository),
       ],
       child: const AppView(),
     );
@@ -75,10 +82,7 @@ class _AppViewState extends State<AppView> {
           path: '/coaching_test',
           name: CoachingTestPage.name,
           builder: (_, state) {
-            final email = state.extra as String?;
-            return CoachingTestPage(
-              email: email ?? '',
-            );
+            return const CoachingTestPage();
           },
         ),
         GoRoute(
@@ -87,41 +91,19 @@ class _AppViewState extends State<AppView> {
           builder: (_, state) {
             final testModel = state.extra as CoachingTest?;
             return CoachingTestResultPage(
-              testModel: testModel ?? mockTestModel,
+              testModel: testModel!,
             );
           },
         )
       ],
+      redirect: (context, state) {
+        try {
+          final email = context.read<DataPersistenceRepository>().getEmail();
+          if (email == null) return '/welcome';
+        } catch (_) {
+          return '/welcome';
+        }
+      },
     );
   }
 }
-
-CoachingTest mockTestModel = CoachingTest(
-  email: '',
-  coachingTestDate: DateTime(2023, 1, 1),
-  paidSessionsPercentage: 2,
-  physicalActivity: 2,
-  processOfferGrade: 3,
-  profesionalImprovement: 1,
-  professionCommunityContributions: 4,
-  professionIntelectualContributions: 2,
-  minPaymentPercentage: 1,
-  coworkersActivities: 2,
-  clientImportanceAutoQualification: 4,
-  sessionQualityAutoQualification: 3,
-  familiarRelationship: 3,
-  feedBack: 2,
-  systematizedServiceGrade: 0,
-  haveMentor: 1,
-  isMentor: 1,
-  mensualMediaIncome: 2,
-  natureContact: 3,
-  quantityOfRecommendations: 2,
-  relaxTime: 1,
-  socialRelationship: 2,
-  supervisedMediaSessions: 3,
-  weeklyMediaCoacheeSessions: 2,
-  weeklyMediaSessions: 1,
-  certification: 2,
-  coachServiceDifferentiation: 1,
-);

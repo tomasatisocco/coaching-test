@@ -1,80 +1,27 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:coaching/l10n/l10n.dart';
+
 class CoachingTest {
   const CoachingTest({
-    this.profesionalImprovement,
-    this.weeklyMediaSessions,
-    this.supervisedMediaSessions,
-    this.sessionQualityAutoQualification,
-    this.weeklyMediaCoacheeSessions,
-    this.haveMentor,
-    this.isMentor,
-    this.systematizedServiceGrade,
-    this.processOfferGrade,
-    this.clientImportanceAutoQualification,
-    this.paidSessionsPercentage,
-    this.minPaymentPercentage,
-    this.mensualMediaIncome,
-    this.coachServiceDifferentiation,
-    this.quantityOfRecommendations,
-    this.feedBack,
-    this.physicalActivity,
-    this.familiarRelationship,
-    this.socialRelationship,
-    this.natureContact,
-    this.relaxTime,
-    this.coworkersActivities,
-    this.professionCommunityContributions,
-    this.professionIntelectualContributions,
-    this.certification,
     required this.email,
     required this.coachingTestDate,
+    required this.questions,
   });
 
   factory CoachingTest.newTest(String email) {
     return CoachingTest(
-      email: email,
-      coachingTestDate: DateTime.now(),
-    );
+        email: email,
+        coachingTestDate: DateTime.now(),
+        questions: emptyQuestions);
   }
 
   // Part 0 - General Information
   final String email;
   final DateTime coachingTestDate;
 
-  // Part 1 - Quality of Service
-  final int? profesionalImprovement;
-  final int? weeklyMediaSessions;
-  final int? supervisedMediaSessions;
-  final int? sessionQualityAutoQualification;
-  final int? weeklyMediaCoacheeSessions;
-  final int? haveMentor;
-  final int? isMentor;
-  final int? systematizedServiceGrade;
-  final int? processOfferGrade;
-  final int? clientImportanceAutoQualification;
-
-  // Part 2 - Business Creation
-  final int? paidSessionsPercentage;
-  final int? minPaymentPercentage;
-  final int? mensualMediaIncome;
-  final int? coachServiceDifferentiation;
-  final int? quantityOfRecommendations;
-  final int? feedBack;
-
-  // Part 3 - Personal wellness
-  final int? physicalActivity;
-  final int? familiarRelationship;
-  final int? socialRelationship;
-  final int? natureContact;
-  final int? relaxTime;
-
-  // Part 4 - Contributions to professional community
-  final int? coworkersActivities;
-  final int? professionCommunityContributions;
-  final int? professionIntelectualContributions;
-  final int? certification;
+  final Set<QuestionModel> questions;
 
   static const int serviceMaxQualification = 55;
   static const int businessMaxQualification = 36;
@@ -85,167 +32,40 @@ class CoachingTest {
       personalWellnessMaxQualification +
       professionalCommunityMaxQualification;
 
-  bool get isTestCompleted {
-    return profesionalImprovement != null &&
-        weeklyMediaSessions != null &&
-        supervisedMediaSessions != null &&
-        sessionQualityAutoQualification != null &&
-        weeklyMediaCoacheeSessions != null &&
-        haveMentor != null &&
-        isMentor != null &&
-        systematizedServiceGrade != null &&
-        processOfferGrade != null &&
-        clientImportanceAutoQualification != null &&
-        paidSessionsPercentage != null &&
-        minPaymentPercentage != null &&
-        mensualMediaIncome != null &&
-        coachServiceDifferentiation != null &&
-        quantityOfRecommendations != null &&
-        feedBack != null &&
-        physicalActivity != null &&
-        familiarRelationship != null &&
-        socialRelationship != null &&
-        natureContact != null &&
-        relaxTime != null &&
-        coworkersActivities != null &&
-        professionCommunityContributions != null &&
-        professionIntelectualContributions != null &&
-        certification != null;
+  bool get isTestCompleted =>
+      !questions.any((element) => element.value == null);
+
+  int getGroupAnswersTotal(AnswerGroup group) {
+    if (!isTestCompleted) return 0;
+    var total = 0;
+    for (final question in questions) {
+      if (question.key.startsWith(group.groupIndex.toString())) {
+        total += question.value!;
+      }
+    }
+    return total;
   }
 
-  int get getQualityOfServiceQualification {
-    if (!isTestCompleted) return 0;
-    return profesionalImprovement! +
-        weeklyMediaSessions! +
-        supervisedMediaSessions! +
-        sessionQualityAutoQualification! +
-        weeklyMediaCoacheeSessions! +
-        haveMentor! +
-        isMentor! +
-        systematizedServiceGrade! +
-        processOfferGrade! +
-        clientImportanceAutoQualification!;
-  }
-
-  int get getBusinessCreationQualification {
-    if (!isTestCompleted) return 0;
-    return paidSessionsPercentage! +
-        minPaymentPercentage! +
-        mensualMediaIncome! +
-        quantityOfRecommendations! +
-        feedBack!;
-  }
-
-  int get getPersonalWellnessQualification {
-    if (!isTestCompleted) return 0;
-    return physicalActivity! +
-        familiarRelationship! +
-        socialRelationship! +
-        natureContact! +
-        relaxTime!;
-  }
-
-  int get getContributionsToProfessionalCommunityQualification {
-    if (!isTestCompleted) return 0;
-    return coworkersActivities! +
-        professionCommunityContributions! +
-        professionIntelectualContributions! +
-        certification!;
-  }
-
-  int get totalQualification {
-    if (!isTestCompleted) return 0;
-    return getQualityOfServiceQualification +
-        getBusinessCreationQualification +
-        getPersonalWellnessQualification +
-        getContributionsToProfessionalCommunityQualification;
-  }
+  int get totalQualification =>
+      getGroupAnswersTotal(AnswerGroup.qualityOfService) +
+      getGroupAnswersTotal(AnswerGroup.business) +
+      getGroupAnswersTotal(AnswerGroup.personal) +
+      getGroupAnswersTotal(AnswerGroup.community);
 
   int get getTotalQualificationPercentage =>
       (totalQualification * 100) ~/ maxQualification;
 
-  int get getQualityOfServiceQualificationPercentage =>
-      (getQualityOfServiceQualification * 100) ~/ serviceMaxQualification;
+  int getQualityOfServiceQualificationPercentage(AnswerGroup group) =>
+      (getGroupAnswersTotal(group) * 100) ~/ serviceMaxQualification;
 
-  int get getBusinessCreationQualificationPercentage =>
-      (getBusinessCreationQualification * 100) ~/ businessMaxQualification;
-
-  int get getPersonalWellnessQualificationPercentage =>
-      (getPersonalWellnessQualification * 100) ~/
-      personalWellnessMaxQualification;
-
-  int get getContributionsQualificationPercentage =>
-      (getContributionsToProfessionalCommunityQualification * 100) ~/
-      professionalCommunityMaxQualification;
-
-  CoachingTest copyWith({
-    int? profesionalImprovement,
-    int? weeklyMediaSessions,
-    int? supervisedMediaSessions,
-    int? sessionQualityAutoQualification,
-    int? weeklyMediaCoacheeSessions,
-    int? haveMentor,
-    int? isMentor,
-    int? systematizedServiceGrade,
-    int? processOfferGrade,
-    int? clientImportanceAutoQualification,
-    int? paidSessionsPercentage,
-    int? minPaymentPercentage,
-    int? mensualMediaIncome,
-    int? coachServiceDifferentiation,
-    int? quantityOfRecommendations,
-    int? feedBack,
-    int? physicalActivity,
-    int? familiarRelationship,
-    int? socialRelationship,
-    int? natureContact,
-    int? relaxTime,
-    int? coworkersActivities,
-    int? professionCommunityContributions,
-    int? professionIntelectualContributions,
-    int? certification,
-    String? email,
-    DateTime? coachingTestDate,
-  }) {
+  CoachingTest updateAnswer(String key, int value) {
+    final newAnswers = questions.toList();
+    final index = newAnswers.indexWhere((element) => element.key == key);
+    newAnswers[index] = newAnswers[index].updateValue(value);
     return CoachingTest(
-      profesionalImprovement:
-          profesionalImprovement ?? this.profesionalImprovement,
-      weeklyMediaSessions: weeklyMediaSessions ?? this.weeklyMediaSessions,
-      supervisedMediaSessions:
-          supervisedMediaSessions ?? this.supervisedMediaSessions,
-      sessionQualityAutoQualification: sessionQualityAutoQualification ??
-          this.sessionQualityAutoQualification,
-      weeklyMediaCoacheeSessions:
-          weeklyMediaCoacheeSessions ?? this.weeklyMediaCoacheeSessions,
-      haveMentor: haveMentor ?? this.haveMentor,
-      isMentor: isMentor ?? this.isMentor,
-      systematizedServiceGrade:
-          systematizedServiceGrade ?? this.systematizedServiceGrade,
-      processOfferGrade: processOfferGrade ?? this.processOfferGrade,
-      clientImportanceAutoQualification: clientImportanceAutoQualification ??
-          this.clientImportanceAutoQualification,
-      paidSessionsPercentage:
-          paidSessionsPercentage ?? this.paidSessionsPercentage,
-      minPaymentPercentage: minPaymentPercentage ?? this.minPaymentPercentage,
-      mensualMediaIncome: mensualMediaIncome ?? this.mensualMediaIncome,
-      coachServiceDifferentiation:
-          coachServiceDifferentiation ?? this.coachServiceDifferentiation,
-      quantityOfRecommendations:
-          quantityOfRecommendations ?? this.quantityOfRecommendations,
-      feedBack: feedBack ?? this.feedBack,
-      physicalActivity: physicalActivity ?? this.physicalActivity,
-      familiarRelationship: familiarRelationship ?? this.familiarRelationship,
-      socialRelationship: socialRelationship ?? this.socialRelationship,
-      natureContact: natureContact ?? this.natureContact,
-      relaxTime: relaxTime ?? this.relaxTime,
-      coworkersActivities: coworkersActivities ?? this.coworkersActivities,
-      professionCommunityContributions: professionCommunityContributions ??
-          this.professionCommunityContributions,
-      professionIntelectualContributions: professionIntelectualContributions ??
-          this.professionIntelectualContributions,
-      certification: certification ?? this.certification,
-      email: email ?? this.email,
-      coachingTestDate: coachingTestDate ?? this.coachingTestDate,
+      email: email,
+      coachingTestDate: coachingTestDate,
+      questions: newAnswers.toSet(),
     );
   }
 
@@ -253,31 +73,7 @@ class CoachingTest {
     return <String, dynamic>{
       'email': email,
       'coachingTestDate': coachingTestDate.millisecondsSinceEpoch,
-      'profesionalImprovement': profesionalImprovement,
-      'weeklyMediaSessions': weeklyMediaSessions,
-      'supervisedMediaSessions': supervisedMediaSessions,
-      'sessionQualityAutoQualification': sessionQualityAutoQualification,
-      'weeklyMediaCoacheeSessions': weeklyMediaCoacheeSessions,
-      'haveMentor': haveMentor,
-      'isMentor': isMentor,
-      'systematizedServiceGrade': systematizedServiceGrade,
-      'processOfferGrade': processOfferGrade,
-      'clientImportanceAutoQualification': clientImportanceAutoQualification,
-      'paidSessionsPercentage': paidSessionsPercentage,
-      'minPaymentPercentage': minPaymentPercentage,
-      'mensualMediaIncome': mensualMediaIncome,
-      'coachServiceDifferentiation': coachServiceDifferentiation,
-      'quantityOfRecommendations': quantityOfRecommendations,
-      'feedBack': feedBack,
-      'physicalActivity': physicalActivity,
-      'familiarRelationship': familiarRelationship,
-      'socialRelationship': socialRelationship,
-      'natureContact': natureContact,
-      'relaxTime': relaxTime,
-      'coworkersActivities': coworkersActivities,
-      'professionCommunityContributions': professionCommunityContributions,
-      'professionIntelectualContributions': professionIntelectualContributions,
-      'certification': certification,
+      'answers': questions.map((e) => e.toMap()).toList(),
     };
   }
 
@@ -287,31 +83,7 @@ class CoachingTest {
         CoachingTest(
           email: $email,
           coachingTestDate: $coachingTestDate,
-          profesionalImprovement: $profesionalImprovement,
-          weeklyMediaSessions: $weeklyMediaSessions,
-          supervisedMediaSessions: $supervisedMediaSessions,
-          sessionQualityAutoQualification: $sessionQualityAutoQualification,
-          weeklyMediaCoacheeSessions: $weeklyMediaCoacheeSessions,
-          haveMentor: $haveMentor,
-          isMentor: $isMentor,
-          systematizedServiceGrade: $systematizedServiceGrade,
-          processOfferGrade: $processOfferGrade,
-          clientImportanceAutoQualification: $clientImportanceAutoQualification,
-          paidSessionsPercentage: $paidSessionsPercentage,
-          minPaymentPercentage: $minPaymentPercentage,
-          MensualMediaIncome: $mensualMediaIncome,
-          coachServiceDifferentiation: $coachServiceDifferentiation,
-          quantityOfRecommendations: $quantityOfRecommendations,
-          feedBack: $feedBack,
-          physicalActivity: $physicalActivity,
-          familiarRelationship: $familiarRelationship,
-          socialRelationship: $socialRelationship,
-          natureContact: $natureContact,
-          relaxTime: $relaxTime,
-          coworkersActivities: $coworkersActivities,
-          professionCommunityContributions: $professionCommunityContributions,
-          professionIntelectualContributions: $professionIntelectualContributions,
-          certification: $certification
+          answers: $questions,
         )
       ''';
   }
@@ -321,75 +93,11 @@ class CoachingTest {
       email: map['email'] as String,
       coachingTestDate:
           DateTime.fromMillisecondsSinceEpoch(map['coachingTestDate'] as int),
-      profesionalImprovement: map['profesionalImprovement'] != null
-          ? map['profesionalImprovement'] as int
-          : null,
-      weeklyMediaSessions: map['weeklyMediaSessions'] != null
-          ? map['weeklyMediaSessions'] as int
-          : null,
-      supervisedMediaSessions: map['supervisedMediaSessions'] != null
-          ? map['supervisedMediaSessions'] as int
-          : null,
-      sessionQualityAutoQualification:
-          map['sessionQualityAutoQualification'] != null
-              ? map['sessionQualityAutoQualification'] as int
-              : null,
-      weeklyMediaCoacheeSessions: map['weeklyMediaCoacheeSessions'] != null
-          ? map['weeklyMediaCoacheeSessions'] as int
-          : null,
-      haveMentor: map['haveMentor'] != null ? map['haveMentor'] as int : null,
-      isMentor: map['isMentor'] != null ? map['isMentor'] as int : null,
-      systematizedServiceGrade: map['systematizedServiceGrade'] != null
-          ? map['systematizedServiceGrade'] as int
-          : null,
-      processOfferGrade: map['processOfferGrade'] != null
-          ? map['processOfferGrade'] as int
-          : null,
-      clientImportanceAutoQualification:
-          map['clientImportanceAutoQualification'] != null
-              ? map['clientImportanceAutoQualification'] as int
-              : null,
-      paidSessionsPercentage: map['paidSessionsPercentage'] != null
-          ? map['paidSessionsPercentage'] as int
-          : null,
-      minPaymentPercentage: map['minPaymentPercentage'] != null
-          ? map['minPaymentPercentage'] as int
-          : null,
-      mensualMediaIncome: map['mensualMediaIncome'] != null
-          ? map['mensualMediaIncome'] as int
-          : null,
-      coachServiceDifferentiation: map['coachServiceDifferentiation'] != null
-          ? map['coachServiceDifferentiation'] as int
-          : null,
-      quantityOfRecommendations: map['quantityOfRecommendations'] != null
-          ? map['quantityOfRecommendations'] as int
-          : null,
-      feedBack: map['feedBack'] != null ? map['feedBack'] as int : null,
-      physicalActivity: map['physicalActivity'] != null
-          ? map['physicalActivity'] as int
-          : null,
-      familiarRelationship: map['familiarRelationship'] != null
-          ? map['familiarRelationship'] as int
-          : null,
-      socialRelationship: map['socialRelationship'] != null
-          ? map['socialRelationship'] as int
-          : null,
-      natureContact:
-          map['natureContact'] != null ? map['natureContact'] as int : null,
-      relaxTime: map['relaxTime'] != null ? map['relaxTime'] as int : null,
-      coworkersActivities: map['coworkersActivities'] != null
-          ? map['coworkersActivities'] as int
-          : null,
-      professionCommunityContributions:
-          map['professionCommunityContributions'] != null
-              ? map['professionCommunityContributions'] as int
-              : null,
-      professionIntelectualContributions:
-          map['professionIntelectualContributions'] != null
-              ? map['professionIntelectualContributions'] as int
-              : null,
-      certification:
-          map['certification'] != null ? map['certification'] as int : null,
+      questions: (map['answers'] as List<dynamic>)
+          .map<QuestionModel>(
+            (e) => QuestionModel.fromMap(e as Map<String, dynamic>)!,
+          )
+          .toSet(),
     );
   }
 
@@ -397,4 +105,721 @@ class CoachingTest {
 
   factory CoachingTest.fromJson(String source) =>
       CoachingTest.fromMap(json.decode(source) as Map<String, dynamic>);
+}
+
+class AnswerQuestionKeys {
+  static const String profesionalImprovement = '101';
+  static const String weeklyMediaSessions = '102';
+  static const String supervisedMediaSessions = '103';
+  static const String sessionQualityAutoQualification = '104';
+  static const String weeklyMediaCoacheeSessions = '105';
+  static const String haveMentor = '106';
+  static const String isMentor = '107';
+  static const String systematizedServiceGrade = '108';
+  static const String processOfferGrade = '109';
+  static const String clientImportanceAutoQualification = '110';
+  static const String paidSessionsPercentage = '201';
+  static const String minPaymentPercentage = '202';
+  static const String mensualMediaIncome = '203';
+  static const String coachServiceDifferentiation = '204';
+  static const String quantityOfRecommendations = '205';
+  static const String feedBack = '206';
+  static const String physicalActivity = '301';
+  static const String familiarRelationship = '302';
+  static const String socialRelationship = '303';
+  static const String natureContact = '304';
+  static const String relaxTime = '305';
+  static const String coworkersActivities = '401';
+  static const String professionCommunityContributions = '402';
+  static const String professionIntelectualContributions = '403';
+  static const String certification = '404';
+}
+
+abstract class QuestionModel {
+  QuestionModel({
+    required this.key,
+    this.value,
+    this.multiplier = 1,
+  });
+
+  final String key;
+  final int? value;
+  final int multiplier;
+
+  String getQuestion(AppLocalizations l10n);
+  String getDescription(AppLocalizations l10n);
+
+  Map<String, int> answers(AppLocalizations l10n) => const <String, int>{
+        '0': 0,
+        '1': 1,
+        '2': 2,
+        '3': 3,
+        '4': 4,
+      };
+
+  QuestionModel updateValue(int value);
+
+  Map<String, dynamic> toMap() {
+    return {
+      key: value,
+    };
+  }
+
+  static QuestionModel? fromMap(Map<String, dynamic> map) {
+    switch (map.keys.first) {
+      case AnswerQuestionKeys.profesionalImprovement:
+        return ProfesionalImprovementQuestion(value: map.values.first as int);
+      case AnswerQuestionKeys.weeklyMediaSessions:
+        return WeeklyMediaSessionsQuestion(value: map.values.first as int);
+      case AnswerQuestionKeys.supervisedMediaSessions:
+        return SupervisedMediaSessionsQuestion(value: map.values.first as int);
+      case AnswerQuestionKeys.sessionQualityAutoQualification:
+        return SessionQualityAutoQualificationQuestion(
+          value: map.values.first as int,
+        );
+      case AnswerQuestionKeys.weeklyMediaCoacheeSessions:
+        return WeeklyMediaCoacheeSessionsQuestion(
+          value: map.values.first as int,
+        );
+      case AnswerQuestionKeys.isMentor:
+        return IsMentorQuestion(value: map.values.first as int);
+      case AnswerQuestionKeys.haveMentor:
+        return HaveMentorQuestion(value: map.values.first as int);
+      case AnswerQuestionKeys.systematizedServiceGrade:
+        return SystematizedServiceGradeQuestion(
+          value: map.values.first as int,
+        );
+      case AnswerQuestionKeys.processOfferGrade:
+        return ProcessOfferGradeQuestion(value: map.values.first as int);
+      case AnswerQuestionKeys.clientImportanceAutoQualification:
+        return ClientImportanceAutoQualificationQuestion(
+          value: map.values.first as int,
+        );
+      case AnswerQuestionKeys.paidSessionsPercentage:
+        return PaidSessionsPercentageQuestion(
+          value: map.values.first as int,
+        );
+      case AnswerQuestionKeys.minPaymentPercentage:
+        return MinPaymentPercentageQuestion(value: map.values.first as int);
+      case AnswerQuestionKeys.mensualMediaIncome:
+        return MensualMediaIncomeQuestion(value: map.values.first as int);
+      case AnswerQuestionKeys.coachServiceDifferentiation:
+        return CoachServiceDifferentiationQuestion(
+          value: map.values.first as int,
+        );
+      case AnswerQuestionKeys.quantityOfRecommendations:
+        return QuantityOfRecommendationsQuestion(
+          value: map.values.first as int,
+        );
+      case AnswerQuestionKeys.feedBack:
+        return FeedbackQuestion(value: map.values.first as int);
+      case AnswerQuestionKeys.physicalActivity:
+        return PhysicalActivityQuestion(value: map.values.first as int);
+      case AnswerQuestionKeys.familiarRelationship:
+        return FamiliarRelationshipQuestion(value: map.values.first as int);
+      case AnswerQuestionKeys.socialRelationship:
+        return SocialRelationshipQuestion(value: map.values.first as int);
+      case AnswerQuestionKeys.natureContact:
+        return NatureContactQuestion(value: map.values.first as int);
+      case AnswerQuestionKeys.relaxTime:
+        return RelaxTimeQuestion(value: map.values.first as int);
+      case AnswerQuestionKeys.coworkersActivities:
+        return CoworkersActivitiesQuestion(value: map.values.first as int);
+      case AnswerQuestionKeys.professionCommunityContributions:
+        return ProfessionCommunityQuestion(
+          value: map.values.first as int,
+        );
+      case AnswerQuestionKeys.professionIntelectualContributions:
+        return ProfessionIntelectualQuestion(
+          value: map.values.first as int,
+        );
+      case AnswerQuestionKeys.certification:
+        return CertificationsQuestion(value: map.values.first as int);
+      default:
+        return null;
+    }
+  }
+
+  @override
+  String toString() {
+    return '''
+        AnswerModel(
+          key: $key,
+          value: $value,
+          multiplier: $multiplier,
+        )
+      ''';
+  }
+}
+
+class ProfesionalImprovementQuestion extends QuestionModel {
+  ProfesionalImprovementQuestion({super.value})
+      : super(
+          key: AnswerQuestionKeys.profesionalImprovement,
+        );
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question101;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question101Description;
+
+  @override
+  ProfesionalImprovementQuestion updateValue(int value) {
+    return ProfesionalImprovementQuestion(value: value * multiplier);
+  }
+}
+
+class WeeklyMediaSessionsQuestion extends QuestionModel {
+  WeeklyMediaSessionsQuestion({super.value})
+      : super(key: AnswerQuestionKeys.weeklyMediaSessions, multiplier: 3);
+
+  @override
+  Map<String, int> answers(AppLocalizations l10n) => {
+        '0%': 0,
+        l10n.between1to4: 1,
+        l10n.between5to10: 1,
+        l10n.between11to20: 2,
+        l10n.between21to30: 3,
+        l10n.moreThan30: 4,
+      };
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question102;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question102Description;
+
+  @override
+  WeeklyMediaSessionsQuestion updateValue(int value) {
+    return WeeklyMediaSessionsQuestion(value: value * multiplier);
+  }
+}
+
+class SupervisedMediaSessionsQuestion extends QuestionModel {
+  SupervisedMediaSessionsQuestion({super.value})
+      : super(
+          key: AnswerQuestionKeys.supervisedMediaSessions,
+        );
+
+  @override
+  Map<String, int> answers(AppLocalizations l10n) => {
+        '0%': 0,
+        '10%': 1,
+        '25%': 2,
+        '50%': 3,
+        l10n.byOrder: 4,
+      };
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question103;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question103Description;
+
+  @override
+  SupervisedMediaSessionsQuestion updateValue(int value) {
+    return SupervisedMediaSessionsQuestion(value: value * multiplier);
+  }
+}
+
+class SessionQualityAutoQualificationQuestion extends QuestionModel {
+  SessionQualityAutoQualificationQuestion({super.value})
+      : super(
+          key: AnswerQuestionKeys.sessionQualityAutoQualification,
+        );
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question104;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question104Description;
+
+  @override
+  SessionQualityAutoQualificationQuestion updateValue(int value) {
+    return SessionQualityAutoQualificationQuestion(value: value * multiplier);
+  }
+}
+
+class WeeklyMediaCoacheeSessionsQuestion extends QuestionModel {
+  WeeklyMediaCoacheeSessionsQuestion({super.value})
+      : super(
+          key: AnswerQuestionKeys.weeklyMediaCoacheeSessions,
+          multiplier: 3,
+        );
+
+  @override
+  Map<String, int> answers(AppLocalizations l10n) => {
+        '0': 0,
+        '1': 1,
+        '2': 2,
+        l10n.between3to5: 3,
+        l10n.moreThan5: 4,
+      };
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question105;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question105Description;
+
+  @override
+  WeeklyMediaCoacheeSessionsQuestion updateValue(int value) {
+    return WeeklyMediaCoacheeSessionsQuestion(value: value * multiplier);
+  }
+}
+
+class HaveMentorQuestion extends QuestionModel {
+  HaveMentorQuestion({super.value})
+      : super(
+          key: AnswerQuestionKeys.haveMentor,
+        );
+
+  @override
+  Map<String, int> answers(AppLocalizations l10n) => {
+        l10n.no: 0,
+        l10n.yes: 1,
+      };
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question106;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question106Description;
+
+  @override
+  HaveMentorQuestion updateValue(int value) {
+    return HaveMentorQuestion(value: value * multiplier);
+  }
+}
+
+class IsMentorQuestion extends QuestionModel {
+  IsMentorQuestion({super.value})
+      : super(
+          key: AnswerQuestionKeys.isMentor,
+        );
+
+  @override
+  Map<String, int> answers(AppLocalizations l10n) => {
+        l10n.no: 0,
+        l10n.yes: 1,
+      };
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question107;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question107Description;
+
+  @override
+  IsMentorQuestion updateValue(int value) {
+    return IsMentorQuestion(value: value * multiplier);
+  }
+}
+
+class SystematizedServiceGradeQuestion extends QuestionModel {
+  SystematizedServiceGradeQuestion({super.value})
+      : super(
+          key: AnswerQuestionKeys.systematizedServiceGrade,
+        );
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question108;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question108Description;
+
+  @override
+  SystematizedServiceGradeQuestion updateValue(int value) {
+    return SystematizedServiceGradeQuestion(value: value * multiplier);
+  }
+}
+
+class ProcessOfferGradeQuestion extends QuestionModel {
+  ProcessOfferGradeQuestion({super.value})
+      : super(key: AnswerQuestionKeys.processOfferGrade, multiplier: 3);
+
+  @override
+  Map<String, int> answers(AppLocalizations l10n) => {
+        l10n.noOfferProcess: 0,
+        l10n.offerProcessExceptionally: 1,
+        l10n.offerProcessFrequently: 1,
+        l10n.offerProcessAlways: 2,
+        l10n.offerProcessExclusively: 3,
+      };
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question109;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question109Description;
+
+  @override
+  ProcessOfferGradeQuestion updateValue(int value) {
+    return ProcessOfferGradeQuestion(value: value * multiplier);
+  }
+}
+
+class ClientImportanceAutoQualificationQuestion extends QuestionModel {
+  ClientImportanceAutoQualificationQuestion({super.value})
+      : super(
+          key: AnswerQuestionKeys.clientImportanceAutoQualification,
+        );
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question110;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question110Description;
+
+  @override
+  ClientImportanceAutoQualificationQuestion updateValue(int value) {
+    return ClientImportanceAutoQualificationQuestion(value: value * multiplier);
+  }
+}
+
+class PaidSessionsPercentageQuestion extends QuestionModel {
+  PaidSessionsPercentageQuestion({super.value})
+      : super(
+          key: AnswerQuestionKeys.paidSessionsPercentage,
+        );
+
+  @override
+  Map<String, int> answers(AppLocalizations l10n) => {
+        '0%': 0,
+        l10n.between1to25: 1,
+        l10n.between26to50: 2,
+        l10n.between51to75: 3,
+        l10n.between76to100: 4,
+      };
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question201;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question201Description;
+
+  @override
+  PaidSessionsPercentageQuestion updateValue(int value) {
+    return PaidSessionsPercentageQuestion(value: value * multiplier);
+  }
+}
+
+class MinPaymentPercentageQuestion extends QuestionModel {
+  MinPaymentPercentageQuestion({super.value})
+      : super(
+          key: AnswerQuestionKeys.minPaymentPercentage,
+        );
+
+  @override
+  Map<String, int> answers(AppLocalizations l10n) => {
+        l10n.notPaymentYet: 0,
+        l10n.between1to10: 1,
+        l10n.between11to20: 2,
+        l10n.between21to30: 3,
+        l10n.moreThan30: 4,
+      };
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question202;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question202Description;
+
+  @override
+  MinPaymentPercentageQuestion updateValue(int value) {
+    return MinPaymentPercentageQuestion(value: value * multiplier);
+  }
+}
+
+class MensualMediaIncomeQuestion extends QuestionModel {
+  MensualMediaIncomeQuestion({super.value})
+      : super(key: AnswerQuestionKeys.mensualMediaIncome, multiplier: 5);
+
+  @override
+  Map<String, int> answers(AppLocalizations l10n) => {
+        '0': 0,
+        l10n.between1to999: 1,
+        l10n.between1000to1999: 2,
+        l10n.between2000to2999: 3,
+        l10n.moreThan3000: 4,
+      };
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question203;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question203Description;
+
+  @override
+  MensualMediaIncomeQuestion updateValue(int value) {
+    return MensualMediaIncomeQuestion(value: value * multiplier);
+  }
+}
+
+class CoachServiceDifferentiationQuestion extends QuestionModel {
+  CoachServiceDifferentiationQuestion({super.value})
+      : super(
+          key: AnswerQuestionKeys.coachServiceDifferentiation,
+        );
+
+  @override
+  Map<String, int> answers(AppLocalizations l10n) => {
+        l10n.any: 0,
+        l10n.lowPrices: 1,
+        l10n.highPrices: 2,
+        l10n.typeOfService: 3,
+        l10n.onlyOne: 4,
+        l10n.firstOne: 5,
+        l10n.clientRelationship: 6,
+        l10n.paymentMethod: 7,
+      };
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question204;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question204Description;
+
+  @override
+  CoachServiceDifferentiationQuestion updateValue(int value) {
+    return CoachServiceDifferentiationQuestion(value: value * multiplier);
+  }
+}
+
+class QuantityOfRecommendationsQuestion extends QuestionModel {
+  QuantityOfRecommendationsQuestion({super.value})
+      : super(
+          key: AnswerQuestionKeys.quantityOfRecommendations,
+        );
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question205;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question205Description;
+
+  @override
+  QuantityOfRecommendationsQuestion updateValue(int value) {
+    return QuantityOfRecommendationsQuestion(value: value * multiplier);
+  }
+}
+
+class FeedbackQuestion extends QuestionModel {
+  FeedbackQuestion({super.value})
+      : super(
+          key: AnswerQuestionKeys.feedBack,
+        );
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question206;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question206Description;
+
+  @override
+  FeedbackQuestion updateValue(int value) {
+    return FeedbackQuestion(value: value * multiplier);
+  }
+}
+
+class PhysicalActivityQuestion extends QuestionModel {
+  PhysicalActivityQuestion({super.value})
+      : super(
+          key: AnswerQuestionKeys.physicalActivity,
+        );
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question301;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question301Description;
+
+  @override
+  PhysicalActivityQuestion updateValue(int value) {
+    return PhysicalActivityQuestion(value: value * multiplier);
+  }
+}
+
+class FamiliarRelationshipQuestion extends QuestionModel {
+  FamiliarRelationshipQuestion({super.value})
+      : super(
+          key: AnswerQuestionKeys.familiarRelationship,
+        );
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question302;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question302Description;
+
+  @override
+  FamiliarRelationshipQuestion updateValue(int value) {
+    return FamiliarRelationshipQuestion(value: value * multiplier);
+  }
+}
+
+class SocialRelationshipQuestion extends QuestionModel {
+  SocialRelationshipQuestion({super.value})
+      : super(
+          key: AnswerQuestionKeys.socialRelationship,
+        );
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question303;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question303Description;
+
+  @override
+  SocialRelationshipQuestion updateValue(int value) {
+    return SocialRelationshipQuestion(value: value * multiplier);
+  }
+}
+
+class NatureContactQuestion extends QuestionModel {
+  NatureContactQuestion({super.value})
+      : super(
+          key: AnswerQuestionKeys.natureContact,
+        );
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question304;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question304Description;
+
+  @override
+  NatureContactQuestion updateValue(int value) {
+    return NatureContactQuestion(value: value * multiplier);
+  }
+}
+
+class RelaxTimeQuestion extends QuestionModel {
+  RelaxTimeQuestion({super.value})
+      : super(
+          key: AnswerQuestionKeys.relaxTime,
+        );
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question305;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question305Description;
+
+  @override
+  RelaxTimeQuestion updateValue(int value) {
+    return RelaxTimeQuestion(value: value * multiplier);
+  }
+}
+
+class CoworkersActivitiesQuestion extends QuestionModel {
+  CoworkersActivitiesQuestion({super.value})
+      : super(
+          key: AnswerQuestionKeys.coworkersActivities,
+        );
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question401;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question401Description;
+
+  @override
+  CoworkersActivitiesQuestion updateValue(int value) {
+    return CoworkersActivitiesQuestion(value: value * multiplier);
+  }
+}
+
+class ProfessionCommunityQuestion extends QuestionModel {
+  ProfessionCommunityQuestion({super.value})
+      : super(
+          key: AnswerQuestionKeys.professionCommunityContributions,
+        );
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question402;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question402Description;
+
+  @override
+  ProfessionCommunityQuestion updateValue(int value) {
+    return ProfessionCommunityQuestion(value: value * multiplier);
+  }
+}
+
+class ProfessionIntelectualQuestion extends QuestionModel {
+  ProfessionIntelectualQuestion({super.value})
+      : super(
+          key: AnswerQuestionKeys.professionIntelectualContributions,
+          multiplier: 3,
+        );
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question403;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question403Description;
+
+  @override
+  ProfessionIntelectualQuestion updateValue(int value) {
+    return ProfessionIntelectualQuestion(value: value * multiplier);
+  }
+}
+
+class CertificationsQuestion extends QuestionModel {
+  CertificationsQuestion({super.value})
+      : super(
+          key: AnswerQuestionKeys.certification,
+          multiplier: 3,
+        );
+
+  @override
+  String getQuestion(AppLocalizations l10n) => l10n.question404;
+
+  @override
+  String getDescription(AppLocalizations l10n) => l10n.question404Description;
+
+  @override
+  CertificationsQuestion updateValue(int value) {
+    return CertificationsQuestion(value: value * multiplier);
+  }
+}
+
+Set<QuestionModel> emptyQuestions = {
+  ProfesionalImprovementQuestion(),
+  WeeklyMediaSessionsQuestion(),
+  SupervisedMediaSessionsQuestion(),
+  SessionQualityAutoQualificationQuestion(),
+  WeeklyMediaCoacheeSessionsQuestion(),
+  HaveMentorQuestion(),
+  IsMentorQuestion(),
+  SystematizedServiceGradeQuestion(),
+  ProcessOfferGradeQuestion(),
+  ClientImportanceAutoQualificationQuestion(),
+  PaidSessionsPercentageQuestion(),
+  MinPaymentPercentageQuestion(),
+  MensualMediaIncomeQuestion(),
+  CoachServiceDifferentiationQuestion(),
+  QuantityOfRecommendationsQuestion(),
+  FeedbackQuestion(),
+  PhysicalActivityQuestion(),
+  FamiliarRelationshipQuestion(),
+  SocialRelationshipQuestion(),
+  NatureContactQuestion(),
+  RelaxTimeQuestion(),
+  CoworkersActivitiesQuestion(),
+  ProfessionCommunityQuestion(),
+  ProfessionIntelectualQuestion(),
+  CertificationsQuestion(),
+};
+
+enum AnswerGroup {
+  qualityOfService,
+  business,
+  personal,
+  community;
+
+  int get groupIndex => super.index + 1;
 }

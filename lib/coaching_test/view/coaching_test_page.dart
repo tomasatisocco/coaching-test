@@ -1,37 +1,32 @@
 import 'package:coaching/coaching_test/cubit/coaching_test_cubit.dart';
-import 'package:coaching/coaching_test/models/question_model.dart';
+import 'package:coaching/coaching_test/models/test_model.dart';
 import 'package:coaching/coaching_test/view/question_page.dart';
-import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/test_results/view/coaching_test_results_page.dart';
+import 'package:data_persistence_repository/data_persistence_repository.dart';
 import 'package:firestore_repository/firestore_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class CoachingTestPage extends StatelessWidget {
-  const CoachingTestPage({
-    required this.email,
-    super.key,
-  });
+  const CoachingTestPage({super.key});
 
   static const name = 'CoachingTestPage';
-  final String email;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => CoachingTestCubit(
-        email: email,
         firestoreRepository: context.read<FirestoreRepository>(),
-      ),
-      child: CoachingTestPageView(localizations: context.l10n),
+        dataPersistenceRepository: context.read<DataPersistenceRepository>(),
+      )..init(),
+      child: const CoachingTestPageView(),
     );
   }
 }
 
 class CoachingTestPageView extends StatefulWidget {
-  const CoachingTestPageView({super.key, required this.localizations});
-  final AppLocalizations localizations;
+  const CoachingTestPageView({super.key});
 
   @override
   State<CoachingTestPageView> createState() => _CoachingTestPageViewState();
@@ -44,8 +39,11 @@ class _CoachingTestPageViewState extends State<CoachingTestPageView> {
   @override
   void initState() {
     super.initState();
-    questionsList = getQuestions(widget.localizations);
-    _pageController = PageController();
+    questionsList =
+        context.read<CoachingTestCubit>().state.testModel.questions.toList();
+    final initialPage =
+        questionsList.where((element) => element.value != null).length;
+    _pageController = PageController(initialPage: initialPage);
   }
 
   @override
@@ -69,6 +67,7 @@ class _CoachingTestPageViewState extends State<CoachingTestPageView> {
       },
       child: PageView.builder(
         itemCount: questionsList.length,
+        physics: const NeverScrollableScrollPhysics(),
         controller: _pageController,
         scrollDirection: height > width ? Axis.horizontal : Axis.vertical,
         itemBuilder: (context, index) {
@@ -76,10 +75,11 @@ class _CoachingTestPageViewState extends State<CoachingTestPageView> {
             question: questionsList[index],
             pageController: _pageController,
             onCompleted: (key, value) async {
-              context.read<CoachingTestCubit>().updateTest(
+              await context.read<CoachingTestCubit>().updateTest(
                     key,
                     value,
                   );
+              if (!mounted) return;
               if (index == questionsList.length - 1) {
                 await context.read<CoachingTestCubit>().submitTest();
               }
