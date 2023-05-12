@@ -10,7 +10,7 @@ dependencies:
   bloc: ^8.1.1
   data_persistence_repository:
     path: packages/data_persistence_repository
-  firebase_core: ^2.11.0
+  firebase_core: ^2.12.0
   firestore_repository:
     path: packages/firestore_repository
   flutter:
