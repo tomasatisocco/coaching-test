@@ -16,14 +16,14 @@ class QuestionPage extends StatefulWidget {
 
   final QuestionModel question;
   final PageController pageController;
-  final void Function(String key, int value) onCompleted;
+  final Future<void> Function(String key, int value) onCompleted;
 
   @override
   State<QuestionPage> createState() => _QuestionPageState();
 }
 
 class _QuestionPageState extends State<QuestionPage> {
-  int? _selectedValue;
+  int _selectedValue = 0;
 
   @override
   void initState() {
@@ -47,10 +47,8 @@ class _QuestionPageState extends State<QuestionPage> {
       onKey: (value) {
         if (value.runtimeType != RawKeyDownEvent) return;
         if (value.logicalKey == LogicalKeyboardKey.enter) {
-          if (_selectedValue == null) return;
-
           final value = widget.question.answers(context.l10n).values.elementAt(
-                _selectedValue!,
+                _selectedValue,
               );
 
           widget.onCompleted(widget.question.key, value);
@@ -61,7 +59,6 @@ class _QuestionPageState extends State<QuestionPage> {
           );
         }
         if (value.logicalKey == LogicalKeyboardKey.tab) {
-          if (_selectedValue == null) return;
           if (_selectedValue ==
               widget.question.answers(context.l10n).length - 1) {
             setState(() {
@@ -70,7 +67,7 @@ class _QuestionPageState extends State<QuestionPage> {
             return;
           }
           setState(() {
-            _selectedValue = _selectedValue! + 1;
+            _selectedValue = _selectedValue + 1;
           });
           return;
         }
@@ -124,7 +121,7 @@ class _QuestionPageState extends State<QuestionPage> {
                                     dense: true,
                                     onChanged: (value) {
                                       setState(() {
-                                        _selectedValue = value;
+                                        _selectedValue = value ?? 0;
                                       });
                                     },
                                     contentPadding: const EdgeInsets.all(4),
@@ -140,19 +137,20 @@ class _QuestionPageState extends State<QuestionPage> {
                         ),
                         const Spacer(),
                         ElevatedButton(
-                          onPressed: () {
-                            if (_selectedValue == null) return;
-
+                          onPressed: () async {
                             final value = widget.question
                                 .answers(context.l10n)
                                 .values
                                 .elementAt(
-                                  _selectedValue!,
+                                  _selectedValue,
                                 );
 
-                            widget.onCompleted(widget.question.key, value);
+                            await widget.onCompleted(
+                              widget.question.key,
+                              value,
+                            );
                             if (widget.question.key == '404') return;
-                            widget.pageController.nextPage(
+                            await widget.pageController.nextPage(
                               duration: const Duration(milliseconds: 300),
                               curve: Curves.linear,
                             );
@@ -299,7 +297,7 @@ class _QuestionPageState extends State<QuestionPage> {
                                             groupValue: _selectedValue,
                                             onChanged: (value) {
                                               setState(() {
-                                                _selectedValue = value;
+                                                _selectedValue = value ?? 0;
                                               });
                                             },
                                             contentPadding:
@@ -316,22 +314,18 @@ class _QuestionPageState extends State<QuestionPage> {
                                 ),
                                 const Spacer(),
                                 ElevatedButton(
-                                  onPressed: () {
-                                    if (_selectedValue == null) return;
-
+                                  onPressed: () async {
                                     final value = widget.question
                                         .answers(context.l10n)
                                         .values
-                                        .elementAt(
-                                          _selectedValue!,
-                                        );
+                                        .elementAt(_selectedValue);
 
-                                    widget.onCompleted(
+                                    await widget.onCompleted(
                                       widget.question.key,
                                       value,
                                     );
                                     if (widget.question.key == '404') return;
-                                    widget.pageController.nextPage(
+                                    await widget.pageController.nextPage(
                                       duration:
                                           const Duration(milliseconds: 300),
                                       curve: Curves.linear,

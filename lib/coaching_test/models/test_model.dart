@@ -73,10 +73,14 @@ class CoachingTest {
   }
 
   Map<String, dynamic> toMap() {
+    final answersMap = <String, dynamic>{};
+    for (final question in questions) {
+      answersMap[question.key] = question.value;
+    }
     return <String, dynamic>{
       'email': email,
       'coachingTestDate': coachingTestDate.millisecondsSinceEpoch,
-      'answers': questions.map((e) => e.toMap()).toList(),
+      'answers': answersMap,
     };
   }
 
@@ -96,10 +100,9 @@ class CoachingTest {
       email: map['email'] as String,
       coachingTestDate:
           DateTime.fromMillisecondsSinceEpoch(map['coachingTestDate'] as int),
-      questions: (map['answers'] as List<dynamic>)
-          .map<QuestionModel>(
-            (e) => QuestionModel.fromMap(e as Map<String, dynamic>)!,
-          )
+      questions: (map['answers'] as Map<String, dynamic>)
+          .entries
+          .map<QuestionModel>((e) => QuestionModel.fromMap({e.key: e.value})!)
           .toSet(),
     );
   }
