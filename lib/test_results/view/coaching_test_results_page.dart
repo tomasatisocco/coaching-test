@@ -132,15 +132,16 @@ class CoachingTestResultPage extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFA6FAAC),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(12),
                           child: Text(
                             context.l10n.newTest,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 24,
-                              color: Colors.black,
+                              color: Theme.of(context).colorScheme.onPrimary,
                             ),
                           ),
                         ),
@@ -279,15 +280,17 @@ class CoachingTestResultPage extends StatelessWidget {
                                 await dataPersistence.deleteEmail();
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFFA6FAAC),
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.primary,
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.all(12),
                                 child: Text(
                                   context.l10n.newTest,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 36,
-                                    color: Colors.black,
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
                                   ),
                                 ),
                               ),

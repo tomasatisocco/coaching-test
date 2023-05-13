@@ -16,17 +16,20 @@ class StartButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 24),
       child: ElevatedButton(
-        onPressed: () => onSubmit(context),
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFA6FAAC),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(36),
+          ),
         ),
+        onPressed: () => onSubmit(context),
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Text(
             context.l10n.getStarted,
             style: TextStyle(
+              color: Theme.of(context).colorScheme.onPrimary,
               fontSize: fontSize,
-              color: Colors.black,
             ),
           ),
         ),

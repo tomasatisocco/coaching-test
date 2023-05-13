@@ -24,7 +24,10 @@ class NextQuestionButton extends StatelessWidget {
         ElevatedButton(
           onPressed: onCompleted,
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFFA6FAAC),
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(36),
+            ),
           ),
           child: BlocBuilder<CoachingTestCubit, CoachingTestState>(
             builder: (context, state) {
@@ -46,7 +49,7 @@ class NextQuestionButton extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: isMobile ? 24 : 32,
-                          color: Colors.black,
+                          color: Theme.of(context).colorScheme.onPrimary,
                         ),
                       ),
               );

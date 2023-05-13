@@ -83,9 +83,22 @@ class _QuestionPageState extends State<QuestionPage> {
         if (value.logicalKey == LogicalKeyboardKey.enter) return onComplete();
         if (value.logicalKey == LogicalKeyboardKey.tab) return onTabPress();
       },
-      child: ResponsiveBuilder(builder: (context, sizingInformation) {
-        if (sizingInformation.isMobile || sizingInformation.isTablet) {
-          return QuestionPageMobileView(
+      child: ResponsiveBuilder(
+        builder: (context, sizingInformation) {
+          if (sizingInformation.isMobile || sizingInformation.isTablet) {
+            return QuestionPageMobileView(
+              question: widget.question,
+              selectedValue: _selectedValue,
+              onBackPress: onBackPress,
+              onCompleted: onComplete,
+              onSelectedValue: (value) {
+                setState(() {
+                  _selectedValue = value;
+                });
+              },
+            );
+          }
+          return QuestionPageDesktopView(
             question: widget.question,
             selectedValue: _selectedValue,
             onBackPress: onBackPress,
@@ -96,19 +109,8 @@ class _QuestionPageState extends State<QuestionPage> {
               });
             },
           );
-        }
-        return QuestionPageDesktopView(
-          question: widget.question,
-          selectedValue: _selectedValue,
-          onBackPress: onBackPress,
-          onCompleted: onComplete,
-          onSelectedValue: (value) {
-            setState(() {
-              _selectedValue = value;
-            });
-          },
-        );
-      }),
+        },
+      ),
     );
   }
 }
@@ -132,6 +134,7 @@ class QuestionPageMobileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Container(
@@ -139,7 +142,7 @@ class QuestionPageMobileView extends StatelessWidget {
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(
-              Radius.circular(64),
+              Radius.circular(16),
             ),
           ),
           padding: const EdgeInsets.all(16),
@@ -151,7 +154,6 @@ class QuestionPageMobileView extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 20,
-                    color: Color(0xFF2FA0F3),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -161,14 +163,13 @@ class QuestionPageMobileView extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 16,
-                    color: Color(0xFF2FA0F3),
                   ),
                 ),
                 const SizedBox(
                   height: 32,
                 ),
                 SizedBox(
-                  height: question.answers(context.l10n).length * 32,
+                  height: question.answers(context.l10n).length * 64,
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: ListView.builder(
                     itemCount: question.answers(context.l10n).length,
@@ -233,7 +234,6 @@ class QuestionPageDesktopView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF3F3F3),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: SingleChildScrollView(
@@ -244,9 +244,9 @@ class QuestionPageDesktopView extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   width: double.infinity,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF2FA0F3),
-                    borderRadius: BorderRadius.all(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary,
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(32),
                     ),
                   ),

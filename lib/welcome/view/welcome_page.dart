@@ -93,14 +93,15 @@ class WelcomePageMobileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(
-                Radius.circular(64),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.background,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(16),
               ),
             ),
             padding: const EdgeInsets.all(16),
@@ -112,7 +113,6 @@ class WelcomePageMobileView extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF2FA0F3),
                   ),
                 ),
                 Visibility(
@@ -130,7 +130,6 @@ class WelcomePageMobileView extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 24,
-                    color: Color(0xFF2FA0F3),
                   ),
                 ),
                 const SizedBox(height: 14),
@@ -169,15 +168,16 @@ class WelcomePageDesktopView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       body: Row(
         children: [
           Padding(
             padding: const EdgeInsets.all(48),
             child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(64),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.background,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(16),
                 ),
               ),
               padding: const EdgeInsets.symmetric(vertical: 64),
@@ -193,7 +193,6 @@ class WelcomePageDesktopView extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 64,
                         fontWeight: FontWeight.bold,
-                        color: Color(0xFF2FA0F3),
                       ),
                     ),
                   ),
@@ -203,7 +202,6 @@ class WelcomePageDesktopView extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontSize: 24,
-                      color: Color(0xFF2FA0F3),
                     ),
                   ),
                   const SizedBox(height: 14),

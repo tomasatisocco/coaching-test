@@ -54,12 +54,9 @@ class _AppViewState extends State<AppView> {
       routeInformationParser: _router.routeInformationParser,
       routeInformationProvider: _router.routeInformationProvider,
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
+      theme: ThemeData.from(
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFC43446)),
         useMaterial3: true,
-        appBarTheme: const AppBarTheme(color: Color(0xFF13B9FF)),
-        colorScheme: ColorScheme.fromSwatch(
-          accentColor: const Color(0xFF13B9FF),
-        ),
       ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
