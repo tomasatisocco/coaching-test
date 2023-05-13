@@ -35,73 +35,73 @@ abstract class QuestionModel {
   static QuestionModel? fromMap(Map<String, dynamic> map) {
     switch (map.keys.first) {
       case AnswerQuestionKeys.profesionalImprovement:
-        return ProfesionalImprovementQuestion(value: map.values.first as int);
+        return ProfesionalImprovementQuestion(value: map.values.first as int?);
       case AnswerQuestionKeys.weeklyMediaSessions:
-        return WeeklyMediaSessionsQuestion(value: map.values.first as int);
+        return WeeklyMediaSessionsQuestion(value: map.values.first as int?);
       case AnswerQuestionKeys.supervisedMediaSessions:
-        return SupervisedMediaSessionsQuestion(value: map.values.first as int);
+        return SupervisedMediaSessionsQuestion(value: map.values.first as int?);
       case AnswerQuestionKeys.sessionQualityAutoQualification:
         return SessionQualityAutoQualificationQuestion(
-          value: map.values.first as int,
+          value: map.values.first as int?,
         );
       case AnswerQuestionKeys.weeklyMediaCoacheeSessions:
         return WeeklyMediaCoacheeSessionsQuestion(
-          value: map.values.first as int,
+          value: map.values.first as int?,
         );
       case AnswerQuestionKeys.isMentor:
-        return IsMentorQuestion(value: map.values.first as int);
+        return IsMentorQuestion(value: map.values.first as int?);
       case AnswerQuestionKeys.haveMentor:
-        return HaveMentorQuestion(value: map.values.first as int);
+        return HaveMentorQuestion(value: map.values.first as int?);
       case AnswerQuestionKeys.systematizedServiceGrade:
         return SystematizedServiceGradeQuestion(
-          value: map.values.first as int,
+          value: map.values.first as int?,
         );
       case AnswerQuestionKeys.processOfferGrade:
-        return ProcessOfferGradeQuestion(value: map.values.first as int);
+        return ProcessOfferGradeQuestion(value: map.values.first as int?);
       case AnswerQuestionKeys.clientImportanceAutoQualification:
         return ClientImportanceAutoQualificationQuestion(
-          value: map.values.first as int,
+          value: map.values.first as int?,
         );
       case AnswerQuestionKeys.paidSessionsPercentage:
         return PaidSessionsPercentageQuestion(
-          value: map.values.first as int,
+          value: map.values.first as int?,
         );
       case AnswerQuestionKeys.minPaymentPercentage:
-        return MinPaymentPercentageQuestion(value: map.values.first as int);
+        return MinPaymentPercentageQuestion(value: map.values.first as int?);
       case AnswerQuestionKeys.mensualMediaIncome:
-        return MensualMediaIncomeQuestion(value: map.values.first as int);
+        return MensualMediaIncomeQuestion(value: map.values.first as int?);
       case AnswerQuestionKeys.coachServiceDifferentiation:
         return CoachServiceDifferentiationQuestion(
-          value: map.values.first as int,
+          value: map.values.first as int?,
         );
       case AnswerQuestionKeys.quantityOfRecommendations:
         return QuantityOfRecommendationsQuestion(
-          value: map.values.first as int,
+          value: map.values.first as int?,
         );
       case AnswerQuestionKeys.feedBack:
-        return FeedbackQuestion(value: map.values.first as int);
+        return FeedbackQuestion(value: map.values.first as int?);
       case AnswerQuestionKeys.physicalActivity:
-        return PhysicalActivityQuestion(value: map.values.first as int);
+        return PhysicalActivityQuestion(value: map.values.first as int?);
       case AnswerQuestionKeys.familiarRelationship:
-        return FamiliarRelationshipQuestion(value: map.values.first as int);
+        return FamiliarRelationshipQuestion(value: map.values.first as int?);
       case AnswerQuestionKeys.socialRelationship:
-        return SocialRelationshipQuestion(value: map.values.first as int);
+        return SocialRelationshipQuestion(value: map.values.first as int?);
       case AnswerQuestionKeys.natureContact:
-        return NatureContactQuestion(value: map.values.first as int);
+        return NatureContactQuestion(value: map.values.first as int?);
       case AnswerQuestionKeys.relaxTime:
-        return RelaxTimeQuestion(value: map.values.first as int);
+        return RelaxTimeQuestion(value: map.values.first as int?);
       case AnswerQuestionKeys.coworkersActivities:
-        return CoworkersActivitiesQuestion(value: map.values.first as int);
+        return CoworkersActivitiesQuestion(value: map.values.first as int?);
       case AnswerQuestionKeys.professionCommunityContributions:
         return ProfessionCommunityQuestion(
-          value: map.values.first as int,
+          value: map.values.first as int?,
         );
       case AnswerQuestionKeys.professionIntelectualContributions:
         return ProfessionIntelectualQuestion(
-          value: map.values.first as int,
+          value: map.values.first as int?,
         );
       case AnswerQuestionKeys.certification:
-        return CertificationsQuestion(value: map.values.first as int);
+        return CertificationsQuestion(value: map.values.first as int?);
       default:
         return null;
     }
