@@ -38,12 +38,36 @@ class FirestoreRepository {
         .add(test);
   }
 
+  /// Adds a user to Firestore.
+  Future<String> addUser(Map<String, dynamic> user) async {
+    final reference =
+        await _environmentReference.collection(CollectionKeys.users).add(user);
+
+    return reference.id;
+  }
+
   /// Gets a list of coaching tests from Firestore.
   Future<List<Map<String, dynamic>>> getCoachingTestList() async {
     final snapshot = await _environmentReference
         .collection(CollectionKeys.coachingTests)
         .get();
     return snapshot.docs.map((doc) => doc.data()).toList();
+  }
+
+  /// Gets a list of users from Firestore.
+  Future<List<Map<String, dynamic>>> getUserList() async {
+    final snapshot =
+        await _environmentReference.collection(CollectionKeys.users).get();
+    return snapshot.docs.map((doc) => doc.data()).toList();
+  }
+
+  /// Get a user from Firestore.
+  Future<Map<String, dynamic>> getUser(String id) async {
+    final snapshot = await _environmentReference
+        .collection(CollectionKeys.users)
+        .doc(id)
+        .get();
+    return snapshot.data()!;
   }
 }
 
@@ -56,6 +80,9 @@ class CollectionKeys {
 
   /// Coaching tests collection key.
   static const coachingTests = 'coaching_tests';
+
+  /// Users collection key.
+  static const users = 'users';
 }
 
 /// {@template environment_keys}

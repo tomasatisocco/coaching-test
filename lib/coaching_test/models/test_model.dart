@@ -7,21 +7,21 @@ import 'package:coaching/coaching_test/models/test_model_keys.dart';
 
 class CoachingTest {
   const CoachingTest({
-    required this.email,
+    required this.userId,
     required this.coachingTestDate,
     required this.questions,
   });
 
-  factory CoachingTest.newTest(String email) {
+  factory CoachingTest.newTest(String userId) {
     return CoachingTest(
-      email: email,
+      userId: userId,
       coachingTestDate: DateTime.now(),
       questions: emptyQuestions,
     );
   }
 
   // Part 0 - General Information
-  final String email;
+  final String userId;
   final DateTime coachingTestDate;
 
   final Set<QuestionModel> questions;
@@ -66,7 +66,7 @@ class CoachingTest {
     final index = newAnswers.indexWhere((element) => element.key == key);
     newAnswers[index] = newAnswers[index].updateValue(value);
     return CoachingTest(
-      email: email,
+      userId: userId,
       coachingTestDate: coachingTestDate,
       questions: newAnswers.toSet(),
     );
@@ -78,7 +78,7 @@ class CoachingTest {
       answersMap[question.key] = question.value;
     }
     return <String, dynamic>{
-      'email': email,
+      'userId': userId,
       'coachingTestDate': coachingTestDate.millisecondsSinceEpoch,
       'answers': answersMap,
     };
@@ -88,7 +88,7 @@ class CoachingTest {
   String toString() {
     return '''
         CoachingTest(
-          email: $email,
+          userId: $userId,
           coachingTestDate: $coachingTestDate,
           answers: $questions,
         )
@@ -97,7 +97,7 @@ class CoachingTest {
 
   factory CoachingTest.fromMap(Map<String, dynamic> map) {
     return CoachingTest(
-      email: map['email'] as String,
+      userId: map['userId'] as String,
       coachingTestDate:
           DateTime.fromMillisecondsSinceEpoch(map['coachingTestDate'] as int),
       questions: (map['answers'] as Map<String, dynamic>)

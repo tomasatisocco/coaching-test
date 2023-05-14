@@ -15,6 +15,7 @@
     "nationalityError": "Por favor ingresa tu nacionalidad",
     "residenceError": "Por favor ingresa tu país de residencia",
     "certificateError": "Por favor ingresa tu año de certificación",
+    "welcomeError": "Algo salio mal, por favor intenta nuevamente",
     "testDescription": "El propósito de este test es orientarte respecto de dónde te encuentras como coach, clarificando la hoja de ruta para tu desarrollo profesional y brindándote referencias para que puedas vivir como coach.",
     "testLevels": "El test esta diseñado en base a cuatro ejes de desarrollo:",
     "qualityOfService": "Calidad del servicio",

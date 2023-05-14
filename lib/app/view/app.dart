@@ -95,11 +95,12 @@ class _AppViewState extends State<AppView> {
           },
         )
       ],
-      redirect: (context, state) {
+      redirect: (context, state) async {
         try {
-          final email = context.read<DataPersistenceRepository>().getEmail();
-          if (email == null) return '/welcome';
+          final userId = context.read<DataPersistenceRepository>().getUserId();
+          if (userId == null) throw Exception('User id is null.');
         } catch (_) {
+          await context.read<DataPersistenceRepository>().deleteCoachingTest();
           return '/welcome';
         }
         return null;

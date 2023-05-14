@@ -1,6 +1,10 @@
 import 'package:coaching/l10n/l10n.dart';
-import 'package:coaching/welcome/widgets/welcome_email_widget.dart';
+import 'package:coaching/welcome/cubit/welcome_cubit.dart';
+import 'package:coaching/welcome/widgets/welcome_form_widget.dart';
+import 'package:data_persistence_repository/data_persistence_repository.dart';
+import 'package:firestore_repository/firestore_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -10,12 +14,18 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveBuilder(
-      builder: (context, sizingInformation) {
-        return (sizingInformation.isMobile || sizingInformation.isTablet)
-            ? const WelcomePageMobileView()
-            : const WelcomePageDesktopView();
-      },
+    return BlocProvider(
+      create: (context) => WelcomeCubit(
+        firestoreRepository: context.read<FirestoreRepository>(),
+        dataPersistenceRepository: context.read<DataPersistenceRepository>(),
+      ),
+      child: ResponsiveBuilder(
+        builder: (context, sizingInformation) {
+          return (sizingInformation.isMobile || sizingInformation.isTablet)
+              ? const WelcomePageMobileView()
+              : const WelcomePageDesktopView();
+        },
+      ),
     );
   }
 }
@@ -66,7 +76,7 @@ class WelcomePageMobileView extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  const WelcomeEmailWidget(width: 300),
+                  const WelcomeFormWidget(width: 300),
                 ],
               ),
             ),
@@ -125,7 +135,7 @@ class WelcomePageDesktopView extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 14),
-                    WelcomeEmailWidget(
+                    WelcomeFormWidget(
                       width: MediaQuery.of(context).size.width * 0.3,
                     ),
                   ],

@@ -1,14 +1,16 @@
 import 'package:coaching/coaching_test/view/coaching_test_page.dart';
 import 'package:coaching/l10n/l10n.dart';
+import 'package:coaching/welcome/cubit/welcome_cubit.dart';
 import 'package:coaching/welcome/models/user_date_model.dart';
 import 'package:coaching/welcome/models/welcome_page_validators.dart';
 import 'package:coaching/welcome/widgets/start_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-class WelcomeEmailWidget extends StatefulWidget {
-  const WelcomeEmailWidget({
+class WelcomeFormWidget extends StatefulWidget {
+  const WelcomeFormWidget({
     super.key,
     required this.width,
   });
@@ -16,10 +18,10 @@ class WelcomeEmailWidget extends StatefulWidget {
   final double width;
 
   @override
-  State<WelcomeEmailWidget> createState() => _WelcomeEmailWidgetState();
+  State<WelcomeFormWidget> createState() => _WelcomeFormWidgetState();
 }
 
-class _WelcomeEmailWidgetState extends State<WelcomeEmailWidget> {
+class _WelcomeFormWidgetState extends State<WelcomeFormWidget> {
   late GlobalKey<FormState> formKey;
   late TextEditingController nameController;
   late TextEditingController emailController;
@@ -156,7 +158,8 @@ class _WelcomeEmailWidgetState extends State<WelcomeEmailWidget> {
               height: 16,
             ),
             StartButton(
-              onSubmit: (context) {
+              onSubmit: (_) async {
+                final welcomeCubit = context.read<WelcomeCubit>();
                 final isFormValid = formKey.currentState!.validate();
                 if (!isFormValid) return;
                 final userInfoModel = UserDataModel(
@@ -167,10 +170,9 @@ class _WelcomeEmailWidgetState extends State<WelcomeEmailWidget> {
                   residence: residenceController.text,
                   certificateDate: certificateDateController.text,
                 );
-                context.pushNamed(
-                  CoachingTestPage.name,
-                  extra: userInfoModel,
-                );
+                final userId = await welcomeCubit.submitUser(userInfoModel);
+                if (userId == null || !mounted) return;
+                await context.pushNamed(CoachingTestPage.name);
               },
               fontSize: 24,
             ),

@@ -15,6 +15,7 @@
     "nationalityError": "Please enter your nationality",
     "residenceError": "Please enter your residence country",
     "certificateError": "Please enter your year of certification",
+    "welcomeError": "Something went wrong, please try again",
     "testDescription": "The propose of this test is to orient you respect of where are you from as a coach, clarifying the next steps of your profesional development and bringing you references so you can live as a coach.",
     "testLevels": "The test is designed en base of 4 development axis:",
     "qualityOfService": "Quality of service",

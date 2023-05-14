@@ -24,8 +24,8 @@ class CoachingTestCubit extends Cubit<CoachingTestState> {
     if (localTest != null) {
       return emit(CoachingTestUpdated(CoachingTest.fromMap(localTest)));
     }
-    final email = _dataPersistenceRepository.getEmail()!;
-    emit(CoachingTestUpdated(CoachingTest.newTest(email)));
+    final userId = _dataPersistenceRepository.getUserId()!;
+    emit(CoachingTestUpdated(CoachingTest.newTest(userId)));
   }
 
   Future<void> updateTest(String key, int value) async {
