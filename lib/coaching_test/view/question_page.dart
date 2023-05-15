@@ -2,6 +2,7 @@ import 'package:coaching/app/widgets/language_switch_widget.dart';
 import 'package:coaching/coaching_test/cubit/coaching_test_cubit.dart';
 import 'package:coaching/coaching_test/models/question_model.dart';
 import 'package:coaching/coaching_test/widgets/next_question_button.dart';
+import 'package:coaching/coaching_test/widgets/test_progress_bar.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,11 +15,13 @@ class QuestionPage extends StatefulWidget {
     required this.question,
     required this.pageController,
     required this.onCompleted,
+    required this.currentPageIndex,
   });
 
   final QuestionModel question;
   final PageController pageController;
   final Future<void> Function(String key, int value) onCompleted;
+  final int currentPageIndex;
 
   @override
   State<QuestionPage> createState() => _QuestionPageState();
@@ -92,6 +95,7 @@ class _QuestionPageState extends State<QuestionPage> {
               selectedValue: _selectedValue,
               onBackPress: onBackPress,
               onCompleted: onComplete,
+              currentPageIndex: widget.currentPageIndex,
               onSelectedValue: (value) {
                 setState(() {
                   _selectedValue = value;
@@ -104,6 +108,7 @@ class _QuestionPageState extends State<QuestionPage> {
             selectedValue: _selectedValue,
             onBackPress: onBackPress,
             onCompleted: onComplete,
+            currentPageIndex: widget.currentPageIndex,
             onSelectedValue: (value) {
               setState(() {
                 _selectedValue = value;
@@ -124,6 +129,7 @@ class QuestionPageMobileView extends StatelessWidget {
     required this.onBackPress,
     required this.onCompleted,
     required this.onSelectedValue,
+    required this.currentPageIndex,
   });
 
   final QuestionModel question;
@@ -131,6 +137,7 @@ class QuestionPageMobileView extends StatelessWidget {
   final Future<void> Function() onCompleted;
   final Future<void> Function() onBackPress;
   final void Function(int value) onSelectedValue;
+  final int currentPageIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -144,81 +151,87 @@ class QuestionPageMobileView extends StatelessWidget {
           SizedBox(width: 16),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Container(
-          height: MediaQuery.of(context).size.height * 0.9,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(
-              Radius.circular(16),
-            ),
-          ),
-          padding: const EdgeInsets.all(16),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Text(
-                  question.getQuestion(context.l10n),
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+      body: Column(
+        children: [
+          TestProgressBar(currentPageIndex: currentPageIndex),
+          Padding(
+            padding: const EdgeInsets.all(24),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.8,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(16),
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  question.getDescription(context.l10n),
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-                const SizedBox(
-                  height: 32,
-                ),
-                SizedBox(
-                  height: question.answers(context.l10n).length * 64,
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: ListView.builder(
-                    itemCount: question.answers(context.l10n).length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: Colors.blueGrey.shade100,
-                            borderRadius: BorderRadius.circular(32),
-                          ),
-                          child: RadioListTile(
-                            value: index,
-                            groupValue: selectedValue,
-                            dense: true,
-                            onChanged: (value) => onSelectedValue(value ?? 0),
-                            contentPadding: const EdgeInsets.all(4),
-                            title: Text(
-                              // ignore: lines_longer_than_80_chars
-                              '${lettersMap[index] ?? ''} - ${question.answers(context.l10n).keys.elementAt(index)}',
+              ),
+              padding: const EdgeInsets.all(16),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Text(
+                      question.getQuestion(context.l10n),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      question.getDescription(context.l10n),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 32,
+                    ),
+                    SizedBox(
+                      height: question.answers(context.l10n).length * 64,
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: ListView.builder(
+                        itemCount: question.answers(context.l10n).length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: Colors.blueGrey.shade100,
+                                borderRadius: BorderRadius.circular(32),
+                              ),
+                              child: RadioListTile(
+                                value: index,
+                                groupValue: selectedValue,
+                                dense: true,
+                                onChanged: (value) =>
+                                    onSelectedValue(value ?? 0),
+                                contentPadding: const EdgeInsets.all(4),
+                                title: Text(
+                                  // ignore: lines_longer_than_80_chars
+                                  '${lettersMap[index] ?? ''} - ${question.answers(context.l10n).keys.elementAt(index)}',
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 32,
+                    ),
+                    NextQuestionButton(
+                      onCompleted: onCompleted,
+                      onBackPress: onBackPress,
+                      questionKey: question.key,
+                    ),
+                    const SizedBox(height: 8),
+                  ],
                 ),
-                const SizedBox(
-                  height: 32,
-                ),
-                NextQuestionButton(
-                  onCompleted: onCompleted,
-                  onBackPress: onBackPress,
-                  questionKey: question.key,
-                ),
-                const SizedBox(height: 8),
-              ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -232,6 +245,7 @@ class QuestionPageDesktopView extends StatelessWidget {
     required this.onBackPress,
     required this.onCompleted,
     required this.onSelectedValue,
+    required this.currentPageIndex,
   });
 
   final QuestionModel question;
@@ -239,6 +253,7 @@ class QuestionPageDesktopView extends StatelessWidget {
   final Future<void> Function() onCompleted;
   final Future<void> Function() onBackPress;
   final void Function(int value) onSelectedValue;
+  final int currentPageIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -258,6 +273,13 @@ class QuestionPageDesktopView extends StatelessWidget {
             height: MediaQuery.of(context).size.height,
             child: Column(
               children: [
+                TestProgressBar(
+                  currentPageIndex: currentPageIndex,
+                  isWeb: true,
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
                 Container(
                   padding: const EdgeInsets.all(12),
                   width: double.infinity,

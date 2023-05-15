@@ -74,6 +74,7 @@ class _CoachingTestPageViewState extends State<CoachingTestPageView> {
           return QuestionPage(
             question: questionsList[index],
             pageController: _pageController,
+            currentPageIndex: index,
             onCompleted: (key, value) async {
               await context.read<CoachingTestCubit>().updateTest(
                     key,
