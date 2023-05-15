@@ -59,7 +59,7 @@ class _WelcomeFormWidgetState extends State<WelcomeFormWidget> {
       width: widget.width,
       child: Form(
         key: formKey,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
+        autovalidateMode: AutovalidateMode.disabled,
         child: Column(
           children: [
             TextFormField(
@@ -141,6 +141,7 @@ class _WelcomeFormWidgetState extends State<WelcomeFormWidget> {
               onTap: () async {
                 final pickedDate = await showDatePicker(
                   context: context,
+                  initialDatePickerMode: DatePickerMode.year,
                   initialDate: DateTime.now(),
                   firstDate: DateTime(1950),
                   lastDate: DateTime.now(),

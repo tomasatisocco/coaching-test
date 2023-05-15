@@ -31,7 +31,7 @@ class TestProgressBar extends StatelessWidget {
             children: [
               Container(
                 color: backgroundColor,
-                width: 48,
+                width: isWeb ? MediaQuery.of(context).size.width / 24 : 48,
                 height: 4,
               ),
               Padding(
