@@ -48,7 +48,7 @@ class StartButton extends StatelessWidget {
             onPressed: () => onSubmit(context),
             child: SizedBox(
               height: 64,
-              width: 128,
+              width: 150,
               child: Center(
                 child: state is WelcomeLoading
                     ? CircularProgressIndicator(

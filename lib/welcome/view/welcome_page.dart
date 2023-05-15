@@ -1,3 +1,4 @@
+import 'package:coaching/app/widgets/language_switch_widget.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/welcome/cubit/welcome_cubit.dart';
 import 'package:coaching/welcome/widgets/welcome_form_widget.dart';
@@ -37,6 +38,14 @@ class WelcomePageMobileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        toolbarHeight: 32,
+        actions: const [
+          LanguageSwitch(),
+          SizedBox(width: 16),
+        ],
+      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -94,6 +103,14 @@ class WelcomePageDesktopView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        toolbarHeight: 32,
+        actions: const [
+          LanguageSwitch(),
+          SizedBox(width: 16),
+        ],
+      ),
       body: Row(
         children: [
           Padding(

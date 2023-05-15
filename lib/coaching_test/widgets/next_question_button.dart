@@ -39,7 +39,9 @@ class NextQuestionButton extends StatelessWidget {
                         height: 32,
                         width: 32,
                         child: Center(
-                          child: CircularProgressIndicator(),
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
                         ),
                       )
                     : Text(

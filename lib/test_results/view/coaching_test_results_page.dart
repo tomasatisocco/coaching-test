@@ -1,3 +1,4 @@
+import 'package:coaching/app/widgets/language_switch_widget.dart';
 import 'package:coaching/coaching_test/models/test_model.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/test_results/widgets/new_test_button.dart';
@@ -42,6 +43,14 @@ class CoachingTestResultMobileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF3F3F3),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        toolbarHeight: 32,
+        actions: const [
+          LanguageSwitch(),
+          SizedBox(width: 16),
+        ],
+      ),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         width: double.infinity,
@@ -95,6 +104,14 @@ class CoachingTestResultDesktopView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF3F3F3),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        toolbarHeight: 32,
+        actions: const [
+          LanguageSwitch(),
+          SizedBox(width: 16),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(32),
         child: SingleChildScrollView(

@@ -1,3 +1,4 @@
+import 'package:coaching/app/widgets/language_switch_widget.dart';
 import 'package:coaching/coaching_test/cubit/coaching_test_cubit.dart';
 import 'package:coaching/coaching_test/models/question_model.dart';
 import 'package:coaching/coaching_test/widgets/next_question_button.dart';
@@ -135,6 +136,14 @@ class QuestionPageMobileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        toolbarHeight: 32,
+        actions: const [
+          LanguageSwitch(),
+          SizedBox(width: 16),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Container(
@@ -234,6 +243,14 @@ class QuestionPageDesktopView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        toolbarHeight: 32,
+        actions: const [
+          LanguageSwitch(),
+          SizedBox(width: 16),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: SingleChildScrollView(

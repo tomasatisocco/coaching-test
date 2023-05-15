@@ -1,3 +1,4 @@
+import 'package:coaching/app/cubit/localizations_cubit.dart';
 import 'package:coaching/coaching_test/models/test_model.dart';
 import 'package:coaching/coaching_test/view/coaching_test_page.dart';
 import 'package:coaching/l10n/l10n.dart';
@@ -26,7 +27,10 @@ class App extends StatelessWidget {
         RepositoryProvider.value(value: firestoreRepository),
         RepositoryProvider.value(value: dataPersistenceRepository),
       ],
-      child: const AppView(),
+      child: BlocProvider(
+        create: (context) => LocalizationsCubit(),
+        child: const AppView(),
+      ),
     );
   }
 }
@@ -49,18 +53,23 @@ class _AppViewState extends State<AppView> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerDelegate: _router.routerDelegate,
-      routeInformationParser: _router.routeInformationParser,
-      routeInformationProvider: _router.routeInformationProvider,
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.from(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFC43446)),
-        useMaterial3: true,
-      ),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      locale: const Locale('es'),
+    return BlocBuilder<LocalizationsCubit, LocalizationsState>(
+      builder: (context, state) {
+        return MaterialApp.router(
+          routerDelegate: _router.routerDelegate,
+          routeInformationParser: _router.routeInformationParser,
+          routeInformationProvider: _router.routeInformationProvider,
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData.from(
+            colorScheme:
+                ColorScheme.fromSeed(seedColor: const Color(0xFFC43446)),
+            useMaterial3: true,
+          ),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: state.locale,
+        );
+      },
     );
   }
 
