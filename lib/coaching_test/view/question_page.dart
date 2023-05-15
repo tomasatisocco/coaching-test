@@ -50,15 +50,15 @@ class _QuestionPageState extends State<QuestionPage> {
     await widget.onCompleted(widget.question.key, value);
     if (widget.question.key == '404') return;
     await widget.pageController.nextPage(
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.linear,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeInOutQuart,
     );
   }
 
   Future<void> onBackPress() async {
     await widget.pageController.previousPage(
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.linear,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeInOutQuart,
     );
   }
 

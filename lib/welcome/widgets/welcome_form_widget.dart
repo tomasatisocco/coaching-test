@@ -29,6 +29,7 @@ class _WelcomeFormWidgetState extends State<WelcomeFormWidget> {
   late TextEditingController nationalityController;
   late TextEditingController residenceController;
   late TextEditingController certificateDateController;
+  late DateTime initialDate;
 
   @override
   void initState() {
@@ -39,6 +40,7 @@ class _WelcomeFormWidgetState extends State<WelcomeFormWidget> {
     nationalityController = TextEditingController();
     residenceController = TextEditingController();
     certificateDateController = TextEditingController();
+    initialDate = DateTime.now();
     super.initState();
   }
 
@@ -139,20 +141,36 @@ class _WelcomeFormWidgetState extends State<WelcomeFormWidget> {
               ),
               readOnly: true,
               onTap: () async {
-                final pickedDate = await showDatePicker(
+                await showDialog<void>(
                   context: context,
-                  initialDatePickerMode: DatePickerMode.year,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(1950),
-                  lastDate: DateTime.now(),
-                );
-                if (pickedDate == null) return;
-                final formattedDate =
-                    DateFormat('yyyy-MM-dd').format(pickedDate);
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text(
+                        context.l10n.yearOfCertification,
+                        textAlign: TextAlign.center,
+                      ),
+                      content: SizedBox(
+                        height: 300,
+                        width: 300,
+                        child: YearPicker(
+                          firstDate: DateTime(1950),
+                          lastDate: DateTime.now(),
+                          selectedDate: initialDate,
+                          onChanged: (pickedDate) {
+                            final formattedDate =
+                                DateFormat('yyyy').format(pickedDate);
 
-                setState(() {
-                  certificateDateController.text = formattedDate;
-                });
+                            setState(() {
+                              certificateDateController.text = formattedDate;
+                              initialDate = pickedDate;
+                            });
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                );
               },
             ),
             const SizedBox(
