@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:coaching/coaching_test/models/question_model.dart';
 import 'package:coaching/coaching_test/models/question_model_implementation.dart';
 import 'package:coaching/coaching_test/models/test_model_keys.dart';
+import 'package:intl/intl.dart';
 
 class CoachingTest {
   const CoachingTest({
@@ -79,7 +80,8 @@ class CoachingTest {
     }
     return <String, dynamic>{
       'userId': userId,
-      'coachingTestDate': coachingTestDate.millisecondsSinceEpoch,
+      'coachingTestDate':
+          DateFormat('yyyy-MM-dd hh:mm').format(coachingTestDate),
       'answers': answersMap,
     };
   }
@@ -98,8 +100,7 @@ class CoachingTest {
   factory CoachingTest.fromMap(Map<String, dynamic> map) {
     return CoachingTest(
       userId: map['userId'] as String,
-      coachingTestDate:
-          DateTime.fromMillisecondsSinceEpoch(map['coachingTestDate'] as int),
+      coachingTestDate: DateTime.parse(map['coachingTestDate'] as String),
       questions: (map['answers'] as Map<String, dynamic>)
           .entries
           .map<QuestionModel>((e) => QuestionModel.fromMap({e.key: e.value})!)
