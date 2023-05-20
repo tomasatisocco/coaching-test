@@ -72,10 +72,16 @@ class WelcomePageMobileView extends StatelessWidget {
                       color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
-                  Center(
-                    child: Image.asset(
-                      'assets/images/welcome.png',
-                      width: 350,
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Center(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.asset(
+                          'assets/images/liveascoach.jpeg',
+                          width: 350,
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -166,7 +172,13 @@ class WelcomePageDesktopView extends StatelessWidget {
           ),
           Expanded(
             child: Center(
-              child: Image.asset('assets/images/welcome.png'),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.asset(
+                  'assets/images/liveascoach.jpeg',
+                  width: 350,
+                ),
+              ),
             ),
           ),
         ],

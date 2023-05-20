@@ -7,11 +7,13 @@ abstract class QuestionModel {
     required this.key,
     this.value,
     this.multiplier = 1,
+    this.questionImage = 'assets/images/question.jpg',
   });
 
   final String key;
   final int? value;
   final int multiplier;
+  final String questionImage;
 
   String getQuestion(AppLocalizations l10n);
   String getDescription(AppLocalizations l10n);

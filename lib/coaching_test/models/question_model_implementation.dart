@@ -6,6 +6,7 @@ class ProfesionalImprovementQuestion extends QuestionModel {
   ProfesionalImprovementQuestion({super.value})
       : super(
           key: AnswerQuestionKeys.profesionalImprovement,
+          questionImage: 'assets/images/coaching.jpg',
         );
 
   @override
@@ -50,6 +51,7 @@ class SupervisedMediaSessionsQuestion extends QuestionModel {
   SupervisedMediaSessionsQuestion({super.value})
       : super(
           key: AnswerQuestionKeys.supervisedMediaSessions,
+          questionImage: 'assets/images/coaching.jpg',
         );
 
   @override
@@ -77,6 +79,7 @@ class SessionQualityAutoQualificationQuestion extends QuestionModel {
   SessionQualityAutoQualificationQuestion({super.value})
       : super(
           key: AnswerQuestionKeys.sessionQualityAutoQualification,
+          questionImage: 'assets/images/coaching.jpg',
         );
 
   @override
@@ -95,6 +98,7 @@ class WeeklyMediaCoacheeSessionsQuestion extends QuestionModel {
   WeeklyMediaCoacheeSessionsQuestion({super.value})
       : super(
           key: AnswerQuestionKeys.weeklyMediaCoacheeSessions,
+          questionImage: 'assets/images/coaching.jpg',
           multiplier: 3,
         );
 
@@ -123,6 +127,7 @@ class HaveMentorQuestion extends QuestionModel {
   HaveMentorQuestion({super.value})
       : super(
           key: AnswerQuestionKeys.haveMentor,
+          questionImage: 'assets/images/coaching.jpg',
         );
 
   @override
@@ -147,6 +152,7 @@ class IsMentorQuestion extends QuestionModel {
   IsMentorQuestion({super.value})
       : super(
           key: AnswerQuestionKeys.isMentor,
+          questionImage: 'assets/images/coaching.jpg',
         );
 
   @override
@@ -171,6 +177,7 @@ class SystematizedServiceGradeQuestion extends QuestionModel {
   SystematizedServiceGradeQuestion({super.value})
       : super(
           key: AnswerQuestionKeys.systematizedServiceGrade,
+          questionImage: 'assets/images/coaching.jpg',
         );
 
   @override
@@ -187,7 +194,11 @@ class SystematizedServiceGradeQuestion extends QuestionModel {
 
 class ProcessOfferGradeQuestion extends QuestionModel {
   ProcessOfferGradeQuestion({super.value})
-      : super(key: AnswerQuestionKeys.processOfferGrade, multiplier: 3);
+      : super(
+          key: AnswerQuestionKeys.processOfferGrade,
+          multiplier: 3,
+          questionImage: 'assets/images/coaching.jpg',
+        );
 
   @override
   Map<String, int> answers(AppLocalizations l10n) => {
@@ -214,6 +225,7 @@ class ClientImportanceAutoQualificationQuestion extends QuestionModel {
   ClientImportanceAutoQualificationQuestion({super.value})
       : super(
           key: AnswerQuestionKeys.clientImportanceAutoQualification,
+          questionImage: 'assets/images/coaching.jpg',
         );
 
   @override
@@ -232,6 +244,7 @@ class PaidSessionsPercentageQuestion extends QuestionModel {
   PaidSessionsPercentageQuestion({super.value})
       : super(
           key: AnswerQuestionKeys.paidSessionsPercentage,
+          questionImage: 'assets/images/business.jpeg',
         );
 
   @override
@@ -259,6 +272,7 @@ class MinPaymentPercentageQuestion extends QuestionModel {
   MinPaymentPercentageQuestion({super.value})
       : super(
           key: AnswerQuestionKeys.minPaymentPercentage,
+          questionImage: 'assets/images/business.jpeg',
         );
 
   @override
@@ -284,7 +298,11 @@ class MinPaymentPercentageQuestion extends QuestionModel {
 
 class MensualMediaIncomeQuestion extends QuestionModel {
   MensualMediaIncomeQuestion({super.value})
-      : super(key: AnswerQuestionKeys.mensualMediaIncome, multiplier: 5);
+      : super(
+          key: AnswerQuestionKeys.mensualMediaIncome,
+          multiplier: 5,
+          questionImage: 'assets/images/business.jpeg',
+        );
 
   @override
   Map<String, int> answers(AppLocalizations l10n) => {
@@ -311,6 +329,7 @@ class CoachServiceDifferentiationQuestion extends QuestionModel {
   CoachServiceDifferentiationQuestion({super.value})
       : super(
           key: AnswerQuestionKeys.coachServiceDifferentiation,
+          questionImage: 'assets/images/business.jpeg',
         );
 
   @override
@@ -341,6 +360,7 @@ class QuantityOfRecommendationsQuestion extends QuestionModel {
   QuantityOfRecommendationsQuestion({super.value})
       : super(
           key: AnswerQuestionKeys.quantityOfRecommendations,
+          questionImage: 'assets/images/business.jpeg',
         );
 
   @override
@@ -359,6 +379,7 @@ class FeedbackQuestion extends QuestionModel {
   FeedbackQuestion({super.value})
       : super(
           key: AnswerQuestionKeys.feedBack,
+          questionImage: 'assets/images/business.jpeg',
         );
 
   @override
@@ -377,6 +398,7 @@ class PhysicalActivityQuestion extends QuestionModel {
   PhysicalActivityQuestion({super.value})
       : super(
           key: AnswerQuestionKeys.physicalActivity,
+          questionImage: 'assets/images/wellness.png',
         );
 
   @override
@@ -395,6 +417,7 @@ class FamiliarRelationshipQuestion extends QuestionModel {
   FamiliarRelationshipQuestion({super.value})
       : super(
           key: AnswerQuestionKeys.familiarRelationship,
+          questionImage: 'assets/images/wellness.png',
         );
 
   @override
@@ -413,6 +436,7 @@ class SocialRelationshipQuestion extends QuestionModel {
   SocialRelationshipQuestion({super.value})
       : super(
           key: AnswerQuestionKeys.socialRelationship,
+          questionImage: 'assets/images/wellness.png',
         );
 
   @override
@@ -431,6 +455,7 @@ class NatureContactQuestion extends QuestionModel {
   NatureContactQuestion({super.value})
       : super(
           key: AnswerQuestionKeys.natureContact,
+          questionImage: 'assets/images/wellness.png',
         );
 
   @override
@@ -449,6 +474,7 @@ class RelaxTimeQuestion extends QuestionModel {
   RelaxTimeQuestion({super.value})
       : super(
           key: AnswerQuestionKeys.relaxTime,
+          questionImage: 'assets/images/wellness.png',
         );
 
   @override
@@ -467,6 +493,7 @@ class CoworkersActivitiesQuestion extends QuestionModel {
   CoworkersActivitiesQuestion({super.value})
       : super(
           key: AnswerQuestionKeys.coworkersActivities,
+          questionImage: 'assets/images/community.jpg',
         );
 
   @override
@@ -485,6 +512,7 @@ class ProfessionCommunityQuestion extends QuestionModel {
   ProfessionCommunityQuestion({super.value})
       : super(
           key: AnswerQuestionKeys.professionCommunityContributions,
+          questionImage: 'assets/images/community.jpg',
         );
 
   @override
@@ -504,6 +532,7 @@ class ProfessionIntelectualQuestion extends QuestionModel {
       : super(
           key: AnswerQuestionKeys.professionIntelectualContributions,
           multiplier: 3,
+          questionImage: 'assets/images/community.jpg',
         );
 
   @override
@@ -523,6 +552,7 @@ class CertificationsQuestion extends QuestionModel {
       : super(
           key: AnswerQuestionKeys.certification,
           multiplier: 3,
+          questionImage: 'assets/images/community.jpg',
         );
 
   @override
