@@ -41,9 +41,6 @@ class StartButton extends StatelessWidget {
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.primary,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(36),
-              ),
             ),
             onPressed: () => onSubmit(context),
             child: SizedBox(

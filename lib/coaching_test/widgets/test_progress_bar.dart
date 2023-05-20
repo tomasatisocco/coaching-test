@@ -13,7 +13,7 @@ class TestProgressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final backgroundColor = isWeb
-        ? Theme.of(context).colorScheme.inversePrimary
+        ? Theme.of(context).colorScheme.primary
         : Theme.of(context).colorScheme.onSecondary;
     return SizedBox(
       height: 48,

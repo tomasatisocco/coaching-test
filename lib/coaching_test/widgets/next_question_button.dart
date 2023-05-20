@@ -23,24 +23,18 @@ class NextQuestionButton extends StatelessWidget {
       children: [
         ElevatedButton(
           onPressed: onCompleted,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(36),
-            ),
-          ),
           child: BlocBuilder<CoachingTestCubit, CoachingTestState>(
             builder: (context, state) {
               return Container(
                 width: isMobile ? 160 : 320,
                 padding: const EdgeInsets.all(8),
                 child: state is CoachingTestUpdating
-                    ? const SizedBox(
+                    ? SizedBox(
                         height: 32,
                         width: 32,
                         child: Center(
                           child: CircularProgressIndicator(
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.onPrimary,
                           ),
                         ),
                       )

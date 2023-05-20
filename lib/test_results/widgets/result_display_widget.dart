@@ -24,7 +24,7 @@ class ResultsDisplayWidget extends StatelessWidget {
       decoration: const BoxDecoration(
         color: Color(0xFF0B1A37),
         borderRadius: BorderRadius.all(
-          Radius.circular(64),
+          Radius.circular(16),
         ),
       ),
       padding: const EdgeInsets.symmetric(vertical: 10),

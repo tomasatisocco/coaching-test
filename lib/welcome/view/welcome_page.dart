@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:coaching/app/widgets/language_switch_widget.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/welcome/cubit/welcome_cubit.dart';
@@ -7,6 +9,7 @@ import 'package:firestore_repository/firestore_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:storage_repository/storage_repository.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -37,9 +40,9 @@ class WelcomePageMobileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        elevation: 0,
         toolbarHeight: 32,
         actions: const [
           LanguageSwitch(),
@@ -51,7 +54,7 @@ class WelcomePageMobileView extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Container(
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.background,
+              color: Theme.of(context).colorScheme.tertiary,
               borderRadius: const BorderRadius.all(
                 Radius.circular(16),
               ),
@@ -63,9 +66,10 @@ class WelcomePageMobileView extends StatelessWidget {
                   Text(
                     context.l10n.welcome,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                   Center(
@@ -102,10 +106,10 @@ class WelcomePageDesktopView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         toolbarHeight: 32,
+        elevation: 0,
         actions: const [
           LanguageSwitch(),
           SizedBox(width: 16),
@@ -117,7 +121,7 @@ class WelcomePageDesktopView extends StatelessWidget {
             padding: const EdgeInsets.all(48),
             child: Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.background,
+                color: Theme.of(context).colorScheme.tertiary,
                 borderRadius: const BorderRadius.all(
                   Radius.circular(16),
                 ),

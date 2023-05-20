@@ -142,9 +142,9 @@ class QuestionPageMobileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        elevation: 0,
         toolbarHeight: 32,
         actions: const [
           LanguageSwitch(),
@@ -157,77 +157,74 @@ class QuestionPageMobileView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(24),
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.8,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(16),
+              height: MediaQuery.of(context).size.height * 0.83,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.tertiary,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(8),
                 ),
               ),
               padding: const EdgeInsets.all(16),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Text(
-                      question.getQuestion(context.l10n),
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
+              child: Column(
+                children: [
+                  Text(
+                    question.getQuestion(context.l10n),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                     ),
-                    const SizedBox(height: 8),
-                    Text(
-                      question.getDescription(context.l10n),
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 16,
-                      ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    question.getDescription(context.l10n),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 16,
                     ),
-                    const SizedBox(
-                      height: 32,
-                    ),
-                    SizedBox(
-                      height: question.answers(context.l10n).length * 64,
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: ListView.builder(
-                        itemCount: question.answers(context.l10n).length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                color: Colors.blueGrey.shade100,
-                                borderRadius: BorderRadius.circular(32),
-                              ),
-                              child: RadioListTile(
-                                value: index,
-                                groupValue: selectedValue,
-                                dense: true,
-                                onChanged: (value) =>
-                                    onSelectedValue(value ?? 0),
-                                contentPadding: const EdgeInsets.all(4),
-                                title: Text(
-                                  // ignore: lines_longer_than_80_chars
-                                  '${lettersMap[index] ?? ''} - ${question.answers(context.l10n).keys.elementAt(index)}',
-                                ),
+                  ),
+                  const SizedBox(
+                    height: 32,
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: ListView.builder(
+                      itemCount: question.answers(context.l10n).length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: RadioListTile(
+                              value: index,
+                              groupValue: selectedValue,
+                              activeColor:
+                                  Theme.of(context).colorScheme.primary,
+                              dense: true,
+                              onChanged: (value) => onSelectedValue(value ?? 0),
+                              contentPadding: const EdgeInsets.all(4),
+                              title: Text(
+                                // ignore: lines_longer_than_80_chars
+                                '${lettersMap[index] ?? ''} - ${question.answers(context.l10n).keys.elementAt(index)}',
                               ),
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     ),
-                    const SizedBox(
-                      height: 32,
-                    ),
-                    NextQuestionButton(
-                      onCompleted: onCompleted,
-                      onBackPress: onBackPress,
-                      questionKey: question.key,
-                    ),
-                    const SizedBox(height: 8),
-                  ],
-                ),
+                  ),
+                  const Spacer(),
+                  NextQuestionButton(
+                    onCompleted: onCompleted,
+                    onBackPress: onBackPress,
+                    questionKey: question.key,
+                  ),
+                  const SizedBox(height: 8),
+                ],
               ),
             ),
           ),
@@ -260,119 +257,114 @@ class QuestionPageDesktopView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        elevation: 0,
         toolbarHeight: 32,
         actions: const [
           LanguageSwitch(),
           SizedBox(width: 16),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: SingleChildScrollView(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              children: [
-                TestProgressBar(
-                  currentPageIndex: currentPageIndex,
-                  isWeb: true,
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(32),
+      body: SingleChildScrollView(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            children: [
+              TestProgressBar(
+                currentPageIndex: currentPageIndex,
+                isWeb: true,
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              Container(
+                padding: const EdgeInsets.all(12),
+                width: double.infinity,
+                color: Theme.of(context).colorScheme.primary,
+                child: Column(
+                  children: [
+                    Text(
+                      question.getQuestion(context.l10n),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  child: Column(
-                    children: [
-                      Text(
-                        question.getQuestion(context.l10n),
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 36,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    const SizedBox(height: 8),
+                    Text(
+                      question.getDescription(context.l10n),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Theme.of(context).colorScheme.onPrimary,
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        question.getDescription(context.l10n),
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 24,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                const Spacer(),
-                SizedBox(
-                  height: 500,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(32),
-                        child: Image.asset(
-                          'assets/images/question.jpg',
-                          width: MediaQuery.of(context).size.width * 0.4 >= 500
-                              ? 500
-                              : MediaQuery.of(context).size.width * 0.4,
-                        ),
+              ),
+              const Spacer(),
+              SizedBox(
+                height: 540,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: Image.asset(
+                        'assets/images/question.jpg',
+                        width: MediaQuery.of(context).size.width * 0.4 >= 500
+                            ? 500
+                            : MediaQuery.of(context).size.width * 0.4,
                       ),
-                      Column(
-                        children: [
-                          SizedBox(
-                            height: 400,
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            child: ListView.builder(
-                              itemCount: question.answers(context.l10n).length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: DecoratedBox(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(32),
-                                    ),
-                                    child: RadioListTile(
-                                      value: index,
-                                      groupValue: selectedValue,
-                                      onChanged: (value) =>
-                                          onSelectedValue(value ?? 0),
-                                      contentPadding: const EdgeInsets.all(4),
-                                      title: Text(
-                                        // ignore: lines_longer_than_80_chars
-                                        '${lettersMap[index] ?? ''} - ${question.answers(context.l10n).keys.elementAt(index)}',
-                                      ),
+                    ),
+                    Column(
+                      children: [
+                        SizedBox(
+                          height: 440,
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: ListView.builder(
+                            itemCount: question.answers(context.l10n).length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade300,
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: RadioListTile(
+                                    value: index,
+                                    groupValue: selectedValue,
+                                    activeColor:
+                                        Theme.of(context).colorScheme.primary,
+                                    onChanged: (value) =>
+                                        onSelectedValue(value ?? 0),
+                                    contentPadding: const EdgeInsets.all(4),
+                                    title: Text(
+                                      // ignore: lines_longer_than_80_chars
+                                      '${lettersMap[index] ?? ''} - ${question.answers(context.l10n).keys.elementAt(index)}',
                                     ),
                                   ),
-                                );
-                              },
-                            ),
+                                ),
+                              );
+                            },
                           ),
-                          const Spacer(),
-                          NextQuestionButton(
-                            onCompleted: onCompleted,
-                            onBackPress: onBackPress,
-                            questionKey: question.key,
-                            isMobile: false,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                        const Spacer(),
+                        NextQuestionButton(
+                          onCompleted: onCompleted,
+                          onBackPress: onBackPress,
+                          questionKey: question.key,
+                          isMobile: false,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                const Spacer(),
-              ],
-            ),
+              ),
+              const Spacer(),
+            ],
           ),
         ),
       ),
@@ -388,4 +380,5 @@ Map<int, String> lettersMap = {
   4: 'e',
   5: 'f',
   6: 'g',
+  7: 'h',
 };

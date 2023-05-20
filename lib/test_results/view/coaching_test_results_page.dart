@@ -46,6 +46,7 @@ class CoachingTestResultMobileView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         toolbarHeight: 32,
+        elevation: 0,
         actions: const [
           LanguageSwitch(),
           SizedBox(width: 16),
@@ -107,6 +108,7 @@ class CoachingTestResultDesktopView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         toolbarHeight: 32,
+        elevation: 0,
         actions: const [
           LanguageSwitch(),
           SizedBox(width: 16),

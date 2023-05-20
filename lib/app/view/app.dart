@@ -9,16 +9,19 @@ import 'package:firestore_repository/firestore_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:storage_repository/storage_repository.dart';
 
 class App extends StatelessWidget {
   const App({
     super.key,
     required this.firestoreRepository,
     required this.dataPersistenceRepository,
+    required this.storageRepository,
   });
 
   final FirestoreRepository firestoreRepository;
   final DataPersistenceRepository dataPersistenceRepository;
+  final StorageRepository storageRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +29,7 @@ class App extends StatelessWidget {
       providers: [
         RepositoryProvider.value(value: firestoreRepository),
         RepositoryProvider.value(value: dataPersistenceRepository),
+        RepositoryProvider.value(value: storageRepository),
       ],
       child: BlocProvider(
         create: (context) => LocalizationsCubit(),
@@ -61,9 +65,16 @@ class _AppViewState extends State<AppView> {
           routeInformationProvider: _router.routeInformationProvider,
           debugShowCheckedModeBanner: false,
           theme: ThemeData.from(
-            colorScheme:
-                ColorScheme.fromSeed(seedColor: const Color(0xFFC43446)),
-            useMaterial3: true,
+            colorScheme: ColorScheme.fromSwatch().copyWith(
+              background: const Color(0xFFF9F9F9),
+              onBackground: const Color(0xFFC43344),
+              primary: const Color(0xFFC43344),
+              onPrimary: const Color(0xFFF9F9F9),
+              secondary: const Color(0xFFF9F9F9),
+              onSecondary: const Color(0xFFC43344),
+              tertiary: const Color(0xFFF5F5F5),
+              onError: Colors.red,
+            ),
           ),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
