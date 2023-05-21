@@ -21,6 +21,8 @@ dependencies:
   go_router: ^7.0.0
   intl: ^0.18.0
   responsive_builder: ^0.6.4
+  storage_repository:
+    path: packages/storage_repository
 
 dev_dependencies:
   bloc_test: ^9.1.1
@@ -36,3 +38,4 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/files/
