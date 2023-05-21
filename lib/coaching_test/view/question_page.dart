@@ -69,8 +69,9 @@ class _QuestionPageState extends State<QuestionPage> {
       });
       return;
     }
+    final newValue = _selectedValue + 1;
     setState(() {
-      _selectedValue = _selectedValue + 1;
+      _selectedValue = newValue;
     });
     return;
   }
