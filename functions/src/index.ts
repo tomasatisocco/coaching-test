@@ -2,7 +2,7 @@ import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import * as nodemailer from "nodemailer";
 import * as dotenv from "dotenv";
-import * as pdfkit from "pdfkit";
+import {Storage} from "@google-cloud/storage";
 import {PassThrough} from "stream";
 
 // Initialize Firebase Admin SDK
@@ -15,6 +15,13 @@ const testsReference = "environments/development/coaching_tests/{testId}";
 const senderEmail = dotenv.config().parsed?.GMAIL_EMAIL;
 const password = dotenv.config().parsed?.GMAIL_PASSWORD;
 
+const storage = new Storage();
+
+const bucketName = "gs://coaching-test-3c129.appspot.com/";
+const fileName = "testresult.pdf";
+
+const bucket = storage.bucket(bucketName);
+const file = bucket.file(fileName);
 
 // Initialize Nodemailer transport
 const transporter = nodemailer.createTransport({
@@ -50,19 +57,11 @@ const streamToBufferAsync = (stream: PassThrough): Promise<Buffer> => {
  * @param {string} message The content of the email.
  */
 async function sendEmail(email: string, message: string): Promise<void> {
-  // Create the PDF
-  // eslint-disable-next-line new-cap
-  const pdfDoc = new pdfkit();
-
   // Create a PassThrough stream
   const stream = new PassThrough();
 
-  // Pipe the PDF output to the PassThrough stream
-  pdfDoc.pipe(stream);
-
-  // Add content to the PDF
-  pdfDoc.text("Hello, World!");
-  pdfDoc.end();
+  // Download the PDF file from Cloud Storage and pipe it.
+  file.createReadStream().pipe(stream);
 
   // Convert the PDF to a buffer
   const pdfBuffer = await streamToBufferAsync(stream);
