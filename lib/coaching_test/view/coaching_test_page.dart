@@ -7,6 +7,7 @@ import 'package:firestore_repository/firestore_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:storage_repository/storage_repository.dart';
 
 class CoachingTestPage extends StatelessWidget {
   const CoachingTestPage({super.key});
@@ -19,6 +20,7 @@ class CoachingTestPage extends StatelessWidget {
       create: (_) => CoachingTestCubit(
         firestoreRepository: context.read<FirestoreRepository>(),
         dataPersistenceRepository: context.read<DataPersistenceRepository>(),
+        storageRepository: context.read<StorageRepository>(),
       )..init(),
       child: const CoachingTestPageView(),
     );

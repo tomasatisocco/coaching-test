@@ -4,6 +4,7 @@ import * as nodemailer from "nodemailer";
 import * as dotenv from "dotenv";
 import {Storage} from "@google-cloud/storage";
 import {PassThrough} from "stream";
+import {PDFDocument} from "pdf-lib";
 
 // Initialize Firebase Admin SDK
 admin.initializeApp();
@@ -18,10 +19,10 @@ const password = dotenv.config().parsed?.GMAIL_PASSWORD;
 const storage = new Storage();
 
 const bucketName = "gs://coaching-test-3c129.appspot.com/";
-const fileName = "testresult.pdf";
+const fileName = "development/testresult.pdf";
 
 const bucket = storage.bucket(bucketName);
-const file = bucket.file(fileName);
+const defaultResult = bucket.file(fileName);
 
 // Initialize Nodemailer transport
 const transporter = nodemailer.createTransport({
@@ -54,17 +55,54 @@ const streamToBufferAsync = (stream: PassThrough): Promise<Buffer> => {
 /**
  * This function sends an email using Nodemailer.
  * @param {string} email The email address to send the email to.
+ * @param {string} userId The user id.
  * @param {string} message The content of the email.
  */
-async function sendEmail(email: string, message: string): Promise<void> {
+async function sendEmail(
+  email: string, userId: string, message: string): Promise<void> {
   // Create a PassThrough stream
   const stream = new PassThrough();
 
   // Download the PDF file from Cloud Storage and pipe it.
-  file.createReadStream().pipe(stream);
+  defaultResult.createReadStream().pipe(stream);
 
   // Convert the PDF to a buffer
   const pdfBuffer = await streamToBufferAsync(stream);
+
+  // Create a new PDF document from the existing buffer
+  const pdfDoc = await PDFDocument.load(pdfBuffer);
+  functions.logger.log("Default PDF loaded");
+
+  // Create a new PDF file from the new PDF document
+  const newPdfFile = bucket.file("development/UsersResults/"+userId+".pdf");
+
+  // Create a PassThrough stream for the new PDF
+  const newPdfStream = new PassThrough();
+  newPdfFile.createReadStream().pipe(newPdfStream);
+
+  // Convert the new PDF to a buffer
+  const newPdfBuffer = await streamToBufferAsync(newPdfStream);
+
+  // Load the new PDF document
+  const newPdfDoc = await PDFDocument.load(newPdfBuffer);
+  functions.logger.log("Result PDF loaded");
+
+  // Add the new PDF as a page to the existing PDF
+  const newPdfPages = newPdfDoc.getPages();
+  const newPdfPageIndices = Array.from(
+    {length: newPdfPages.length},
+    (_, i) => i,
+  );
+  const copiedPages = await pdfDoc.copyPages(newPdfDoc, newPdfPageIndices);
+
+  pdfDoc.insertPage(6, copiedPages[0]);
+
+  // Serialize the updated PDF document to a buffer
+  const updatedPdfBuffer = await pdfDoc.save();
+
+  // Convert the buffer to a Buffer object
+  const updatedPdfBufferAsBuffer = Buffer.from(updatedPdfBuffer);
+  functions.logger.log("Result PDF added to the default PDF");
 
   const mailOptions = {
     from: "coachingtest23@gmail.com",
@@ -74,7 +112,7 @@ async function sendEmail(email: string, message: string): Promise<void> {
     attachments: [
       {
         filename: "document.pdf",
-        content: pdfBuffer,
+        content: updatedPdfBufferAsBuffer,
       },
     ],
   };
@@ -104,5 +142,5 @@ exports.readTests = functions
     functions.logger.log("User info", userName, userEmail);
 
     const message = `Hi ${userName}, your test ${testId} has been read`;
-    await sendEmail(userEmail, message);
+    await sendEmail(userEmail, userId, message);
   });

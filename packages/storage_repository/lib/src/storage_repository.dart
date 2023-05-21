@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -28,13 +28,16 @@ class StorageRepository {
   final Reference _environmentReference;
 
   /// Uploads a file to Firebase Storage.
-  Future<void> uploadFile(File file, String fileName) async {
-    await _environmentReference.putFile(
-      file,
-      SettableMetadata(
-        contentType: 'image/jpeg',
-        customMetadata: {'fileName': fileName},
-      ),
-    );
+  Future<void> uploadFile(Uint8List file, String fileName) async {
+    await _environmentReference
+        .child('UsersResults')
+        .child('$fileName.pdf')
+        .putData(
+          file,
+          SettableMetadata(
+            contentType: 'application/pdf',
+            customMetadata: {'fileName': fileName},
+          ),
+        );
   }
 }

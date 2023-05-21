@@ -20,6 +20,7 @@ dependencies:
     sdk: flutter
   go_router: ^7.0.0
   intl: ^0.18.0
+  pdf: ^3.10.3
   responsive_builder: ^0.6.4
   storage_repository:
     path: packages/storage_repository
@@ -38,4 +39,3 @@ flutter:
   assets:
     - assets/
     - assets/images/
-    - assets/files/
