@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:coaching/app/widgets/language_switch_widget.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/welcome/cubit/welcome_cubit.dart';
@@ -9,7 +7,6 @@ import 'package:firestore_repository/firestore_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:storage_repository/storage_repository.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});

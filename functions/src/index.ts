@@ -2,6 +2,8 @@ import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import * as nodemailer from "nodemailer";
 import * as dotenv from "dotenv";
+import * as pdfkit from "pdfkit";
+import {PassThrough} from "stream";
 
 // Initialize Firebase Admin SDK
 admin.initializeApp();
@@ -23,17 +25,59 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// Utility function to convert a readable stream to a buffer
+const streamToBufferAsync = (stream: PassThrough): Promise<Buffer> => {
+  return new Promise((resolve, reject) => {
+    const chunks: Buffer[] = [];
+
+    stream.on("data", (chunk) => {
+      chunks.push(chunk);
+    });
+
+    stream.on("end", () => {
+      resolve(Buffer.concat(chunks));
+    });
+
+    stream.on("error", (error) => {
+      reject(error);
+    });
+  });
+};
+
 /**
  * This function sends an email using Nodemailer.
  * @param {string} email The email address to send the email to.
  * @param {string} message The content of the email.
  */
 async function sendEmail(email: string, message: string): Promise<void> {
+  // Create the PDF
+  // eslint-disable-next-line new-cap
+  const pdfDoc = new pdfkit();
+
+  // Create a PassThrough stream
+  const stream = new PassThrough();
+
+  // Pipe the PDF output to the PassThrough stream
+  pdfDoc.pipe(stream);
+
+  // Add content to the PDF
+  pdfDoc.text("Hello, World!");
+  pdfDoc.end();
+
+  // Convert the PDF to a buffer
+  const pdfBuffer = await streamToBufferAsync(stream);
+
   const mailOptions = {
     from: "coachingtest23@gmail.com",
     to: email,
     subject: "New Document Added",
     text: message,
+    attachments: [
+      {
+        filename: "document.pdf",
+        content: pdfBuffer,
+      },
+    ],
   };
 
   try {
