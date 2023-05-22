@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:coaching/coaching_test/models/pdf_page.dart';
 import 'package:coaching/coaching_test/models/test_model.dart';
+import 'package:coaching/l10n/l10n.dart';
 import 'package:data_persistence_repository/data_persistence_repository.dart';
 import 'package:firestore_repository/firestore_repository.dart';
 import 'package:flutter/material.dart';
@@ -41,10 +42,10 @@ class CoachingTestCubit extends Cubit<CoachingTestState> {
     emit(CoachingTestUpdated(updatedTest));
   }
 
-  Future<void> submitTest() async {
+  Future<void> submitTest(AppLocalizations l10n) async {
     emit(CoachingTestUpdating(state.testModel));
     try {
-      await _uploadPDF();
+      await _uploadPDF(l10n);
       await _firestoreRepository.addCoachingTest(state.testModel.toMap());
       return emit(CoachingTestSuccess(state.testModel));
     } catch (e) {
@@ -52,9 +53,9 @@ class CoachingTestCubit extends Cubit<CoachingTestState> {
     }
   }
 
-  Future<void> _uploadPDF() async {
+  Future<void> _uploadPDF(AppLocalizations l10n) async {
     final pdf = pw.Document();
-    final pdfPage = resultPdfPage(state.testModel);
+    final pdfPage = resultPdfPage(state.testModel, l10n);
     pdf.addPage(
       pdfPage,
     );
