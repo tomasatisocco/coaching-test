@@ -75,7 +75,7 @@ class WelcomePageMobileView extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: Image.asset(
-                          'assets/images/liveascoach.jpeg',
+                          'assets/images/live_as_coach_cover.png',
                           width: 350,
                         ),
                       ),
@@ -172,8 +172,8 @@ class WelcomePageDesktopView extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.asset(
-                  'assets/images/liveascoach.jpeg',
-                  width: 350,
+                  'assets/images/live_as_coach_cover.png',
+                  width: 450,
                 ),
               ),
             ),

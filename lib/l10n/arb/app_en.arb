@@ -112,5 +112,8 @@
     "previous": "Previous question",
     "complete": "Complete",
     "scoreOverviewTitle": "Your Scores Overview",
-    "newTest": "New Test"
+    "newTest": "New Test",
+    "congratulations": "Congratulations!",
+    "testSubmitted": "Your test has been submitted successfully.",
+    "testSubmittedDescription": "Your test has been submitted successfully. You will receive an email with your results in the next 24 hours."
 }

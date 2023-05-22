@@ -3,6 +3,7 @@ import 'package:coaching/coaching_test/models/test_model.dart';
 import 'package:coaching/coaching_test/view/coaching_test_page.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/test_results/view/coaching_test_results_page.dart';
+import 'package:coaching/test_results/view/congratulations_page.dart';
 import 'package:coaching/welcome/view/welcome_page.dart';
 import 'package:data_persistence_repository/data_persistence_repository.dart';
 import 'package:firestore_repository/firestore_repository.dart';
@@ -113,7 +114,14 @@ class _AppViewState extends State<AppView> {
               testModel: testModel,
             );
           },
-        )
+        ),
+        GoRoute(
+          path: '/congratulations',
+          name: CongratulationsPage.name,
+          builder: (_, state) {
+            return const CongratulationsPage();
+          },
+        ),
       ],
       redirect: (context, state) async {
         try {

@@ -112,5 +112,8 @@
     "previous": "Pregunta anterior",
     "complete": "Completar",
     "scoreOverviewTitle": "Tu Resumen de Puntaje",
-    "newTest": "Nuevo Test"
+    "newTest": "Nuevo Test",
+    "congratulations": "¡Felicitaciones!",
+    "testSubmitted": "Tu test se ha enviado exitosamente",
+    "testSubmittedDescription": "Tu test se ha enviado exitosamente, recibirás un correo electrónico con tu puntaje eh informe en las próximas horas."
 }

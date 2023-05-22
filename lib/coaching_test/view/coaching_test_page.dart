@@ -2,7 +2,7 @@ import 'package:coaching/coaching_test/cubit/coaching_test_cubit.dart';
 import 'package:coaching/coaching_test/models/question_model.dart';
 import 'package:coaching/coaching_test/view/question_page.dart';
 import 'package:coaching/l10n/l10n.dart';
-import 'package:coaching/test_results/view/coaching_test_results_page.dart';
+import 'package:coaching/test_results/view/congratulations_page.dart';
 import 'package:data_persistence_repository/data_persistence_repository.dart';
 import 'package:firestore_repository/firestore_repository.dart';
 import 'package:flutter/material.dart';
@@ -64,8 +64,7 @@ class _CoachingTestPageViewState extends State<CoachingTestPageView> {
       listenWhen: (previous, current) => current is CoachingTestSuccess,
       listener: (context, state) {
         GoRouter.of(context).goNamed(
-          CoachingTestResultPage.name,
-          extra: state.testModel,
+          CongratulationsPage.name,
         );
       },
       child: PageView.builder(
