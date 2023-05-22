@@ -9,7 +9,9 @@ import {PDFDocument, StandardFonts, rgb} from "pdf-lib";
 admin.initializeApp();
 
 // Read new entries in firestore collection
-const testsReference = "environments/development/coaching_tests/{testId}";
+const testsReferenceDev = "environments/development/coaching_tests/{testId}";
+const testsReferenceStage = "environments/staging/coaching_tests/{testId}";
+const testsReferenceProd = "environments/production/coaching_tests/{testId}";
 
 // Access the email and password from the environment variables
 const senderEmail = dotenv.config().parsed?.GMAIL_EMAIL;
@@ -18,9 +20,6 @@ const password = dotenv.config().parsed?.GMAIL_PASSWORD;
 const storage = new Storage();
 
 const bucketName = "gs://coaching-test-3c129.appspot.com/";
-const filePath = "development/testresult.pdf";
-const iconPath = "development/live_as_coach_icon.png";
-const imagePath = "development/live_as_coach_cover.png";
 
 const bucket = storage.bucket(bucketName);
 
@@ -128,14 +127,13 @@ async function createCoverPage(
 /**
  * This function adds the results to the pdf.
  * @param {PDFDocument} pdfDoc The PDF document.
- * @param {string} userId The document id.
+ * @param {string} resultsPath The path to the results.
  */
 async function addResultPDF(
   pdfDoc: PDFDocument,
-  userId: string,
+  resultsPath: string,
 ): Promise<void> {
   // Load the source PDF
-  const resultsPath = "development/UsersResults/"+userId+".pdf";
   const sourcePDFData = await bucket.file(resultsPath).download();
   const sourcePDFBuffer = Buffer.from(sourcePDFData[0]);
   const sourcePDFDoc = await PDFDocument.load(sourcePDFBuffer);
@@ -151,15 +149,18 @@ async function addResultPDF(
 
 /**
  * This function creates the PDF.
- * @param {string} userId The user id.
+ * @param {string} resultsPath The path to the results.
  * @param {string} userName The user name.
  * @param {string} date The date of the test.
  */
 async function createPDF(
-  userId: string,
+  resultsPath: string,
   userName: string,
   date: string,
 ): Promise<PDFDocument> {
+  const filePath = "development/testresult.pdf";
+  const iconPath = "development/live_as_coach_icon.png";
+  const imagePath = "development/live_as_coach_cover.png";
   // Load the PDF file from Firebase Storage
   const [pdfData, iconData, imageData] = await Promise.all([
     bucket.file(filePath).download(),
@@ -185,7 +186,7 @@ async function createPDF(
   );
 
   // Add result PDF to the default PDF
-  await addResultPDF(pdfDoc, userId);
+  await addResultPDF(pdfDoc, resultsPath);
 
   return pdfDoc;
 }
@@ -231,14 +232,14 @@ async function sendEmail(
 }
 
 
-exports.readTests = functions
+exports.readDevTests = functions
   .region("southamerica-east1")
-  .firestore.document(testsReference)
+  .firestore.document(testsReferenceDev)
   .onCreate( async (snap, context) => {
     const newValue = snap.data();
     const testId = context.params.testId;
     const userId = newValue.userId;
-    functions.logger.log("New test read", testId);
+    functions.logger.log("New test read in dev", testId);
 
     const userReference = await admin.firestore()
       .doc("environments/development/users/"+userId).get();
@@ -248,6 +249,51 @@ exports.readTests = functions
     const date = newValue?.coachingTestDate;
     functions.logger.log("User info", userName, userEmail);
 
-    const pdfDoc = await createPDF(userId, userName, date);
+    const resultsPath = "development/UsersResults/"+userId+".pdf";
+    const pdfDoc = await createPDF(resultsPath, userName, date);
+    await sendEmail(pdfDoc, userEmail, userName);
+  });
+
+exports.readStageTests = functions
+  .region("southamerica-east1")
+  .firestore.document(testsReferenceStage)
+  .onCreate( async (snap, context) => {
+    const newValue = snap.data();
+    const testId = context.params.testId;
+    const userId = newValue.userId;
+    functions.logger.log("New test read in stage", testId);
+
+    const userReference = await admin.firestore()
+      .doc("environments/staging/users/"+userId).get();
+    const userData = userReference.data();
+    const userName = userData?.name;
+    const userEmail = userData?.email;
+    const date = newValue?.coachingTestDate;
+    functions.logger.log("User info", userName, userEmail);
+
+    const resultsPath = "staging/UsersResults/"+userId+".pdf";
+    const pdfDoc = await createPDF(resultsPath, userName, date);
+    await sendEmail(pdfDoc, userEmail, userName);
+  });
+
+exports.readProdTests = functions
+  .region("southamerica-east1")
+  .firestore.document(testsReferenceProd)
+  .onCreate( async (snap, context) => {
+    const newValue = snap.data();
+    const testId = context.params.testId;
+    const userId = newValue.userId;
+    functions.logger.log("New test read in production", testId);
+
+    const userReference = await admin.firestore()
+      .doc("environments/production/users/"+userId).get();
+    const userData = userReference.data();
+    const userName = userData?.name;
+    const userEmail = userData?.email;
+    const date = newValue?.coachingTestDate;
+    functions.logger.log("User info", userName, userEmail);
+
+    const resultsPath = "development/UsersResults/"+userId+".pdf";
+    const pdfDoc = await createPDF(resultsPath, userName, date);
     await sendEmail(pdfDoc, userEmail, userName);
   });
