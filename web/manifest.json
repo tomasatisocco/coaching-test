@@ -1,11 +1,11 @@
 {
-    "name": "Coaching",
-    "short_name": "Coaching",
+    "name": "VCC Coaching Test",
+    "short_name": "VCC Coaching Test",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A Very Good Project created by Very Good CLI.",
+    "description": "Prueba tus habilidades de coaching",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
