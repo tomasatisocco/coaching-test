@@ -1,4 +1,5 @@
 import 'package:coaching/app/app.dart';
+import 'package:coaching/remote_configs.dart';
 import 'package:coaching/welcome/view/welcome_page.dart';
 import 'package:data_persistence_repository/data_persistence_repository.dart';
 import 'package:firestore_repository/firestore_repository.dart';
@@ -13,6 +14,7 @@ void main() {
           firestoreRepository: FirestoreRepository.development(),
           storageRepository: StorageRepository.development(),
           dataPersistenceRepository: DataPersistenceRepository(),
+          remoteConfigurations: RemoteConfigurations(),
         ),
       );
       expect(find.byType(WelcomePage), findsOneWidget);

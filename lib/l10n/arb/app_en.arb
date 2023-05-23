@@ -115,5 +115,6 @@
     "newTest": "New Test",
     "congratulations": "Congratulations!",
     "testSubmitted": "Your test has been submitted successfully.",
-    "testSubmittedDescription": "Your test has been submitted successfully. You will receive an email with your results in the next 24 hours."
+    "testSubmittedDescription": "Your test has been submitted successfully. You will receive an email with your results in the next 24 hours.",
+    "dollarPrice": ". Dollar price reference $USD 1 = $ARS "
 }

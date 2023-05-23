@@ -2,6 +2,7 @@ import 'package:coaching/app/cubit/localizations_cubit.dart';
 import 'package:coaching/coaching_test/models/test_model.dart';
 import 'package:coaching/coaching_test/view/coaching_test_page.dart';
 import 'package:coaching/l10n/l10n.dart';
+import 'package:coaching/remote_configs.dart';
 import 'package:coaching/test_results/view/coaching_test_results_page.dart';
 import 'package:coaching/test_results/view/congratulations_page.dart';
 import 'package:coaching/welcome/view/welcome_page.dart';
@@ -18,11 +19,13 @@ class App extends StatelessWidget {
     required this.firestoreRepository,
     required this.dataPersistenceRepository,
     required this.storageRepository,
+    required this.remoteConfigurations,
   });
 
   final FirestoreRepository firestoreRepository;
   final DataPersistenceRepository dataPersistenceRepository;
   final StorageRepository storageRepository;
+  final RemoteConfigurations remoteConfigurations;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +34,7 @@ class App extends StatelessWidget {
         RepositoryProvider.value(value: firestoreRepository),
         RepositoryProvider.value(value: dataPersistenceRepository),
         RepositoryProvider.value(value: storageRepository),
+        RepositoryProvider.value(value: remoteConfigurations),
       ],
       child: BlocProvider(
         create: (context) => LocalizationsCubit(),

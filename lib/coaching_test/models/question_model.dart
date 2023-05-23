@@ -1,6 +1,7 @@
 import 'package:coaching/coaching_test/models/question_model_implementation.dart';
 import 'package:coaching/coaching_test/models/test_model_keys.dart';
 import 'package:coaching/l10n/l10n.dart';
+import 'package:coaching/remote_configs.dart';
 
 abstract class QuestionModel {
   QuestionModel({
@@ -16,7 +17,10 @@ abstract class QuestionModel {
   final String questionImage;
 
   String getQuestion(AppLocalizations l10n);
-  String getDescription(AppLocalizations l10n);
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  );
 
   Map<String, int> answers(AppLocalizations l10n) => const <String, int>{
         '0': 0,

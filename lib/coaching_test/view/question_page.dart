@@ -4,6 +4,7 @@ import 'package:coaching/coaching_test/models/question_model.dart';
 import 'package:coaching/coaching_test/widgets/next_question_button.dart';
 import 'package:coaching/coaching_test/widgets/test_progress_bar.dart';
 import 'package:coaching/l10n/l10n.dart';
+import 'package:coaching/remote_configs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -178,7 +179,10 @@ class QuestionPageMobileView extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    question.getDescription(context.l10n),
+                    question.getDescription(
+                      context.l10n,
+                      context.read<RemoteConfigurations>(),
+                    ),
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontSize: 16,
@@ -294,7 +298,10 @@ class QuestionPageDesktopView extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      question.getDescription(context.l10n),
+                      question.getDescription(
+                        context.l10n,
+                        context.read<RemoteConfigurations>(),
+                      ),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 20,

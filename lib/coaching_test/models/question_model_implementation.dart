@@ -1,6 +1,7 @@
 import 'package:coaching/coaching_test/models/question_model.dart';
 import 'package:coaching/coaching_test/models/test_model_keys.dart';
 import 'package:coaching/l10n/l10n.dart';
+import 'package:coaching/remote_configs.dart';
 
 class ProfesionalImprovementQuestion extends QuestionModel {
   ProfesionalImprovementQuestion({super.value})
@@ -13,7 +14,11 @@ class ProfesionalImprovementQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question101;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question101Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question101Description;
 
   @override
   ProfesionalImprovementQuestion updateValue(int value) {
@@ -39,7 +44,11 @@ class WeeklyMediaSessionsQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question102;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question102Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question102Description;
 
   @override
   WeeklyMediaSessionsQuestion updateValue(int value) {
@@ -67,7 +76,11 @@ class SupervisedMediaSessionsQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question103;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question103Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question103Description;
 
   @override
   SupervisedMediaSessionsQuestion updateValue(int value) {
@@ -86,7 +99,11 @@ class SessionQualityAutoQualificationQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question104;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question104Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question104Description;
 
   @override
   SessionQualityAutoQualificationQuestion updateValue(int value) {
@@ -115,7 +132,11 @@ class WeeklyMediaCoacheeSessionsQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question105;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question105Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question105Description;
 
   @override
   WeeklyMediaCoacheeSessionsQuestion updateValue(int value) {
@@ -140,7 +161,11 @@ class HaveMentorQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question106;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question106Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question106Description;
 
   @override
   HaveMentorQuestion updateValue(int value) {
@@ -165,7 +190,11 @@ class IsMentorQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question107;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question107Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question107Description;
 
   @override
   IsMentorQuestion updateValue(int value) {
@@ -184,7 +213,11 @@ class SystematizedServiceGradeQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question108;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question108Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question108Description;
 
   @override
   SystematizedServiceGradeQuestion updateValue(int value) {
@@ -213,7 +246,11 @@ class ProcessOfferGradeQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question109;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question109Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question109Description;
 
   @override
   ProcessOfferGradeQuestion updateValue(int value) {
@@ -232,7 +269,11 @@ class ClientImportanceAutoQualificationQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question110;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question110Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question110Description;
 
   @override
   ClientImportanceAutoQualificationQuestion updateValue(int value) {
@@ -260,7 +301,11 @@ class PaidSessionsPercentageQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question201;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question201Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question201Description;
 
   @override
   PaidSessionsPercentageQuestion updateValue(int value) {
@@ -288,7 +333,13 @@ class MinPaymentPercentageQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question202;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question202Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question202Description +
+      l10n.dollarPrice +
+      remoteConfigs.dollarPrice.toString();
 
   @override
   MinPaymentPercentageQuestion updateValue(int value) {
@@ -317,7 +368,13 @@ class MensualMediaIncomeQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question203;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question203Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question203Description +
+      l10n.dollarPrice +
+      remoteConfigs.dollarPrice.toString();
 
   @override
   MensualMediaIncomeQuestion updateValue(int value) {
@@ -348,7 +405,11 @@ class CoachServiceDifferentiationQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question204;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question204Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question204Description;
 
   @override
   CoachServiceDifferentiationQuestion updateValue(int value) {
@@ -367,7 +428,11 @@ class QuantityOfRecommendationsQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question205;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question205Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question205Description;
 
   @override
   QuantityOfRecommendationsQuestion updateValue(int value) {
@@ -386,7 +451,11 @@ class FeedbackQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question206;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question206Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question206Description;
 
   @override
   FeedbackQuestion updateValue(int value) {
@@ -405,7 +474,11 @@ class PhysicalActivityQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question301;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question301Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question301Description;
 
   @override
   PhysicalActivityQuestion updateValue(int value) {
@@ -424,7 +497,11 @@ class FamiliarRelationshipQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question302;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question302Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question302Description;
 
   @override
   FamiliarRelationshipQuestion updateValue(int value) {
@@ -443,7 +520,11 @@ class SocialRelationshipQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question303;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question303Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question303Description;
 
   @override
   SocialRelationshipQuestion updateValue(int value) {
@@ -462,7 +543,11 @@ class NatureContactQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question304;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question304Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question304Description;
 
   @override
   NatureContactQuestion updateValue(int value) {
@@ -481,7 +566,11 @@ class RelaxTimeQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question305;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question305Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question305Description;
 
   @override
   RelaxTimeQuestion updateValue(int value) {
@@ -500,7 +589,11 @@ class CoworkersActivitiesQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question401;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question401Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question401Description;
 
   @override
   CoworkersActivitiesQuestion updateValue(int value) {
@@ -519,7 +612,11 @@ class ProfessionCommunityQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question402;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question402Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question402Description;
 
   @override
   ProfessionCommunityQuestion updateValue(int value) {
@@ -539,7 +636,11 @@ class ProfessionIntelectualQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question403;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question403Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question403Description;
 
   @override
   ProfessionIntelectualQuestion updateValue(int value) {
@@ -559,7 +660,11 @@ class CertificationsQuestion extends QuestionModel {
   String getQuestion(AppLocalizations l10n) => l10n.question404;
 
   @override
-  String getDescription(AppLocalizations l10n) => l10n.question404Description;
+  String getDescription(
+    AppLocalizations l10n,
+    RemoteConfigurations remoteConfigs,
+  ) =>
+      l10n.question404Description;
 
   @override
   CertificationsQuestion updateValue(int value) {
