@@ -313,7 +313,7 @@ class QuestionPageDesktopView extends StatelessWidget {
               ),
               const Spacer(),
               SizedBox(
-                height: 540,
+                height: MediaQuery.of(context).size.height * 0.6,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -328,8 +328,17 @@ class QuestionPageDesktopView extends StatelessWidget {
                     ),
                     Column(
                       children: [
+                        const Spacer(flex: 2),
+                        // TODO: Abstract this calculation
                         SizedBox(
-                          height: 440,
+                          height: MediaQuery.of(context).size.height *
+                                      0.15 *
+                                      question.answers(context.l10n).length >
+                                  MediaQuery.of(context).size.height * 0.45
+                              ? MediaQuery.of(context).size.height * 0.45
+                              : MediaQuery.of(context).size.height *
+                                  0.15 *
+                                  question.answers(context.l10n).length,
                           width: MediaQuery.of(context).size.width * 0.4,
                           child: ListView.builder(
                             itemCount: question.answers(context.l10n).length,
@@ -358,6 +367,9 @@ class QuestionPageDesktopView extends StatelessWidget {
                               );
                             },
                           ),
+                        ),
+                        const SizedBox(
+                          height: 10,
                         ),
                         const Spacer(),
                         NextQuestionButton(
