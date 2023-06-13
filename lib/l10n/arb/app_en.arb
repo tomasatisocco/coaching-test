@@ -1,6 +1,6 @@
 {
     "@@locale": "en",
-    "welcome": "Welcome to VCC Test!",
+    "welcome": "Welcome to VCC GPS!",
     "getStarted": "Get Started!",
     "fillForm": "Please fill with your info to start",
     "name": "Full name",
@@ -112,9 +112,9 @@
     "previous": "Previous question",
     "complete": "Complete",
     "scoreOverviewTitle": "Your Scores Overview",
-    "newTest": "New Test",
+    "newTest": "New GPS",
     "congratulations": "Congratulations!",
-    "testSubmitted": "Your test has been submitted successfully.",
-    "testSubmittedDescription": "Your test has been submitted successfully. You will receive an email with your results in the next 24 hours.",
+    "testSubmitted": "Your gps has been submitted successfully.",
+    "testSubmittedDescription": "You will receive an email with your results in the next 24 hours.",
     "dollarPrice": ". Dollar price reference $USD 1 = $ARS "
 }

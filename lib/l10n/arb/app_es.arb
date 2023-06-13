@@ -1,6 +1,6 @@
 {
     "@@locale": "es",
-    "welcome": "Bienvenido al test VCC!",
+    "welcome": "Bienvenido al GPS VCC!",
     "getStarted": "Empezar!",
     "fillForm": "Por favor complete con su información para comenzar",
     "name": "Nombre completo",
@@ -112,9 +112,9 @@
     "previous": "Pregunta anterior",
     "complete": "Completar",
     "scoreOverviewTitle": "Tu Resumen de Puntaje",
-    "newTest": "Nuevo Test",
+    "newTest": "Nuevo GPS",
     "congratulations": "¡Felicitaciones!",
-    "testSubmitted": "Tu test se ha enviado exitosamente",
-    "testSubmittedDescription": "Tu test se ha enviado exitosamente, recibirás un correo electrónico con tu puntaje eh informe en las próximas horas.",
+    "testSubmitted": "Tu gps se ha enviado exitosamente",
+    "testSubmittedDescription": "Recibirás un correo electrónico con tu puntaje eh informe en las próximas horas.",
     "dollarPrice": ". Precio referencia $USD 1 = $ARS "
 }
