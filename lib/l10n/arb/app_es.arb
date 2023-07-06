@@ -114,7 +114,7 @@
     "scoreOverviewTitle": "Tu Resumen de Puntaje",
     "newTest": "Nuevo GPS",
     "congratulations": "¡Felicitaciones!",
-    "testSubmitted": "Tu gps se ha enviado exitosamente",
-    "testSubmittedDescription": "Recibirás un correo electrónico con tu puntaje eh informe en las próximas horas.",
+    "testSubmitted": "Tu resultado se ha enviado exitosamente",
+    "testSubmittedDescription": "Recibirás un correo electrónico con tu puntaje e informe en las próximas horas.",
     "dollarPrice": ". Precio referencia $USD 1 = $ARS "
 }

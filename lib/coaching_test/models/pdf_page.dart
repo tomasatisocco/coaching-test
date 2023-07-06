@@ -1,6 +1,7 @@
 import 'package:coaching/coaching_test/models/test_model.dart';
 import 'package:coaching/coaching_test/models/test_model_keys.dart';
 import 'package:coaching/l10n/l10n.dart';
+import 'package:coaching/utils/color_pdf_getters.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
@@ -48,8 +49,8 @@ pw.Page resultPdfPage(CoachingTest testModel, AppLocalizations l10n) {
                   score: testModel.getGroupAnswersTotal(
                     AnswerGroup.qualityOfService,
                   ),
-                  scoreColor: getScoreColor(
-                    testModel.getQualityOfServiceQualificationPercentage(
+                  scoreColor: getPdfQualityColor(
+                    testModel.getGroupAnswersTotal(
                       AnswerGroup.qualityOfService,
                     ),
                   ),
@@ -64,8 +65,8 @@ pw.Page resultPdfPage(CoachingTest testModel, AppLocalizations l10n) {
                       score: testModel.getGroupAnswersTotal(
                         AnswerGroup.business,
                       ),
-                      scoreColor: getScoreColor(
-                        testModel.getQualityOfServiceQualificationPercentage(
+                      scoreColor: getPdfBusinessColor(
+                        testModel.getGroupAnswersTotal(
                           AnswerGroup.business,
                         ),
                       ),
@@ -73,8 +74,8 @@ pw.Page resultPdfPage(CoachingTest testModel, AppLocalizations l10n) {
                     GeneralScoreWidget(
                       score: testModel.totalQualification.toString(),
                       radio: 50,
-                      scoreColor: getScoreColor(
-                        testModel.getTotalQualificationPercentage,
+                      scoreColor: getPdfTotalColor(
+                        testModel.totalQualification,
                       ),
                     ),
                     FieldScoreWidget(
@@ -83,8 +84,8 @@ pw.Page resultPdfPage(CoachingTest testModel, AppLocalizations l10n) {
                       score: testModel.getGroupAnswersTotal(
                         AnswerGroup.personal,
                       ),
-                      scoreColor: getScoreColor(
-                        testModel.getQualityOfServiceQualificationPercentage(
+                      scoreColor: getPdfWellnessColor(
+                        testModel.getGroupAnswersTotal(
                           AnswerGroup.personal,
                         ),
                       ),
@@ -97,8 +98,8 @@ pw.Page resultPdfPage(CoachingTest testModel, AppLocalizations l10n) {
                   score: testModel.getGroupAnswersTotal(
                     AnswerGroup.community,
                   ),
-                  scoreColor: getScoreColor(
-                    testModel.getQualityOfServiceQualificationPercentage(
+                  scoreColor: getPdfCommunityColor(
+                    testModel.getGroupAnswersTotal(
                       AnswerGroup.community,
                     ),
                   ),
@@ -233,10 +234,4 @@ class GeneralScoreWidget extends pw.StatelessWidget {
       ),
     );
   }
-}
-
-PdfColor getScoreColor(int score) {
-  if (score < 33) return PdfColors.redAccent;
-  if (score < 66) return PdfColors.orangeAccent;
-  return PdfColor.fromHex('92D148');
 }

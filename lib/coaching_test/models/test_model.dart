@@ -40,11 +40,10 @@ class CoachingTest {
       !questions.any((element) => element.value == null);
 
   int getGroupAnswersTotal(AnswerGroup group) {
-    if (!isTestCompleted) return 0;
     var total = 0;
     for (final question in questions) {
       if (question.key.startsWith(group.groupIndex.toString())) {
-        total += question.value!;
+        total += question.value ?? 0;
       }
     }
     return total;
@@ -73,6 +72,15 @@ class CoachingTest {
     );
   }
 
+  String _getGuide() {
+    final total = getTotalQualificationPercentage;
+    if (total <= 35) return 'begginer_guide.pdf';
+    if (total <= 63) return 'advanced_begginer_guide.pdf';
+    if (total <= 93) return 'advanced_guide.pdf';
+    if (total <= 119) return 'expert_guide.pdf';
+    return 'master_guide.pdf';
+  }
+
   Map<String, dynamic> toMap() {
     final answersMap = <String, dynamic>{};
     for (final question in questions) {
@@ -83,6 +91,7 @@ class CoachingTest {
       'coachingTestDate':
           DateFormat('yyyy-MM-dd hh:mm').format(coachingTestDate),
       'answers': answersMap,
+      'guide': _getGuide(),
     };
   }
 

@@ -3,6 +3,7 @@ import 'package:coaching/coaching_test/models/test_model_keys.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/test_results/widgets/field_score_widget.dart';
 import 'package:coaching/test_results/widgets/total_score_widget.dart';
+import 'package:coaching/utils/color_getters.dart';
 import 'package:flutter/material.dart';
 
 class ResultsDisplayWidget extends StatelessWidget {
@@ -37,8 +38,8 @@ class ResultsDisplayWidget extends StatelessWidget {
             score: testModel.getGroupAnswersTotal(
               AnswerGroup.qualityOfService,
             ),
-            scoreColor: getScoreColor(
-              testModel.getQualityOfServiceQualificationPercentage(
+            scoreColor: getQualityColor(
+              testModel.getGroupAnswersTotal(
                 AnswerGroup.qualityOfService,
               ),
             ),
@@ -53,8 +54,8 @@ class ResultsDisplayWidget extends StatelessWidget {
                 score: testModel.getGroupAnswersTotal(
                   AnswerGroup.business,
                 ),
-                scoreColor: getScoreColor(
-                  testModel.getQualityOfServiceQualificationPercentage(
+                scoreColor: getBusinessColor(
+                  testModel.getGroupAnswersTotal(
                     AnswerGroup.business,
                   ),
                 ),
@@ -62,8 +63,8 @@ class ResultsDisplayWidget extends StatelessWidget {
               GeneralScoreWidget(
                 score: testModel.totalQualification.toString(),
                 radio: isMobile ? 50 : MediaQuery.of(context).size.width * .06,
-                scoreColor: getScoreColor(
-                  testModel.getTotalQualificationPercentage,
+                scoreColor: getTotalColor(
+                  testModel.totalQualification,
                 ),
               ),
               FieldScoreWidget(
@@ -72,8 +73,8 @@ class ResultsDisplayWidget extends StatelessWidget {
                 score: testModel.getGroupAnswersTotal(
                   AnswerGroup.personal,
                 ),
-                scoreColor: getScoreColor(
-                  testModel.getQualityOfServiceQualificationPercentage(
+                scoreColor: getWellnessColor(
+                  testModel.getGroupAnswersTotal(
                     AnswerGroup.personal,
                   ),
                 ),
@@ -86,8 +87,8 @@ class ResultsDisplayWidget extends StatelessWidget {
             score: testModel.getGroupAnswersTotal(
               AnswerGroup.community,
             ),
-            scoreColor: getScoreColor(
-              testModel.getQualityOfServiceQualificationPercentage(
+            scoreColor: getCommunityColor(
+              testModel.getGroupAnswersTotal(
                 AnswerGroup.community,
               ),
             ),
@@ -96,10 +97,4 @@ class ResultsDisplayWidget extends StatelessWidget {
       ),
     );
   }
-}
-
-Color getScoreColor(int score) {
-  if (score < 33) return Colors.redAccent;
-  if (score < 66) return Colors.orangeAccent;
-  return const Color(0xFF92D148);
 }
