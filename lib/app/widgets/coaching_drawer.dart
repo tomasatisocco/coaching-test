@@ -1,7 +1,9 @@
+import 'package:coaching/admin_panel/admin_login/view/adming_login_page.dart';
 import 'package:coaching/app/cubit/localizations_cubit.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class CoachingDrawer extends StatelessWidget {
   const CoachingDrawer({super.key});
@@ -40,7 +42,9 @@ class CoachingDrawer extends StatelessWidget {
           ListTile(
             title: Text(context.l10n.admin),
             leading: const Icon(Icons.admin_panel_settings),
-            onTap: () async {},
+            onTap: () async {
+              context.goNamed(AdminLoginPage.name);
+            },
           ),
           ListTile(
             title: Text(context.l10n.language),

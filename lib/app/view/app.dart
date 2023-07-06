@@ -1,3 +1,5 @@
+import 'package:auth_repository/auth_repository.dart';
+import 'package:coaching/admin_panel/admin_login/view/adming_login_page.dart';
 import 'package:coaching/app/cubit/localizations_cubit.dart';
 import 'package:coaching/coaching_test/models/test_model.dart';
 import 'package:coaching/coaching_test/view/coaching_test_page.dart';
@@ -20,12 +22,14 @@ class App extends StatelessWidget {
     required this.dataPersistenceRepository,
     required this.storageRepository,
     required this.remoteConfigurations,
+    required this.authRepository,
   });
 
   final FirestoreRepository firestoreRepository;
   final DataPersistenceRepository dataPersistenceRepository;
   final StorageRepository storageRepository;
   final RemoteConfigurations remoteConfigurations;
+  final AuthRepository authRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +39,7 @@ class App extends StatelessWidget {
         RepositoryProvider.value(value: dataPersistenceRepository),
         RepositoryProvider.value(value: storageRepository),
         RepositoryProvider.value(value: remoteConfigurations),
+        RepositoryProvider.value(value: authRepository),
       ],
       child: BlocProvider(
         create: (context) => LocalizationsCubit(),
@@ -124,6 +129,13 @@ class _AppViewState extends State<AppView> {
           name: CongratulationsPage.name,
           builder: (_, state) {
             return const CongratulationsPage();
+          },
+        ),
+        GoRoute(
+          path: '/admin_login',
+          name: AdminLoginPage.name,
+          builder: (_, state) {
+            return const AdminLoginPage();
           },
         ),
       ],

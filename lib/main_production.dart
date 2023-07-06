@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:auth_repository/auth_repository.dart';
 import 'package:coaching/app/app.dart';
 import 'package:coaching/bootstrap.dart';
 import 'package:coaching/firebase_options.dart';
@@ -18,9 +19,11 @@ void main() async {
   final storageRepository = StorageRepository.production();
   final dataPersistenceRepository = DataPersistenceRepository();
   final remoteConfigurations = RemoteConfigurations();
+  final authRepository = AuthRepository();
 
   await dataPersistenceRepository.init();
   await remoteConfigurations.init();
+  await authRepository.init();
 
   unawaited(
     bootstrap(
@@ -29,6 +32,7 @@ void main() async {
         storageRepository: storageRepository,
         dataPersistenceRepository: dataPersistenceRepository,
         remoteConfigurations: remoteConfigurations,
+        authRepository: authRepository,
       ),
     ),
   );
