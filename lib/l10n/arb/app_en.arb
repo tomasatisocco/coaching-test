@@ -121,5 +121,7 @@
     "language": "Language",
     "spanish": "Spanish",
     "english": "English",
-    "configsTitle": "Settings"
+    "configsTitle": "Settings",
+    "passwordError": "Please enter your password",
+    "password": "Password"
 }

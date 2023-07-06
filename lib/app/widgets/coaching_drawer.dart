@@ -43,7 +43,7 @@ class CoachingDrawer extends StatelessWidget {
             title: Text(context.l10n.admin),
             leading: const Icon(Icons.admin_panel_settings),
             onTap: () async {
-              context.goNamed(AdminLoginPage.name);
+              await context.pushNamed(AdminLoginPage.name);
             },
           ),
           ListTile(
