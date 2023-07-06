@@ -1,4 +1,5 @@
-import 'package:coaching/app/widgets/language_switch_widget.dart';
+import 'package:coaching/app/widgets/coaching_app_bar.dart';
+import 'package:coaching/app/widgets/coaching_drawer.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/welcome/cubit/welcome_cubit.dart';
 import 'package:coaching/welcome/widgets/welcome_form_widget.dart';
@@ -37,15 +38,8 @@ class WelcomePageMobileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        toolbarHeight: 32,
-        actions: const [
-          LanguageSwitch(),
-          SizedBox(width: 16),
-        ],
-      ),
+      appBar: const CoachingAppBar(),
+      endDrawer: const CoachingDrawer(),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -109,15 +103,8 @@ class WelcomePageDesktopView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        toolbarHeight: 32,
-        elevation: 0,
-        actions: const [
-          LanguageSwitch(),
-          SizedBox(width: 16),
-        ],
-      ),
+      appBar: const CoachingAppBar(),
+      endDrawer: const CoachingDrawer(),
       body: Row(
         children: [
           Padding(

@@ -116,5 +116,10 @@
     "congratulations": "¡Felicitaciones!",
     "testSubmitted": "Tu resultado se ha enviado exitosamente",
     "testSubmittedDescription": "Recibirás un correo electrónico con tu puntaje e informe en las próximas horas.",
-    "dollarPrice": ". Precio referencia $USD 1 = $ARS "
+    "dollarPrice": ". Precio referencia $USD 1 = $ARS ",
+    "admin": "Admin",
+    "language": "Idioma",
+    "spanish": "Español",
+    "english": "Ingles",
+    "configsTitle": "Configuraciones"
 }
