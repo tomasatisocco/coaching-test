@@ -61,7 +61,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
           children: [
             const Spacer(),
             ListTile(
-              title: const Text('Logout'),
+              title: Text(context.l10n.logout),
               leading: const Icon(Icons.logout),
               onTap: () async {},
             ),
@@ -124,7 +124,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                     Visibility(
                       visible: widget.state is AdminNotAuthorized,
                       child: Text(
-                        'Not Authorized',
+                        context.l10n.userNotAuthorized,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.error,
                         ),
@@ -133,7 +133,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                     Visibility(
                       visible: widget.state is AdminLoginFailure,
                       child: Text(
-                        'Login error',
+                        context.l10n.loginError,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.error,
                         ),
@@ -162,7 +162,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                                     ),
                                   ),
                                 )
-                              : const Text('Login'),
+                              : Text(context.l10n.admin),
                         ),
                       ),
                     ),

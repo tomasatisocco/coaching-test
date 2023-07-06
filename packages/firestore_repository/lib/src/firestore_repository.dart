@@ -69,6 +69,16 @@ class FirestoreRepository {
         .get();
     return snapshot.data()!;
   }
+
+  /// Checks if a user is an admin.
+  Future<bool> isUserAdmin(String id) async {
+    final snapshot = await _environmentReference
+        .collection(CollectionKeys.adminUsers)
+        .doc('admin_ids')
+        .get();
+    final adminIds = snapshot.data()!['id_list'] as List<dynamic>;
+    return adminIds.contains(id);
+  }
 }
 
 /// {@template collection_keys}
@@ -83,6 +93,8 @@ class CollectionKeys {
 
   /// Users collection key.
   static const users = 'users';
+
+  static const adminUsers = 'admin_users';
 }
 
 /// {@template environment_keys}

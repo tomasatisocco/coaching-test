@@ -20,8 +20,10 @@ class AdminLoginCubit extends Cubit<AdminLoginState> {
   late StreamSubscription<User?> _authSubscription;
 
   Future<void> init() async {
-    _authSubscription = _authRepository.listenToAuthState().listen((user) {
-      if (user == null) return emit(UserLogOutSuccess());
+    _authSubscription = _authRepository.listenToAuthState().listen((u) async {
+      if (u == null) return emit(UserLogOutSuccess());
+      final isUserAdmin = await _firestoreRepository.isUserAdmin(u.uid);
+      if (!isUserAdmin) return emit(AdminNotAuthorized());
       emit(AdminLoginSuccess());
     });
   }

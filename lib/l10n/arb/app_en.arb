@@ -123,5 +123,10 @@
     "english": "English",
     "configsTitle": "Settings",
     "passwordError": "Please enter your password",
-    "password": "Password"
+    "password": "Password",
+    "adminLogin": "Admin Login",
+    "loginError": "Error in login, please try again",
+    "userNotAuthorized": "User not authorized",
+    "login": "Login",
+    "logout": "Logout"
 }

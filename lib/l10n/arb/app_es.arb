@@ -123,5 +123,10 @@
     "english": "Ingles",
     "configsTitle": "Configuraciones",
     "passwordError": "Por favor ingresa tu contraseña",
-    "password": "Contraseña"
+    "password": "Contraseña",
+    "adminLogin": "Login de administrador",
+    "loginError": "Error al iniciar sesión",
+    "userNotAuthorized": "Usuario no autorizado",
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión"
 }
