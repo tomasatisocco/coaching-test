@@ -148,13 +148,38 @@ async function addResultPDF(
 }
 
 /**
+ * This function adds the guide to the pdf.
+ * @param {PDFDocument} pdfDoc The PDF document.
+ * @param {string} resultsPath The path to the results.
+ */
+async function addGuidePDF(
+  pdfDoc: PDFDocument,
+  resultsPath: string,
+): Promise<void> {
+  // Load the source PDF
+  const sourcePDFData = await bucket.file(resultsPath).download();
+  const sourcePDFBuffer = Buffer.from(sourcePDFData[0]);
+  const sourcePDFDoc = await PDFDocument.load(sourcePDFBuffer);
+
+  // Copy pages from the source PDF to the target PDF
+  const copiedPages = await pdfDoc.copyPages(
+    sourcePDFDoc,
+    sourcePDFDoc.getPageIndices(),
+  );
+  pdfDoc.insertPage(6, copiedPages[0]);
+  functions.logger.log("Guide page added to PDF");
+}
+
+/**
  * This function creates the PDF.
  * @param {string} resultsPath The path to the results.
+ * @param {string} guidePath The path to the guide.
  * @param {string} userName The user name.
  * @param {string} date The date of the test.
  */
 async function createPDF(
   resultsPath: string,
+  guidePath: string,
   userName: string,
   date: string,
 ): Promise<PDFDocument> {
@@ -187,6 +212,8 @@ async function createPDF(
 
   // Add result PDF to the default PDF
   await addResultPDF(pdfDoc, resultsPath);
+
+  await addGuidePDF(pdfDoc, guidePath);
 
   return pdfDoc;
 }
@@ -239,6 +266,7 @@ exports.readDevTests = functions
     const newValue = snap.data();
     const testId = context.params.testId;
     const userId = newValue.userId;
+    const guide = newValue.guide;
     functions.logger.log("New test read in dev", testId);
 
     const userReference = await admin.firestore()
@@ -250,7 +278,8 @@ exports.readDevTests = functions
     functions.logger.log("User info", userName, userEmail);
 
     const resultsPath = "development/UsersResults/"+userId+".pdf";
-    const pdfDoc = await createPDF(resultsPath, userName, date);
+    const guidePath = "development/"+guide;
+    const pdfDoc = await createPDF(resultsPath, guidePath, userName, date);
     await sendEmail(pdfDoc, userEmail, userName);
   });
 
@@ -261,6 +290,7 @@ exports.readStageTests = functions
     const newValue = snap.data();
     const testId = context.params.testId;
     const userId = newValue.userId;
+    const guide = newValue.guide;
     functions.logger.log("New test read in stage", testId);
 
     const userReference = await admin.firestore()
@@ -272,7 +302,8 @@ exports.readStageTests = functions
     functions.logger.log("User info", userName, userEmail);
 
     const resultsPath = "staging/UsersResults/"+userId+".pdf";
-    const pdfDoc = await createPDF(resultsPath, userName, date);
+    const guidePath = "development/"+guide;
+    const pdfDoc = await createPDF(resultsPath, guidePath, userName, date);
     await sendEmail(pdfDoc, userEmail, userName);
   });
 
@@ -283,6 +314,7 @@ exports.readProdTests = functions
     const newValue = snap.data();
     const testId = context.params.testId;
     const userId = newValue.userId;
+    const guide = newValue.guide;
     functions.logger.log("New test read in production", testId);
 
     const userReference = await admin.firestore()
@@ -293,7 +325,8 @@ exports.readProdTests = functions
     const date = newValue?.coachingTestDate;
     functions.logger.log("User info", userName, userEmail);
 
-    const resultsPath = "development/UsersResults/"+userId+".pdf";
-    const pdfDoc = await createPDF(resultsPath, userName, date);
+    const resultsPath = "production/UsersResults/"+userId+".pdf";
+    const guidePath = "development/"+guide;
+    const pdfDoc = await createPDF(resultsPath, guidePath, userName, date);
     await sendEmail(pdfDoc, userEmail, userName);
   });
