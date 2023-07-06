@@ -20,6 +20,7 @@ class WelcomeCubit extends Cubit<WelcomeState> {
     emit(WelcomeLoading());
     try {
       final id = await _firestoreRepository.addUser(userModel.toMap());
+      await _dataPersistenceRepository.deleteCoachingTest();
       await _dataPersistenceRepository.setUserId(id);
       emit(WelcomeLoaded());
       return id;
