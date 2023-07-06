@@ -1,6 +1,7 @@
 import 'package:auth_repository/auth_repository.dart';
 import 'package:coaching/admin_panel/admin_login/cubit/admin_login_cubit.dart';
 import 'package:coaching/admin_panel/admin_login/models/admin_loing_validators.dart';
+import 'package:coaching/admin_panel/admin_login/widgets/admin_drawer.dart';
 import 'package:coaching/admin_panel/admin_page/view/admin_page.dart';
 import 'package:coaching/app/widgets/coaching_app_bar.dart';
 import 'package:coaching/l10n/l10n.dart';
@@ -32,6 +33,11 @@ class AdminLoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AdminLoginCubit, AdminLoginState>(
       builder: (context, state) {
+        if (state is AdminLoginInitial) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
         if (state is AdminLoginSuccess) return const AdminPage();
         return LoginFormWidget(state: state);
       },
@@ -56,18 +62,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CoachingAppBar(),
-      endDrawer: Drawer(
-        child: Column(
-          children: [
-            const Spacer(),
-            ListTile(
-              title: Text(context.l10n.logout),
-              leading: const Icon(Icons.logout),
-              onTap: () async {},
-            ),
-          ],
-        ),
-      ),
+      endDrawer: const AdminDrawer(),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16),

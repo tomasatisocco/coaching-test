@@ -37,6 +37,8 @@ class AdminLoginCubit extends Cubit<AdminLoginState> {
     }
   }
 
+  Future<void> logout() async => _authRepository.signOut();
+
   @override
   Future<void> close() {
     _authSubscription.cancel();

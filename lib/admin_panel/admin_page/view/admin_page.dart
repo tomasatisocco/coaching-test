@@ -1,3 +1,5 @@
+import 'package:coaching/admin_panel/admin_login/widgets/admin_drawer.dart';
+import 'package:coaching/app/widgets/coaching_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class AdminPage extends StatefulWidget {
@@ -10,6 +12,9 @@ class AdminPage extends StatefulWidget {
 class _AdminPageState extends State<AdminPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Scaffold(
+      appBar: CoachingAppBar(),
+      endDrawer: AdminDrawer(),
+    );
   }
 }
