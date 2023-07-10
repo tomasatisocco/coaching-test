@@ -4,24 +4,63 @@ import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
 
 class UserDataModel {
   const UserDataModel({
-    required this.name,
-    required this.email,
-    required this.birthDate,
-    required this.nationality,
-    required this.residence,
-    required this.certificateDate,
-    required this.createdAt,
     this.id,
+    this.createdAt,
+    this.name,
+    this.email,
+    this.birthDate,
+    this.nationality,
+    this.residence,
+    this.certificateDate,
+    this.testIds,
+    this.status,
+    this.subscription,
   });
 
-  final String name;
-  final String email;
-  final String birthDate;
-  final String nationality;
-  final String residence;
-  final String certificateDate;
-  final DateTime createdAt;
+  final String? name;
+  final String? email;
+  final String? birthDate;
+  final String? nationality;
+  final String? residence;
+  final String? certificateDate;
+  final DateTime? createdAt;
   final String? id;
+  final List<String>? testIds;
+  final Status? status;
+  final Subscription? subscription;
+
+  factory UserDataModel.newUser({
+    required String id,
+    required DateTime createdAt,
+    required String email,
+    String? name,
+    String? birthDate,
+  }) {
+    return UserDataModel(
+      id: id,
+      createdAt: createdAt,
+      email: email,
+      name: name,
+      birthDate: birthDate,
+      status: Status.registered,
+      subscription: Subscription.none,
+    );
+  }
+
+  UserDataModel completeUser({
+    required String name,
+    required String nationality,
+    required String residence,
+    required String certificateDate,
+  }) {
+    return copyWith(
+      name: name,
+      nationality: nationality,
+      residence: residence,
+      certificateDate: certificateDate,
+      status: Status.infoCompleted,
+    );
+  }
 
   UserDataModel copyWith({
     String? name,
@@ -32,6 +71,9 @@ class UserDataModel {
     String? certificateDate,
     DateTime? createdAt,
     String? id,
+    List<String>? testIds,
+    Status? status,
+    Subscription? subscription,
   }) {
     return UserDataModel(
       name: name ?? this.name,
@@ -42,6 +84,9 @@ class UserDataModel {
       certificateDate: certificateDate ?? this.certificateDate,
       id: id ?? this.id,
       createdAt: createdAt ?? this.createdAt,
+      testIds: testIds ?? this.testIds,
+      status: status ?? this.status,
+      subscription: subscription ?? this.subscription,
     );
   }
 
@@ -54,6 +99,9 @@ class UserDataModel {
       'residence': residence,
       'certificateDate': certificateDate,
       'createdAt': createdAt,
+      'testIds': testIds,
+      'status': status?.index,
+      'subscription': subscription?.index,
     };
   }
 
@@ -62,13 +110,20 @@ class UserDataModel {
       map['createdAt'] = Timestamp.fromDate(DateTime(2023, 7));
     }
     return UserDataModel(
-        name: map['name'] as String,
-        email: map['email'] as String,
-        birthDate: map['birthDate'] as String,
-        nationality: map['nationality'] as String,
-        residence: map['residence'] as String,
-        certificateDate: map['certificateDate'] as String,
-        createdAt: (map['createdAt'] as Timestamp).toDate());
+      name: map['name'] as String?,
+      email: map['email'] as String?,
+      birthDate: map['birthDate'] as String?,
+      nationality: map['nationality'] as String?,
+      residence: map['residence'] as String?,
+      certificateDate: map['certificateDate'] as String?,
+      createdAt: (map['createdAt'] as Timestamp).toDate(),
+      testIds: map['testIds'] as List<String>?,
+      status:
+          map['status'] == null ? null : Status.values[map['status'] as int],
+      subscription: map['subscription'] == null
+          ? null
+          : Subscription.values[map['subscription'] as int],
+    );
   }
 
   String toJson() => json.encode(toMap());
@@ -80,6 +135,7 @@ class UserDataModel {
   String toString() {
     return '''
       UserDataModel(
+        id: $id,
         name: $name,
         email: $email,
         birthDate: $birthDate,
@@ -87,7 +143,28 @@ class UserDataModel {
         residence: $residence,
         certificateDate: $certificateDate,
         createdAt: $createdAt,
+        testIds: $testIds,
+        status: $status,
+        subscription: $subscription,
       )
     ''';
   }
+}
+
+enum Status {
+  registered,
+  infoCompleted,
+  testPaid,
+  testStarted,
+  testCompleted,
+  resultsSending,
+  resultsSent,
+}
+
+enum Subscription {
+  none,
+  basic,
+  premium,
+  mensual,
+  anual,
 }
