@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
 
 class UserDataModel {
   const UserDataModel({
@@ -9,6 +10,8 @@ class UserDataModel {
     required this.nationality,
     required this.residence,
     required this.certificateDate,
+    required this.createdAt,
+    this.id,
   });
 
   final String name;
@@ -17,6 +20,8 @@ class UserDataModel {
   final String nationality;
   final String residence;
   final String certificateDate;
+  final DateTime createdAt;
+  final String? id;
 
   UserDataModel copyWith({
     String? name,
@@ -25,6 +30,8 @@ class UserDataModel {
     String? nationality,
     String? residence,
     String? certificateDate,
+    DateTime? createdAt,
+    String? id,
   }) {
     return UserDataModel(
       name: name ?? this.name,
@@ -33,6 +40,8 @@ class UserDataModel {
       nationality: nationality ?? this.nationality,
       residence: residence ?? this.residence,
       certificateDate: certificateDate ?? this.certificateDate,
+      id: id ?? this.id,
+      createdAt: createdAt ?? this.createdAt,
     );
   }
 
@@ -44,18 +53,22 @@ class UserDataModel {
       'nationality': nationality,
       'residence': residence,
       'certificateDate': certificateDate,
+      'createdAt': createdAt,
     };
   }
 
   factory UserDataModel.fromMap(Map<String, dynamic> map) {
+    if (map['createdAt'] == null) {
+      map['createdAt'] = Timestamp.fromDate(DateTime(2023, 7));
+    }
     return UserDataModel(
-      name: map['name'] as String,
-      email: map['email'] as String,
-      birthDate: map['birthDate'] as String,
-      nationality: map['nationality'] as String,
-      residence: map['residence'] as String,
-      certificateDate: map['certificateDate'] as String,
-    );
+        name: map['name'] as String,
+        email: map['email'] as String,
+        birthDate: map['birthDate'] as String,
+        nationality: map['nationality'] as String,
+        residence: map['residence'] as String,
+        certificateDate: map['certificateDate'] as String,
+        createdAt: (map['createdAt'] as Timestamp).toDate());
   }
 
   String toJson() => json.encode(toMap());
@@ -73,6 +86,7 @@ class UserDataModel {
         nationality: $nationality,
         residence: $residence,
         certificateDate: $certificateDate,
+        createdAt: $createdAt,
       )
     ''';
   }

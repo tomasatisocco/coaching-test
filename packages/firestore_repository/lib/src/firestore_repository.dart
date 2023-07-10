@@ -54,11 +54,25 @@ class FirestoreRepository {
     return snapshot.docs.map((doc) => doc.data()).toList();
   }
 
+  /// Get a coaching test from Firestore.
+  Future<Map<String, dynamic>?> getTest(String id) async {
+    final snapshot = await _environmentReference
+        .collection(CollectionKeys.coachingTests)
+        .where('userId', isEqualTo: id)
+        .get();
+    return snapshot.docs.first.data();
+  }
+
   /// Gets a list of users from Firestore.
   Future<List<Map<String, dynamic>>> getUserList() async {
     final snapshot =
         await _environmentReference.collection(CollectionKeys.users).get();
     return snapshot.docs.map((doc) => doc.data()).toList();
+  }
+
+  /// Listen to users from Firestore.
+  Stream<QuerySnapshot<Map<String, dynamic>>> listenUserList() {
+    return _environmentReference.collection(CollectionKeys.users).snapshots();
   }
 
   /// Get a user from Firestore.

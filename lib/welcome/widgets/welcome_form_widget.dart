@@ -188,6 +188,7 @@ class _WelcomeFormWidgetState extends State<WelcomeFormWidget> {
                   nationality: nationalityController.text,
                   residence: residenceController.text,
                   certificateDate: certificateDateController.text,
+                  createdAt: DateTime.now(),
                 );
                 final userId = await welcomeCubit.submitUser(userInfoModel);
                 if (userId == null || !mounted) return;

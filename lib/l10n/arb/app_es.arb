@@ -128,5 +128,7 @@
     "loginError": "Error al iniciar sesión",
     "userNotAuthorized": "Usuario no autorizado",
     "login": "Iniciar sesión",
-    "logout": "Cerrar sesión"
+    "logout": "Cerrar sesión",
+    "notSelected": "No seleccionado",
+    "results": "Resultados"
 }

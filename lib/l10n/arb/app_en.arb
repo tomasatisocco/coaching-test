@@ -128,5 +128,7 @@
     "loginError": "Error in login, please try again",
     "userNotAuthorized": "User not authorized",
     "login": "Login",
-    "logout": "Logout"
+    "logout": "Logout",
+    "notSelected": "No test selected",
+    "results": "Results"
 }
