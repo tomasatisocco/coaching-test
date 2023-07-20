@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
 
 class UserDataModel {
   const UserDataModel({
+    this.isPaid = false,
     this.id,
     this.authId,
     this.createdAt,
@@ -30,6 +31,7 @@ class UserDataModel {
   final List<String>? testIds;
   final Status? status;
   final Subscription? subscription;
+  final bool isPaid;
 
   factory UserDataModel.newUser({
     required String authId,
@@ -77,6 +79,7 @@ class UserDataModel {
     List<String>? testIds,
     Status? status,
     Subscription? subscription,
+    bool? isPaid,
   }) {
     return UserDataModel(
       id: id ?? this.id,
@@ -91,6 +94,7 @@ class UserDataModel {
       testIds: testIds ?? this.testIds,
       status: status ?? this.status,
       subscription: subscription ?? this.subscription,
+      isPaid: isPaid ?? this.isPaid,
     );
   }
 
@@ -108,6 +112,7 @@ class UserDataModel {
       'testIds': testIds,
       'status': status?.index,
       'subscription': subscription?.index,
+      'isPaid': isPaid,
     };
   }
 
@@ -131,6 +136,7 @@ class UserDataModel {
       subscription: map['subscription'] == null
           ? null
           : Subscription.values[map['subscription'] as int],
+      isPaid: map['isPaid'] as bool? ?? false,
     );
   }
 
