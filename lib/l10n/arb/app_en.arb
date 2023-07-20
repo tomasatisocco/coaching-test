@@ -130,5 +130,10 @@
     "login": "Login",
     "logout": "Logout",
     "notSelected": "No test selected",
-    "results": "Results"
+    "results": "Results",
+    "register": "Register",
+    "confirmPassword": "Confirm password",
+    "passwordsNotMatch": "Passwords don't match",
+    "registerError": "Error in register, please try again",
+    "emailAlreadyRegistered": "Email already registered"
 }

@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
 
 class UserDataModel {
   const UserDataModel({
-    this.id,
+    this.authId,
     this.createdAt,
     this.name,
     this.email,
@@ -24,20 +24,20 @@ class UserDataModel {
   final String? residence;
   final String? certificateDate;
   final DateTime? createdAt;
-  final String? id;
+  final String? authId;
   final List<String>? testIds;
   final Status? status;
   final Subscription? subscription;
 
   factory UserDataModel.newUser({
-    required String id,
+    required String authId,
     required DateTime createdAt,
     required String email,
     String? name,
     String? birthDate,
   }) {
     return UserDataModel(
-      id: id,
+      authId: authId,
       createdAt: createdAt,
       email: email,
       name: name,
@@ -70,7 +70,7 @@ class UserDataModel {
     String? residence,
     String? certificateDate,
     DateTime? createdAt,
-    String? id,
+    String? authId,
     List<String>? testIds,
     Status? status,
     Subscription? subscription,
@@ -82,7 +82,7 @@ class UserDataModel {
       nationality: nationality ?? this.nationality,
       residence: residence ?? this.residence,
       certificateDate: certificateDate ?? this.certificateDate,
-      id: id ?? this.id,
+      authId: authId ?? this.authId,
       createdAt: createdAt ?? this.createdAt,
       testIds: testIds ?? this.testIds,
       status: status ?? this.status,
@@ -92,6 +92,7 @@ class UserDataModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'authId': authId,
       'name': name,
       'email': email,
       'birthDate': birthDate,
@@ -110,6 +111,7 @@ class UserDataModel {
       map['createdAt'] = Timestamp.fromDate(DateTime(2023, 7));
     }
     return UserDataModel(
+      authId: map['authId'] as String?,
       name: map['name'] as String?,
       email: map['email'] as String?,
       birthDate: map['birthDate'] as String?,
@@ -135,7 +137,7 @@ class UserDataModel {
   String toString() {
     return '''
       UserDataModel(
-        id: $id,
+        authId: $authId,
         name: $name,
         email: $email,
         birthDate: $birthDate,

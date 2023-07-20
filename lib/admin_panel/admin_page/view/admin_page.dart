@@ -92,15 +92,17 @@ class _AdminViewState extends State<AdminView> {
                     }
                     final users = state.users
                       ..sort(
-                        (a, b) => b.createdAt.compareTo(a.createdAt),
+                        (a, b) => (b.createdAt ?? DateTime.now()).compareTo(
+                          a.createdAt ?? DateTime.now(),
+                        ),
                       );
                     return ListView.builder(
                       itemCount: users.length,
                       itemBuilder: (context, index) {
-                        final testId = users[index].id;
+                        final testId = users[index].authId;
                         return ListTile(
-                          title: Text(users[index].name),
-                          subtitle: Text(users[index].email),
+                          title: Text(users[index].name ?? ''),
+                          subtitle: Text(users[index].email ?? ''),
                           selected: selectedId == testId,
                           onTap: () async {
                             if (testId == null) return;
@@ -233,7 +235,7 @@ class _AdminViewState extends State<AdminView> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              subtitle: Text(state.user.name),
+                              subtitle: Text(state.user.name ?? ''),
                             ),
                             ListTile(
                               title: Text(
@@ -242,7 +244,7 @@ class _AdminViewState extends State<AdminView> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              subtitle: Text(state.user.email),
+                              subtitle: Text(state.user.email ?? ''),
                             ),
                             ListTile(
                               title: Text(
@@ -251,7 +253,7 @@ class _AdminViewState extends State<AdminView> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              subtitle: Text(state.user.nationality),
+                              subtitle: Text(state.user.nationality ?? ''),
                             ),
                             ListTile(
                               title: Text(
@@ -260,7 +262,7 @@ class _AdminViewState extends State<AdminView> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              subtitle: Text(state.user.residence),
+                              subtitle: Text(state.user.residence ?? ''),
                             ),
                             ListTile(
                               title: Text(
@@ -269,7 +271,7 @@ class _AdminViewState extends State<AdminView> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              subtitle: Text(state.user.birthDate),
+                              subtitle: Text(state.user.birthDate ?? ''),
                             ),
                             ListTile(
                               title: Text(
@@ -278,7 +280,7 @@ class _AdminViewState extends State<AdminView> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              subtitle: Text(state.user.certificateDate),
+                              subtitle: Text(state.user.certificateDate ?? ''),
                             ),
                             ...state.test.questions.map((e) {
                               return ListTile(

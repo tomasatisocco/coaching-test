@@ -8,10 +8,10 @@ import 'package:firestore_repository/firestore_repository.dart';
 part 'admin_login_state.dart';
 
 class AdminLoginCubit extends Cubit<AdminLoginState> {
-  AdminLoginCubit(
-      {required AuthRepository authRepository,
-      required FirestoreRepository firestoreRepository})
-      : _authRepository = authRepository,
+  AdminLoginCubit({
+    required AuthRepository authRepository,
+    required FirestoreRepository firestoreRepository,
+  })  : _authRepository = authRepository,
         _firestoreRepository = firestoreRepository,
         super(AdminLoginInitial());
 

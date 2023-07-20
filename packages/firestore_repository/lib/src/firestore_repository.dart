@@ -76,12 +76,25 @@ class FirestoreRepository {
   }
 
   /// Get a user from Firestore.
-  Future<Map<String, dynamic>> getUser(String id) async {
+  Future<Map<String, dynamic>?> getUser(String id) async {
     final snapshot = await _environmentReference
         .collection(CollectionKeys.users)
         .doc(id)
         .get();
-    return snapshot.data()!;
+    return snapshot.data();
+  }
+
+  /// Get a user from Firestore.
+  Future<Map<String, dynamic>?> getUserByAuthId(String authId) async {
+    try {
+      final snapshot = await _environmentReference
+          .collection(CollectionKeys.users)
+          .where('authId', isEqualTo: authId)
+          .get();
+      return snapshot.docs.first.data();
+    } catch (e) {
+      return null;
+    }
   }
 
   /// Checks if a user is an admin.
@@ -108,6 +121,7 @@ class CollectionKeys {
   /// Users collection key.
   static const users = 'users';
 
+  /// Admin users collection key.
   static const adminUsers = 'admin_users';
 }
 

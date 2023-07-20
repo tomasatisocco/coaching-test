@@ -1,6 +1,8 @@
 import 'package:auth_repository/auth_repository.dart';
 import 'package:coaching/admin_panel/admin_login/view/adming_login_page.dart';
 import 'package:coaching/app/cubit/localizations_cubit.dart';
+import 'package:coaching/authentication/login/view/login_page.dart';
+import 'package:coaching/authentication/register/view/register_page.dart';
 import 'package:coaching/coaching_test/models/test_model.dart';
 import 'package:coaching/coaching_test/view/coaching_test_page.dart';
 import 'package:coaching/l10n/l10n.dart';
@@ -96,8 +98,22 @@ class _AppViewState extends State<AppView> {
 
   GoRouter router(BuildContext context) {
     return GoRouter(
-      initialLocation: '/welcome',
+      initialLocation: '/login',
       routes: <GoRoute>[
+        GoRoute(
+          path: '/login',
+          name: LoginPage.name,
+          builder: (_, state) {
+            return const LoginPage();
+          },
+        ),
+        GoRoute(
+          path: '/register',
+          name: RegisterPage.name,
+          builder: (_, state) {
+            return const RegisterPage();
+          },
+        ),
         GoRoute(
           path: '/welcome',
           name: WelcomePage.name,
@@ -140,16 +156,17 @@ class _AppViewState extends State<AppView> {
         ),
       ],
       redirect: (context, state) async {
-        final location = state.location;
-        if (location == '/admin_login') return location;
-        try {
-          final userId = context.read<DataPersistenceRepository>().getUserId();
-          if (userId == null) throw Exception('User id is null.');
-        } catch (_) {
-          await context.read<DataPersistenceRepository>().deleteCoachingTest();
-          return '/welcome';
-        }
-        return null;
+        return state.location;
+        // final location = state.location;
+        // if (location == '/admin_login') return location;
+        // try {
+        //   final userId = context.read<DataPersistenceRepository>().getUserId();
+        //   if (userId == null) throw Exception('User id is null.');
+        // } catch (_) {
+        //   await context.read<DataPersistenceRepository>().deleteCoachingTest();
+        //   return '/welcome';
+        // }
+        // return null;
       },
     );
   }

@@ -130,5 +130,10 @@
     "login": "Iniciar sesión",
     "logout": "Cerrar sesión",
     "notSelected": "No seleccionado",
-    "results": "Resultados"
+    "results": "Resultados",
+    "register": "Registrar",
+    "confirmPassword": "Confirmar contraseña",
+    "passwordsNotMatch": "Las contraseñas no coinciden",
+    "registerError": "Error al registrarse",
+    "emailAlreadyRegistered": "El email ya se encuentra registrado"
 }

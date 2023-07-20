@@ -21,7 +21,7 @@ class AdminUsersCubit extends Cubit<AdminUsersState> {
           _firestoreRepository.listenUserList().listen((snapshots) {
         final users = snapshots.docs
             .map(
-              (e) => UserDataModel.fromMap(e.data()).copyWith(id: e.id),
+              (e) => UserDataModel.fromMap(e.data()).copyWith(authId: e.id),
             )
             .toList();
         emit(AdminUsersFetched(users: users));

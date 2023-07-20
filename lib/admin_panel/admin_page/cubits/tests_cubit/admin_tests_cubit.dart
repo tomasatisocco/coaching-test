@@ -15,7 +15,7 @@ class AdminTestsCubit extends Cubit<AdminTestsState> {
   Future<void> getTest(UserDataModel user) async {
     emit(AdminTestsFetching());
     try {
-      final test = await _firestoreRepository.getTest(user.id!);
+      final test = await _firestoreRepository.getTest(user.authId!);
       emit(AdminTestsFetched(test: CoachingTest.fromMap(test!), user: user));
     } catch (_) {
       emit(AdminTestsError());
