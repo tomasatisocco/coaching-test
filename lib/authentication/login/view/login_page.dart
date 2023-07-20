@@ -61,7 +61,10 @@ class _LoginViewState extends State<LoginView> {
           final user = state.userDataModel;
           switch (user.status) {
             case Status.registered:
-              return GoRouter.of(context).goNamed(WelcomePage.name);
+              return GoRouter.of(context).goNamed(
+                WelcomePage.name,
+                extra: user,
+              );
             case Status.infoCompleted:
             case Status.testPaid:
             case Status.testStarted:

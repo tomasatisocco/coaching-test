@@ -9,6 +9,7 @@ import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/remote_configs.dart';
 import 'package:coaching/test_results/view/coaching_test_results_page.dart';
 import 'package:coaching/test_results/view/congratulations_page.dart';
+import 'package:coaching/welcome/models/user_date_model.dart';
 import 'package:coaching/welcome/view/welcome_page.dart';
 import 'package:data_persistence_repository/data_persistence_repository.dart';
 import 'package:firestore_repository/firestore_repository.dart';
@@ -118,7 +119,10 @@ class _AppViewState extends State<AppView> {
           path: '/welcome',
           name: WelcomePage.name,
           builder: (_, state) {
-            return const WelcomePage();
+            final userModel = state.extra as UserDataModel?;
+            return WelcomePage(
+              userDataModel: userModel!,
+            );
           },
         ),
         GoRoute(

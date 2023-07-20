@@ -38,8 +38,8 @@ class LoginCubit extends Cubit<LoginState> {
           email: email,
           name: userCredentials.user?.displayName,
         );
-        await _firestoreRepository.addUser(user.toMap());
-        return emit(LoginSuccess(user));
+        final id = await _firestoreRepository.addUser(user.toMap());
+        return emit(LoginSuccess(user.copyWith(id: id)));
       }
 
       final user = UserDataModel.fromMap(userData);

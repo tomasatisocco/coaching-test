@@ -1,7 +1,9 @@
+import 'package:coaching/coaching_test/view/coaching_test_page.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/welcome/cubit/welcome_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class StartButton extends StatelessWidget {
   const StartButton({
@@ -16,8 +18,10 @@ class StartButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<WelcomeCubit, WelcomeState>(
-      listenWhen: (previous, current) => current is WelcomeError,
       listener: (context, state) {
+        if (state is WelcomeLoaded) {
+          return context.goNamed(CoachingTestPage.name);
+        }
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Row(

@@ -41,7 +41,8 @@ class RegisterCubit extends Cubit<RegisterState> {
         email: email,
         name: userCredential.user?.displayName,
       );
-      await _firestoreRepository.addUser(user.toMap());
+      final id = await _firestoreRepository.addUser(user.toMap());
+      emit(RegisterSuccess(user.copyWith(id: id)));
     } on FirebaseAuthException catch (e) {
       emit(RegisterFailure(e.code));
     } catch (e) {

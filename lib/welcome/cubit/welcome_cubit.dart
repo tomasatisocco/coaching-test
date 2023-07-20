@@ -9,24 +9,40 @@ class WelcomeCubit extends Cubit<WelcomeState> {
   WelcomeCubit({
     required FirestoreRepository firestoreRepository,
     required DataPersistenceRepository dataPersistenceRepository,
+    required UserDataModel userDataModel,
   })  : _firestoreRepository = firestoreRepository,
         _dataPersistenceRepository = dataPersistenceRepository,
+        _userDataModel = userDataModel,
         super(WelcomeInitial());
 
   final FirestoreRepository _firestoreRepository;
   final DataPersistenceRepository _dataPersistenceRepository;
+  final UserDataModel _userDataModel;
 
-  Future<String?> submitUser(UserDataModel userModel) async {
+  Future<void> submitUser({
+    required String name,
+    required String birthDate,
+    required String nationality,
+    required String residence,
+    required String certificateDate,
+  }) async {
     emit(WelcomeLoading());
     try {
-      final id = await _firestoreRepository.addUser(userModel.toMap());
+      final completedUser = _userDataModel.completeUser(
+        name: name,
+        nationality: nationality,
+        residence: residence,
+        certificateDate: certificateDate,
+      );
+      await _firestoreRepository.updateUser(
+        completedUser.toMap(),
+        completedUser.id!,
+      );
       await _dataPersistenceRepository.deleteCoachingTest();
-      await _dataPersistenceRepository.setUserId(id);
+      await _dataPersistenceRepository.setUserId(completedUser.id!);
       emit(WelcomeLoaded());
-      return id;
     } catch (e) {
       emit(WelcomeError());
-      return null;
     }
   }
 }

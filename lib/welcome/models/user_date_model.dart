@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
 
 class UserDataModel {
   const UserDataModel({
+    this.id,
     this.authId,
     this.createdAt,
     this.name,
@@ -17,6 +18,7 @@ class UserDataModel {
     this.subscription,
   });
 
+  final String? id;
   final String? name;
   final String? email;
   final String? birthDate;
@@ -63,6 +65,7 @@ class UserDataModel {
   }
 
   UserDataModel copyWith({
+    String? id,
     String? name,
     String? email,
     String? birthDate,
@@ -76,6 +79,7 @@ class UserDataModel {
     Subscription? subscription,
   }) {
     return UserDataModel(
+      id: id ?? this.id,
       name: name ?? this.name,
       email: email ?? this.email,
       birthDate: birthDate ?? this.birthDate,
@@ -90,6 +94,7 @@ class UserDataModel {
     );
   }
 
+  // id is not included in toMap() because it is the document id
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'authId': authId,
@@ -111,6 +116,7 @@ class UserDataModel {
       map['createdAt'] = Timestamp.fromDate(DateTime(2023, 7));
     }
     return UserDataModel(
+      id: map['id'] as String?,
       authId: map['authId'] as String?,
       name: map['name'] as String?,
       email: map['email'] as String?,

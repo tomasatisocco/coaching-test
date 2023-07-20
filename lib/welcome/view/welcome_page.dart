@@ -2,6 +2,7 @@ import 'package:coaching/app/widgets/coaching_app_bar.dart';
 import 'package:coaching/app/widgets/coaching_drawer.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/welcome/cubit/welcome_cubit.dart';
+import 'package:coaching/welcome/models/user_date_model.dart';
 import 'package:coaching/welcome/widgets/welcome_form_widget.dart';
 import 'package:data_persistence_repository/data_persistence_repository.dart';
 import 'package:firestore_repository/firestore_repository.dart';
@@ -10,9 +11,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class WelcomePage extends StatelessWidget {
-  const WelcomePage({super.key});
+  const WelcomePage({
+    super.key,
+    required this.userDataModel,
+  });
 
   static const name = 'Welcome Page';
+  final UserDataModel userDataModel;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +25,7 @@ class WelcomePage extends StatelessWidget {
       create: (context) => WelcomeCubit(
         firestoreRepository: context.read<FirestoreRepository>(),
         dataPersistenceRepository: context.read<DataPersistenceRepository>(),
+        userDataModel: userDataModel,
       ),
       child: ResponsiveBuilder(
         builder: (context, sizingInformation) {

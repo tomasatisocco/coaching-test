@@ -57,7 +57,10 @@ class _RegisterViewState extends State<RegisterView> {
       body: BlocConsumer<RegisterCubit, RegisterState>(
         listener: (context, state) {
           if (state is! RegisterSuccess) return;
-          return GoRouter.of(context).goNamed(WelcomePage.name);
+          return GoRouter.of(context).goNamed(
+            WelcomePage.name,
+            extra: state.userDataModel,
+          );
         },
         builder: (context, state) {
           return Center(
