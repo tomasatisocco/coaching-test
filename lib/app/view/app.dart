@@ -8,6 +8,7 @@ import 'package:coaching/coaching_test/view/coaching_test_page.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/payment/view/payment_page.dart';
 import 'package:coaching/remote_configs.dart';
+import 'package:coaching/start_page.dart';
 import 'package:coaching/test_results/view/coaching_test_results_page.dart';
 import 'package:coaching/test_results/view/congratulations_page.dart';
 import 'package:coaching/welcome/models/user_date_model.dart';
@@ -100,8 +101,15 @@ class _AppViewState extends State<AppView> {
 
   GoRouter router(BuildContext context) {
     return GoRouter(
-      initialLocation: '/login',
+      initialLocation: '/start',
       routes: <GoRoute>[
+        GoRoute(
+          path: '/start',
+          name: 'StartPage.name',
+          builder: (_, state) {
+            return const StartPage();
+          },
+        ),
         GoRoute(
           path: '/login',
           name: LoginPage.name,

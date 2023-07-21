@@ -1,7 +1,6 @@
 import 'package:auth_repository/auth_repository.dart';
 import 'package:coaching/admin_panel/admin_login/models/admin_loing_validators.dart';
-import 'package:coaching/app/widgets/coaching_app_bar.dart';
-import 'package:coaching/app/widgets/coaching_drawer.dart';
+import 'package:coaching/authentication/login/view/login_page.dart';
 import 'package:coaching/authentication/register/cubit/register_cubit.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/welcome/view/welcome_page.dart';
@@ -51,10 +50,9 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CoachingAppBar(),
-      endDrawer: const CoachingDrawer(),
-      body: BlocConsumer<RegisterCubit, RegisterState>(
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      child: BlocConsumer<RegisterCubit, RegisterState>(
         listener: (context, state) {
           if (state is! RegisterSuccess) return;
           return GoRouter.of(context).goNamed(
@@ -81,6 +79,19 @@ class _RegisterViewState extends State<RegisterView> {
                     autovalidateMode: AutovalidateMode.disabled,
                     child: Column(
                       children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            IconButton(
+                              onPressed: context.pop,
+                              icon: Icon(
+                                Icons.close,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                          ],
+                        ),
                         Text(
                           context.l10n.register,
                           textAlign: TextAlign.center,
@@ -169,6 +180,22 @@ class _RegisterViewState extends State<RegisterView> {
                                       ),
                                     )
                                   : Text(context.l10n.register),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        TextButton(
+                          onPressed: () {
+                            context.pop();
+                            showDialog<void>(
+                              context: context,
+                              builder: (context) => const LoginPage(),
+                            );
+                          },
+                          child: Text(
+                            context.l10n.login,
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
                         ),

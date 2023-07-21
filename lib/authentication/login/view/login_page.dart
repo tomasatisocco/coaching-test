@@ -1,7 +1,5 @@
 import 'package:auth_repository/auth_repository.dart';
 import 'package:coaching/admin_panel/admin_login/models/admin_loing_validators.dart';
-import 'package:coaching/app/widgets/coaching_app_bar.dart';
-import 'package:coaching/app/widgets/coaching_drawer.dart';
 import 'package:coaching/authentication/login/cubit/login_cubit.dart';
 import 'package:coaching/authentication/register/view/register_page.dart';
 import 'package:coaching/l10n/l10n.dart';
@@ -51,10 +49,9 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CoachingAppBar(),
-      endDrawer: const CoachingDrawer(),
-      body: BlocConsumer<LoginCubit, LoginState>(
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      child: BlocConsumer<LoginCubit, LoginState>(
         listener: (context, state) {
           // TODO: implement listener
           if (state is! LoginSuccess) return;
@@ -93,6 +90,19 @@ class _LoginViewState extends State<LoginView> {
                     autovalidateMode: AutovalidateMode.disabled,
                     child: Column(
                       children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            IconButton(
+                              onPressed: context.pop,
+                              icon: Icon(
+                                Icons.close,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                          ],
+                        ),
                         Text(
                           context.l10n.login,
                           textAlign: TextAlign.center,
@@ -169,8 +179,13 @@ class _LoginViewState extends State<LoginView> {
                         ),
                         const SizedBox(height: 16),
                         TextButton(
-                          onPressed: () =>
-                              GoRouter.of(context).pushNamed(RegisterPage.name),
+                          onPressed: () {
+                            context.pop();
+                            showDialog<void>(
+                              context: context,
+                              builder: (context) => const RegisterPage(),
+                            );
+                          },
                           child: Text(
                             context.l10n.register,
                             style: TextStyle(
