@@ -6,6 +6,7 @@ import 'package:coaching/authentication/register/view/register_page.dart';
 import 'package:coaching/coaching_test/models/test_model.dart';
 import 'package:coaching/coaching_test/view/coaching_test_page.dart';
 import 'package:coaching/l10n/l10n.dart';
+import 'package:coaching/payment/view/payment_page.dart';
 import 'package:coaching/remote_configs.dart';
 import 'package:coaching/test_results/view/coaching_test_results_page.dart';
 import 'package:coaching/test_results/view/congratulations_page.dart';
@@ -123,6 +124,13 @@ class _AppViewState extends State<AppView> {
             return WelcomePage(
               userDataModel: userModel!,
             );
+          },
+        ),
+        GoRoute(
+          path: '/payment',
+          name: PaymentPage.name,
+          builder: (_, state) {
+            return const PaymentPage();
           },
         ),
         GoRoute(
