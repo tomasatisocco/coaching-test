@@ -36,10 +36,11 @@ class FirestoreRepository {
   Map<String, dynamic>? get user => _user;
 
   /// Adds a coaching test to Firestore.
-  Future<void> addCoachingTest(Map<String, dynamic> test) async {
-    await _environmentReference
+  Future<String> addCoachingTest(Map<String, dynamic> test) async {
+    final reference = await _environmentReference
         .collection(CollectionKeys.coachingTests)
         .add(test);
+    return reference.id;
   }
 
   /// Adds a user to Firestore.

@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:coaching/coaching_test/models/pdf_page.dart';
 import 'package:coaching/coaching_test/models/test_model.dart';
 import 'package:coaching/l10n/l10n.dart';
+import 'package:coaching/welcome/models/user_date_model.dart';
 import 'package:data_persistence_repository/data_persistence_repository.dart';
 import 'package:firestore_repository/firestore_repository.dart';
 import 'package:flutter/material.dart';
@@ -26,13 +27,16 @@ class CoachingTestCubit extends Cubit<CoachingTestState> {
   final DataPersistenceRepository _dataPersistenceRepository;
   final StorageRepository _storageRepository;
 
-  void init() {
-    final localTest = _dataPersistenceRepository.getCoachingTest();
-    if (localTest != null) {
-      return emit(CoachingTestUpdated(CoachingTest.fromMap(localTest)));
-    }
-    final userId = _dataPersistenceRepository.getUserId()!;
-    emit(CoachingTestUpdated(CoachingTest.newTest(userId)));
+  Future<void> init() async {
+    try {
+      final user = UserDataModel.fromMap(_firestoreRepository.user!);
+      final updated = user.copyWith(status: Status.testStarted);
+      await _firestoreRepository.updateUser(updated.toMap(), user.id!);
+      // final localTest = _dataPersistenceRepository.getCoachingTest();
+      // if (localTest != null) {
+      //   return emit(CoachingTestUpdated(CoachingTest.fromMap(localTest)));
+      // }
+    } catch (_) {}
   }
 
   Future<void> updateTest(String key, int value) async {
@@ -46,7 +50,19 @@ class CoachingTestCubit extends Cubit<CoachingTestState> {
     emit(CoachingTestUpdating(state.testModel));
     try {
       await _uploadPDF(l10n);
-      await _firestoreRepository.addCoachingTest(state.testModel.toMap());
+      final testId = await _firestoreRepository.addCoachingTest(
+        state.testModel.toMap(),
+      );
+      final user = UserDataModel.fromMap(_firestoreRepository.user!);
+      final updated = user.copyWith(
+        status: Status.testCompleted,
+        testIds: [
+          ...user.testIds ?? [],
+          testId,
+        ],
+        isPaid: false,
+      );
+      await _firestoreRepository.updateUser(updated.toMap(), user.id!);
       return emit(CoachingTestSuccess(state.testModel));
     } catch (e) {
       return emit(CoachingTestError(state.testModel));
@@ -64,18 +80,6 @@ class CoachingTestCubit extends Cubit<CoachingTestState> {
       savedPdf,
       state.testModel.userId,
     );
-  }
-
-  CoachingTest? getLocalTest() {
-    try {
-      final localTest = _dataPersistenceRepository.getCoachingTest();
-      if (localTest == null) return null;
-      final coachingTest = CoachingTest.fromMap(localTest);
-      emit(CoachingTestUpdated(coachingTest));
-      return coachingTest;
-    } catch (_) {
-      return null;
-    }
   }
 
   CoachingTest _updateTest(String key, int value) =>

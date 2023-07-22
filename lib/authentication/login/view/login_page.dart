@@ -64,8 +64,8 @@ class _LoginViewState extends State<LoginView> {
             case Status.infoCompleted:
               return context.goNamed(PaymentPage.name);
             case Status.testPaid:
-              return context.goNamed(CoachingTestPage.name);
             case Status.testStarted:
+              return context.goNamed(CoachingTestPage.name);
             case Status.testCompleted:
             case Status.resultsSending:
             case Status.resultsSent:
