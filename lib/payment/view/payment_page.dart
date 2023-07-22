@@ -1,5 +1,6 @@
 import 'package:coaching/app/widgets/coaching_app_bar.dart';
 import 'package:coaching/app/widgets/coaching_drawer.dart';
+import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/payment/cubit/payment_cubit.dart';
 import 'package:coaching/payment/widgets/payment_method_widget.dart';
 import 'package:coaching/welcome/models/subscription.dart';
@@ -32,16 +33,15 @@ class PaymentView extends StatelessWidget {
       listener: (context, state) {
         if (state is PaymentFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
-            // TODO: localize
             SnackBar(
-              content: const Row(
+              content: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.error_outline_rounded,
                     color: Colors.white,
                   ),
-                  SizedBox(width: 4),
-                  Text('context.l10n.welcomeError'),
+                  const SizedBox(width: 4),
+                  Text(context.l10n.paymentError),
                 ],
               ),
               behavior: SnackBarBehavior.floating,
@@ -54,27 +54,27 @@ class PaymentView extends StatelessWidget {
         appBar: const CoachingAppBar(),
         endDrawer: const CoachingDrawer(),
         backgroundColor: Theme.of(context).colorScheme.background,
-        body: const Center(
+        body: Center(
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Selecciona tu plan',
-                  style: TextStyle(
+                  context.l10n.choosePlan,
+                  style: const TextStyle(
                     fontSize: 36,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  'Selecciona el plan que mejor se ajuste a tus necesidades',
+                  context.l10n.choosePlanDescription,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                   ),
                 ),
-                SizedBox(height: 16),
-                SingleChildScrollView(
+                const SizedBox(height: 16),
+                const SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

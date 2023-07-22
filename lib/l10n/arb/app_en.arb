@@ -135,5 +135,22 @@
     "confirmPassword": "Confirm password",
     "passwordsNotMatch": "Passwords don't match",
     "registerError": "Error in register, please try again",
-    "emailAlreadyRegistered": "Email already registered"
+    "emailAlreadyRegistered": "Email already registered",
+    "subscriptionNoneTitle": "No subscription",
+    "subscriptionBasicTitle": "Basic",
+    "subscriptionPremiumTitle": "Premium",
+    "subscriptionMonthlyTitle": "Monthly",
+    "subscriptionAnualTitle": "Anual",
+    "makeGPS": "Make VCC GPS",
+    "receiveInform": "Receive gps personalized result in your email",
+    "scheduleSession": "Schedule a session with a VCC Mentor",
+    "scheduleSessionMonthly": "Schedule a monthly session with a VCC Mentor",
+    "scheduleSessionAnual": "Schedule a monthly session with a VCC Mentor",
+    "saveMoney": "Save up to 20%",
+    "paymentError": "Error in payment, please try again",
+    "choosePlan": "Choose a plan",
+    "choosePlanDescription": "Choose a plan to make your gps and receive your personalized results in your email",
+    "month": "mo",
+    "year": "yr",
+    "choose": "Choose"
 }

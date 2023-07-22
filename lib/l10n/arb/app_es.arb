@@ -135,5 +135,22 @@
     "confirmPassword": "Confirmar contraseña",
     "passwordsNotMatch": "Las contraseñas no coinciden",
     "registerError": "Error al registrarse",
-    "emailAlreadyRegistered": "El email ya se encuentra registrado"
+    "emailAlreadyRegistered": "El email ya se encuentra registrado",
+    "subscriptionNoneTitle": "Sin suscripción",
+    "subscriptionBasicTitle": "Básica",
+    "subscriptionPremiumTitle": "Premium",
+    "subscriptionMonthlyTitle": "Mensual",
+    "subscriptionAnualTitle": "Anual",
+    "makeGPS": "Realizar el GPS VCC",
+    "receiveInform": "Recibir informe personalizado en tu email.",
+    "scheduleSession": "Agendar una sesión con un Mentor VCC",
+    "scheduleSessionMonthly": "Agendar una sesión mensual con un Mentor VCC",
+    "scheduleSessionAnual": "Agendar una sesión mensual con un Mentor VCC",
+    "saveMoney": "Ahorra hasta un 20% en el valor.",
+    "paymentError": "Error en el pago, por favor intenta nuevamente",
+    "choosePlan": "Elige tu plan",
+    "choosePlanDescription": "Elige el plan que más se ajuste a tus necesidades, puedes cambiarlo cuando quieras.",
+    "month": "mes",
+    "year": "año",
+    "choose": "Seleccionar"
 }

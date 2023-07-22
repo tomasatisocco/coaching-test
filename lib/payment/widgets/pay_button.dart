@@ -1,3 +1,4 @@
+import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/payment/cubit/payment_cubit.dart';
 import 'package:coaching/welcome/models/subscription.dart';
 import 'package:flutter/material.dart';
@@ -31,8 +32,7 @@ class PayButton extends StatelessWidget {
                         ),
                       ),
                     )
-                  // TODO: localize
-                  : const Text('Seleccionar'),
+                  : Text(context.l10n.choose),
             ),
           );
         },

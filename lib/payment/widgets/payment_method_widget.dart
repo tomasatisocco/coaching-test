@@ -66,8 +66,8 @@ class PaymentMethodWidget extends StatelessWidget {
                 maintainSize: true,
                 maintainState: true,
                 child: subscription == Subscription.mensual
-                    ? const Text('/mo')
-                    : const Text('/yr'),
+                    ? Text(context.l10n.month)
+                    : Text(context.l10n.year),
               ),
             ],
           ),

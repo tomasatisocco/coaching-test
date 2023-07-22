@@ -54,33 +54,32 @@ enum Subscription {
   }
 
   List<String> benefits(AppLocalizations l10n) {
-    // TODO: localize
     switch (this) {
       case Subscription.none:
         return [];
       case Subscription.basic:
         return [
-          'Realizar GPS VCC',
-          'Recibir Informe personalizado por email.',
+          l10n.makeGPS,
+          l10n.receiveInform,
         ];
       case Subscription.premium:
         return [
-          'Realizar GPS VCC',
-          'Recibir Informe personalizado por email.',
-          'Agendar sesiones de coaching.',
+          l10n.makeGPS,
+          l10n.receiveInform,
+          l10n.scheduleSession,
         ];
       case Subscription.mensual:
         return [
-          'Realizar GPS VCC mensualmente',
-          'Recibir Informe personalizado por email.',
-          'Agendar sesiones de coaching mensuales',
+          l10n.makeGPS,
+          l10n.receiveInform,
+          l10n.scheduleSessionMonthly,
         ];
       case Subscription.anual:
         return [
-          'Realizar GPS VCC mensualmente',
-          'Recibir Informe personalizado por email.',
-          'Agendar sesiones de coaching mensuales',
-          'Ahorro de 20%'
+          l10n.makeGPS,
+          l10n.receiveInform,
+          l10n.scheduleSessionAnual,
+          l10n.saveMoney
         ];
     }
   }
