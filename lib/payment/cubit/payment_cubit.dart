@@ -1,7 +1,30 @@
 import 'package:bloc/bloc.dart';
+import 'package:coaching/welcome/models/user_date_model.dart';
+import 'package:firestore_repository/firestore_repository.dart';
 
 part 'payment_state.dart';
 
 class PaymentCubit extends Cubit<PaymentState> {
-  PaymentCubit() : super(PaymentInitial());
+  PaymentCubit({
+    required FirestoreRepository firestoreRepository,
+  })  : _firestoreRepository = firestoreRepository,
+        super(const PaymentInitial());
+
+  final FirestoreRepository _firestoreRepository;
+
+  Future<void> pay(Subscription subscription) async {
+    emit(const PaymentLoading());
+    try {
+      await Future<void>.delayed(const Duration(seconds: 2));
+      final user = UserDataModel.fromMap(_firestoreRepository.user!);
+      final updated = user.copyWith(
+        subscription: subscription,
+        isPaid: true,
+      );
+      await _firestoreRepository.updateUser(updated.toMap(), user.id!);
+      emit(const PaymentSuccess());
+    } on Exception {
+      emit(const PaymentFailure());
+    }
+  }
 }

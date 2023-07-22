@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 /// {@endtemplate}
 class FirestoreRepository {
   /// {@macro firestore_repository}
-  const FirestoreRepository(DocumentReference environmentReference)
+  FirestoreRepository(DocumentReference environmentReference)
       : _environmentReference = environmentReference;
 
   /// Creates a new [FirestoreRepository] instance for development.
@@ -30,6 +30,10 @@ class FirestoreRepository {
       );
 
   final DocumentReference _environmentReference;
+  Map<String, dynamic>? _user;
+
+  /// Gets the current user.
+  Map<String, dynamic>? get user => _user;
 
   /// Adds a coaching test to Firestore.
   Future<void> addCoachingTest(Map<String, dynamic> test) async {
@@ -40,6 +44,7 @@ class FirestoreRepository {
 
   /// Adds a user to Firestore.
   Future<String> addUser(Map<String, dynamic> user) async {
+    _user = user;
     final reference =
         await _environmentReference.collection(CollectionKeys.users).add(user);
 
@@ -48,6 +53,7 @@ class FirestoreRepository {
 
   /// Updates a user in Firestore.
   Future<void> updateUser(Map<String, dynamic> user, String id) async {
+    _user = user;
     await _environmentReference
         .collection(CollectionKeys.users)
         .doc(id)
@@ -89,6 +95,7 @@ class FirestoreRepository {
         .collection(CollectionKeys.users)
         .doc(id)
         .get();
+    _user = snapshot.data();
     return snapshot.data();
   }
 

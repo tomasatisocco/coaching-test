@@ -1,4 +1,5 @@
 import 'package:coaching/payment/cubit/payment_cubit.dart';
+import 'package:firestore_repository/firestore_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,7 +11,9 @@ class PaymentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => PaymentCubit(),
+      create: (context) => PaymentCubit(
+        firestoreRepository: context.read<FirestoreRepository>(),
+      ),
       child: const PaymentView(),
     );
   }
