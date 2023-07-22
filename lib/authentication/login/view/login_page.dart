@@ -3,6 +3,7 @@ import 'package:coaching/admin_panel/admin_login/models/admin_loing_validators.d
 import 'package:coaching/authentication/login/cubit/login_cubit.dart';
 import 'package:coaching/authentication/register/view/register_page.dart';
 import 'package:coaching/l10n/l10n.dart';
+import 'package:coaching/payment/view/payment_page.dart';
 import 'package:coaching/welcome/models/user_date_model.dart';
 import 'package:coaching/welcome/view/welcome_page.dart';
 import 'package:firestore_repository/firestore_repository.dart';
@@ -58,11 +59,9 @@ class _LoginViewState extends State<LoginView> {
           final user = state.userDataModel;
           switch (user.status) {
             case Status.registered:
-              return GoRouter.of(context).goNamed(
-                WelcomePage.name,
-                extra: user,
-              );
+              return context.goNamed(WelcomePage.name);
             case Status.infoCompleted:
+              return context.goNamed(PaymentPage.name);
             case Status.testPaid:
             case Status.testStarted:
             case Status.testCompleted:

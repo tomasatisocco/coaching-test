@@ -20,6 +20,7 @@ class PaymentCubit extends Cubit<PaymentState> {
       final updated = user.copyWith(
         subscription: subscription,
         isPaid: true,
+        status: Status.testPaid,
       );
       await _firestoreRepository.updateUser(updated.toMap(), user.id!);
       emit(const PaymentSuccess());
