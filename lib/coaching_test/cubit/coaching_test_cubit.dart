@@ -29,13 +29,15 @@ class CoachingTestCubit extends Cubit<CoachingTestState> {
 
   Future<void> init() async {
     try {
-      final user = UserDataModel.fromMap(_firestoreRepository.user!);
+      final localTest = _dataPersistenceRepository.getCoachingTest();
+      if (localTest != null) {
+        emit(CoachingTestUpdated(CoachingTest.fromMap(localTest)));
+      }
+      final user =
+          UserDataModel.fromJson(_dataPersistenceRepository.getUser()!);
+      if (user.status == Status.testStarted) return;
       final updated = user.copyWith(status: Status.testStarted);
       await _firestoreRepository.updateUser(updated.toMap(), user.id!);
-      // final localTest = _dataPersistenceRepository.getCoachingTest();
-      // if (localTest != null) {
-      //   return emit(CoachingTestUpdated(CoachingTest.fromMap(localTest)));
-      // }
     } catch (_) {}
   }
 
@@ -53,7 +55,8 @@ class CoachingTestCubit extends Cubit<CoachingTestState> {
       final testId = await _firestoreRepository.addCoachingTest(
         state.testModel.toMap(),
       );
-      final user = UserDataModel.fromMap(_firestoreRepository.user!);
+      final user =
+          UserDataModel.fromJson(_dataPersistenceRepository.getUser()!);
       final updated = user.copyWith(
         status: Status.testCompleted,
         testIds: [
@@ -63,6 +66,7 @@ class CoachingTestCubit extends Cubit<CoachingTestState> {
         isPaid: false,
       );
       await _firestoreRepository.updateUser(updated.toMap(), user.id!);
+      await _dataPersistenceRepository.setCoachingTest(updated.toMap());
       return emit(CoachingTestSuccess(state.testModel));
     } catch (e) {
       return emit(CoachingTestError(state.testModel));

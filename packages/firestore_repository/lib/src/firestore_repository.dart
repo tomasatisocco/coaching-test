@@ -30,10 +30,6 @@ class FirestoreRepository {
       );
 
   final DocumentReference _environmentReference;
-  Map<String, dynamic>? _user;
-
-  /// Gets the current user.
-  Map<String, dynamic>? get user => _user;
 
   /// Adds a coaching test to Firestore.
   Future<String> addCoachingTest(Map<String, dynamic> test) async {
@@ -45,7 +41,6 @@ class FirestoreRepository {
 
   /// Adds a user to Firestore.
   Future<String> addUser(Map<String, dynamic> user) async {
-    _user = user;
     final reference =
         await _environmentReference.collection(CollectionKeys.users).add(user);
 
@@ -54,7 +49,6 @@ class FirestoreRepository {
 
   /// Updates a user in Firestore.
   Future<void> updateUser(Map<String, dynamic> user, String id) async {
-    _user = user;
     await _environmentReference
         .collection(CollectionKeys.users)
         .doc(id)
@@ -96,7 +90,6 @@ class FirestoreRepository {
         .collection(CollectionKeys.users)
         .doc(id)
         .get();
-    _user = snapshot.data();
     return snapshot.data();
   }
 
@@ -110,7 +103,6 @@ class FirestoreRepository {
 
       final data = snapshot.docs.first.data();
       final idEntry = {'id': snapshot.docs.first.id}.entries;
-      _user = data..addEntries(idEntry);
       return data..addEntries(idEntry);
     } catch (e) {
       return null;

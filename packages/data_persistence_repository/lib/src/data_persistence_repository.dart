@@ -22,8 +22,8 @@ class DataPersistenceRepository {
   }
 
   /// Set the email in the data persistence repository.
-  Future<void> setUserId(String userId) async {
-    await _instance.setString(BoxKeys.userId, userId);
+  Future<void> setUser(String userMap) async {
+    await _instance.setString(BoxKeys.user, userMap);
   }
 
   /// Get the coaching test from the data persistence repository.
@@ -34,8 +34,8 @@ class DataPersistenceRepository {
   }
 
   /// Get the email from the data persistence repository.
-  String? getUserId() {
-    return _instance.getString(BoxKeys.userId);
+  String? getUser() {
+    return _instance.getString(BoxKeys.user);
   }
 
   /// Delete the coaching test from the data persistence repository.
@@ -44,8 +44,8 @@ class DataPersistenceRepository {
   }
 
   /// Delete the email from the data persistence repository.
-  Future<void> deleteUserId() async {
-    await _instance.remove(BoxKeys.userId);
+  Future<void> deleteUser() async {
+    await _instance.remove(BoxKeys.user);
   }
 }
 
@@ -55,5 +55,5 @@ class BoxKeys {
   static const String coachingTest = 'coachingTest';
 
   /// Key for the email box.
-  static const String userId = 'userId';
+  static const String user = 'user';
 }

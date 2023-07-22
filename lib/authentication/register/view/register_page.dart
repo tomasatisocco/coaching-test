@@ -4,6 +4,7 @@ import 'package:coaching/authentication/login/view/login_page.dart';
 import 'package:coaching/authentication/register/cubit/register_cubit.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/welcome/view/welcome_page.dart';
+import 'package:data_persistence_repository/data_persistence_repository.dart';
 import 'package:firestore_repository/firestore_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,7 @@ class RegisterPage extends StatelessWidget {
       create: (context) => RegisterCubit(
         firestoreRepository: context.read<FirestoreRepository>(),
         authRepository: context.read<AuthRepository>(),
+        dataPersistenceRepository: context.read<DataPersistenceRepository>(),
       ),
       child: const RegisterView(),
     );

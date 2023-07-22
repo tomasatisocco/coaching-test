@@ -5,6 +5,7 @@ import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/payment/cubit/payment_cubit.dart';
 import 'package:coaching/payment/widgets/payment_method_widget.dart';
 import 'package:coaching/welcome/models/subscription.dart';
+import 'package:data_persistence_repository/data_persistence_repository.dart';
 import 'package:firestore_repository/firestore_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,6 +21,7 @@ class PaymentPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => PaymentCubit(
         firestoreRepository: context.read<FirestoreRepository>(),
+        dataPersistenceRepository: context.read<DataPersistenceRepository>(),
       ),
       child: const PaymentView(),
     );

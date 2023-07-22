@@ -25,7 +25,9 @@ class WelcomeCubit extends Cubit<WelcomeState> {
   }) async {
     emit(WelcomeLoading());
     try {
-      final user = UserDataModel.fromMap(_firestoreRepository.user!);
+      final user = UserDataModel.fromJson(
+        _dataPersistenceRepository.getUser()!,
+      );
       final completedUser = user.completeUser(
         name: name,
         nationality: nationality,
@@ -37,8 +39,7 @@ class WelcomeCubit extends Cubit<WelcomeState> {
         completedUser.toMap(),
         completedUser.id!,
       );
-      await _dataPersistenceRepository.deleteCoachingTest();
-      await _dataPersistenceRepository.setUserId(completedUser.id!);
+      await _dataPersistenceRepository.setUser(completedUser.toJson());
       emit(WelcomeLoaded());
     } catch (e) {
       emit(WelcomeError());

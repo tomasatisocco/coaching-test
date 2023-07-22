@@ -104,6 +104,7 @@ class UserDataModel {
   // id is not included in toMap() because it is the document id
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'id': id,
       'authId': authId,
       'name': name,
       'email': email,
@@ -111,7 +112,7 @@ class UserDataModel {
       'nationality': nationality,
       'residence': residence,
       'certificateDate': certificateDate,
-      'createdAt': createdAt,
+      'createdAt': createdAt.toString(),
       'testIds': testIds,
       'status': status?.index,
       'subscription': subscription?.index,
@@ -132,7 +133,9 @@ class UserDataModel {
       nationality: map['nationality'] as String?,
       residence: map['residence'] as String?,
       certificateDate: map['certificateDate'] as String?,
-      createdAt: (map['createdAt'] as Timestamp).toDate(),
+      createdAt: map['createdAt'] is String
+          ? DateTime.tryParse(map['createdAt'] as String)
+          : (map['createdAt'] as Timestamp).toDate(),
       testIds: map['testIds'] as List<String>?,
       status:
           map['status'] == null ? null : Status.values[map['status'] as int],

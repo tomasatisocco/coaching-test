@@ -7,6 +7,7 @@ import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/payment/view/payment_page.dart';
 import 'package:coaching/welcome/models/user_date_model.dart';
 import 'package:coaching/welcome/view/welcome_page.dart';
+import 'package:data_persistence_repository/data_persistence_repository.dart';
 import 'package:firestore_repository/firestore_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +24,7 @@ class LoginPage extends StatelessWidget {
       create: (context) => LoginCubit(
         firestoreRepository: context.read<FirestoreRepository>(),
         authRepository: context.read<AuthRepository>(),
+        dataPersistenceRepository: context.read<DataPersistenceRepository>(),
       ),
       child: const LoginView(),
     );

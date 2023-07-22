@@ -20,7 +20,7 @@ class NewTestButton extends StatelessWidget {
         final dataPersistence = context.read<DataPersistenceRepository>();
         GoRouter.of(context).goNamed(WelcomePage.name);
         await dataPersistence.deleteCoachingTest();
-        await dataPersistence.deleteUserId();
+        await dataPersistence.deleteUser();
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Theme.of(context).colorScheme.primary,
