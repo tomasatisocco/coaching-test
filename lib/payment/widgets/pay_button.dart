@@ -14,11 +14,13 @@ class PayButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () => context.read<PaymentCubit>().pay(subscription),
-      child: BlocBuilder<PaymentCubit, PaymentState>(
-        builder: (context, state) {
-          return SizedBox(
+    return BlocBuilder<PaymentCubit, PaymentState>(
+      builder: (context, state) {
+        return ElevatedButton(
+          onPressed: state is PaymentLoading
+              ? () {}
+              : () => context.read<PaymentCubit>().pay(subscription),
+          child: SizedBox(
             height: 40,
             width: 90,
             child: Center(
@@ -34,9 +36,9 @@ class PayButton extends StatelessWidget {
                     )
                   : Text(context.l10n.choose),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

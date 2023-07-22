@@ -25,7 +25,7 @@ class PaymentCubit extends Cubit<PaymentState> {
       );
       await _firestoreRepository.updateUser(updated.toMap(), user.id!);
       emit(const PaymentSuccess());
-    } on Exception {
+    } catch (_) {
       emit(const PaymentFailure());
     }
   }

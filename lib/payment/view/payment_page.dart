@@ -1,5 +1,6 @@
 import 'package:coaching/app/widgets/coaching_app_bar.dart';
 import 'package:coaching/app/widgets/coaching_drawer.dart';
+import 'package:coaching/coaching_test/view/coaching_test_page.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/payment/cubit/payment_cubit.dart';
 import 'package:coaching/payment/widgets/payment_method_widget.dart';
@@ -7,6 +8,7 @@ import 'package:coaching/welcome/models/subscription.dart';
 import 'package:firestore_repository/firestore_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class PaymentPage extends StatelessWidget {
   const PaymentPage({super.key});
@@ -49,6 +51,8 @@ class PaymentView extends StatelessWidget {
             ),
           );
         }
+        if (state is! PaymentSuccess) return;
+        context.goNamed(CoachingTestPage.name);
       },
       child: Scaffold(
         appBar: const CoachingAppBar(),

@@ -109,6 +109,7 @@ class FirestoreRepository {
 
       final data = snapshot.docs.first.data();
       final idEntry = {'id': snapshot.docs.first.id}.entries;
+      _user = data..addEntries(idEntry);
       return data..addEntries(idEntry);
     } catch (e) {
       return null;

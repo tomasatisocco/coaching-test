@@ -57,6 +57,7 @@ class UserDataModel {
     required String nationality,
     required String residence,
     required String certificateDate,
+    required String birthDate,
   }) {
     return copyWith(
       name: name,
@@ -64,6 +65,7 @@ class UserDataModel {
       residence: residence,
       certificateDate: certificateDate,
       status: Status.infoCompleted,
+      birthDate: birthDate,
     );
   }
 

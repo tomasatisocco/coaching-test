@@ -2,6 +2,7 @@ import 'package:auth_repository/auth_repository.dart';
 import 'package:coaching/admin_panel/admin_login/models/admin_loing_validators.dart';
 import 'package:coaching/authentication/login/cubit/login_cubit.dart';
 import 'package:coaching/authentication/register/view/register_page.dart';
+import 'package:coaching/coaching_test/view/coaching_test_page.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/payment/view/payment_page.dart';
 import 'package:coaching/welcome/models/user_date_model.dart';
@@ -63,6 +64,7 @@ class _LoginViewState extends State<LoginView> {
             case Status.infoCompleted:
               return context.goNamed(PaymentPage.name);
             case Status.testPaid:
+              return context.goNamed(CoachingTestPage.name);
             case Status.testStarted:
             case Status.testCompleted:
             case Status.resultsSending:

@@ -31,6 +31,7 @@ class WelcomeCubit extends Cubit<WelcomeState> {
         nationality: nationality,
         residence: residence,
         certificateDate: certificateDate,
+        birthDate: birthDate,
       );
       await _firestoreRepository.updateUser(
         completedUser.toMap(),
