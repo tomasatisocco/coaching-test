@@ -80,7 +80,7 @@ class _AppViewState extends State<AppView> {
           debugShowCheckedModeBanner: false,
           theme: ThemeData.from(
             colorScheme: ColorScheme.fromSwatch().copyWith(
-              background: const Color(0xFFF9F9F9),
+              background: Colors.blueGrey.shade100,
               onBackground: const Color(0xFFC43344),
               primary: const Color(0xFFC43344),
               onPrimary: const Color(0xFFF9F9F9),

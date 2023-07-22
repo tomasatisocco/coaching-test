@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
+import 'package:coaching/welcome/models/subscription.dart';
 
 class UserDataModel {
   const UserDataModel({
@@ -173,12 +174,4 @@ enum Status {
   testCompleted,
   resultsSending,
   resultsSent,
-}
-
-enum Subscription {
-  none,
-  basic,
-  premium,
-  mensual,
-  anual,
 }

@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:coaching/welcome/models/subscription.dart';
 import 'package:coaching/welcome/models/user_date_model.dart';
 import 'package:firestore_repository/firestore_repository.dart';
 
