@@ -136,7 +136,8 @@ class UserDataModel {
       createdAt: map['createdAt'] is String
           ? DateTime.tryParse(map['createdAt'] as String)
           : (map['createdAt'] as Timestamp).toDate(),
-      testIds: map['testIds'] as List<String>?,
+      testIds:
+          (map['testIds'] as List<dynamic>?)?.map((e) => e.toString()).toList(),
       status:
           map['status'] == null ? null : Status.values[map['status'] as int],
       subscription: map['subscription'] == null

@@ -11,6 +11,7 @@ import 'package:coaching/remote_configs.dart';
 import 'package:coaching/start_page.dart';
 import 'package:coaching/test_results/view/coaching_test_results_page.dart';
 import 'package:coaching/test_results/view/congratulations_page.dart';
+import 'package:coaching/welcome/models/user_date_model.dart';
 import 'package:coaching/welcome/view/welcome_page.dart';
 import 'package:data_persistence_repository/data_persistence_repository.dart';
 import 'package:firestore_repository/firestore_repository.dart';
@@ -172,19 +173,26 @@ class _AppViewState extends State<AppView> {
         ),
       ],
       redirect: (context, state) async {
-        final user = context.read<DataPersistenceRepository>().getUser();
-        if (user == null) return '/start';
-        return state.location;
-        // final location = state.location;
-        // if (location == '/admin_login') return location;
-        // try {
-        //   final userId = context.read<DataPersistenceRepository>().getUserId();
-        //   if (userId == null) throw Exception('User id is null.');
-        // } catch (_) {
-        //   await context.read<DataPersistenceRepository>().deleteCoachingTest();
-        //   return '/welcome';
-        // }
-        // return null;
+        final userMap = context.read<DataPersistenceRepository>().getUser();
+        if (userMap == null) return '/start';
+        final location = state.location;
+        if (location == '/admin_login') return location;
+        final user = UserDataModel.fromJson(userMap);
+        switch (user.status) {
+          case Status.registered:
+            return '/welcome';
+          case Status.infoCompleted:
+            return '/payment';
+          case Status.testPaid:
+          case Status.testStarted:
+            return '/coaching_test';
+          case Status.resultsSending:
+          case Status.resultsSent:
+          case Status.testCompleted:
+            return '/congratulations';
+          case null:
+            return '/start';
+        }
       },
     );
   }

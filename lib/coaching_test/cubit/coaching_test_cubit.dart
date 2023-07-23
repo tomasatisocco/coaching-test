@@ -66,6 +66,7 @@ class CoachingTestCubit extends Cubit<CoachingTestState> {
         isPaid: false,
       );
       await _firestoreRepository.updateUser(updated.toMap(), user.id!);
+      await _dataPersistenceRepository.setUser(updated.toJson());
       await _dataPersistenceRepository.setCoachingTest(updated.toMap());
       return emit(CoachingTestSuccess(state.testModel));
     } catch (e) {

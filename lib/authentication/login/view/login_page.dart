@@ -5,6 +5,7 @@ import 'package:coaching/authentication/register/view/register_page.dart';
 import 'package:coaching/coaching_test/view/coaching_test_page.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/payment/view/payment_page.dart';
+import 'package:coaching/test_results/view/congratulations_page.dart';
 import 'package:coaching/welcome/models/user_date_model.dart';
 import 'package:coaching/welcome/view/welcome_page.dart';
 import 'package:data_persistence_repository/data_persistence_repository.dart';
@@ -57,7 +58,6 @@ class _LoginViewState extends State<LoginView> {
       backgroundColor: Colors.transparent,
       child: BlocConsumer<LoginCubit, LoginState>(
         listener: (context, state) {
-          // TODO: implement listener
           if (state is! LoginSuccess) return;
           final user = state.userDataModel;
           switch (user.status) {
@@ -71,6 +71,7 @@ class _LoginViewState extends State<LoginView> {
             case Status.testCompleted:
             case Status.resultsSending:
             case Status.resultsSent:
+              return context.goNamed(CongratulationsPage.name);
             case null:
           }
         },
