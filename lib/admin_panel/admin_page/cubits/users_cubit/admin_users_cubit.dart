@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:coaching/welcome/models/user_date_model.dart';
+import 'package:equatable/equatable.dart';
 import 'package:firestore_repository/firestore_repository.dart';
 
 part 'admin_users_state.dart';
@@ -9,13 +10,13 @@ part 'admin_users_state.dart';
 class AdminUsersCubit extends Cubit<AdminUsersState> {
   AdminUsersCubit({required FirestoreRepository firestoreRepository})
       : _firestoreRepository = firestoreRepository,
-        super(AdminInitial());
+        super(const AdminInitial());
 
   final FirestoreRepository _firestoreRepository;
   late final StreamSubscription<dynamic> _userListSubscription;
 
   Future<void> init() async {
-    emit(AdminFetchingUsers());
+    emit(const AdminFetchingUsers());
     try {
       _userListSubscription =
           _firestoreRepository.listenUserList().listen((snapshots) {
@@ -27,8 +28,17 @@ class AdminUsersCubit extends Cubit<AdminUsersState> {
         emit(AdminUsersFetched(users: users));
       });
     } catch (_) {
-      emit(AdminUsersError());
+      emit(const AdminUsersError());
     }
+  }
+
+  Future<void> selectUser(String userId) async {
+    if (state is! AdminUsersFetched) return;
+    final shadowState = state as AdminUsersFetched;
+    final user = shadowState.users.firstWhere(
+      (element) => element.authId == userId,
+    );
+    emit(shadowState.copyWith(user: user));
   }
 
   @override

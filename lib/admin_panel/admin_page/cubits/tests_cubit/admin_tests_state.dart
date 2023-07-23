@@ -1,13 +1,19 @@
 part of 'admin_tests_cubit.dart';
 
-abstract class AdminTestsState {}
+abstract class AdminTestsState {
+  const AdminTestsState();
+}
 
-class AdminTestsInitial extends AdminTestsState {}
+class AdminTestsInitial extends AdminTestsState {
+  const AdminTestsInitial();
+}
 
-class AdminTestsFetching extends AdminTestsState {}
+class AdminTestsFetching extends AdminTestsState {
+  const AdminTestsFetching();
+}
 
 class AdminTestsFetched extends AdminTestsState {
-  AdminTestsFetched({
+  const AdminTestsFetched({
     required this.test,
     required this.user,
   });
@@ -16,4 +22,6 @@ class AdminTestsFetched extends AdminTestsState {
   final UserDataModel user;
 }
 
-class AdminTestsError extends AdminTestsState {}
+class AdminTestsError extends AdminTestsState {
+  const AdminTestsError();
+}

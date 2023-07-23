@@ -8,17 +8,17 @@ part 'admin_tests_state.dart';
 class AdminTestsCubit extends Cubit<AdminTestsState> {
   AdminTestsCubit({required FirestoreRepository firestoreRepository})
       : _firestoreRepository = firestoreRepository,
-        super(AdminTestsInitial());
+        super(const AdminTestsInitial());
 
   final FirestoreRepository _firestoreRepository;
 
   Future<void> getTest(UserDataModel user) async {
-    emit(AdminTestsFetching());
+    emit(const AdminTestsFetching());
     try {
       final test = await _firestoreRepository.getTest(user.authId!);
       emit(AdminTestsFetched(test: CoachingTest.fromMap(test!), user: user));
     } catch (_) {
-      emit(AdminTestsError());
+      emit(const AdminTestsError());
     }
   }
 }
