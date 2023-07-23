@@ -1,5 +1,6 @@
 import 'package:coaching/app/widgets/language_switch_widget.dart';
 import 'package:coaching/l10n/l10n.dart';
+import 'package:coaching/test_results/widgets/new_test_button.dart';
 import 'package:flutter/material.dart';
 
 class CongratulationsPage extends StatelessWidget {
@@ -67,7 +68,7 @@ class CongratulationsPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            //const NewTestButton(isMobile: true),
+            const NewTestButton(isMobile: true),
           ],
         ),
       ),

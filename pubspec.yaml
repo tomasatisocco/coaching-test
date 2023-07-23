@@ -12,6 +12,7 @@ dependencies:
   bloc: ^8.1.2
   data_persistence_repository:
     path: packages/data_persistence_repository
+  equatable: ^2.0.3
   firebase_analytics: ^10.4.3
   firebase_auth: ^4.6.3
   firebase_core: ^2.14.0

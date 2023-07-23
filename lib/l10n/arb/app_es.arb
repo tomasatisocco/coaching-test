@@ -152,5 +152,7 @@
     "choosePlanDescription": "Elige el plan que más se ajuste a tus necesidades, puedes cambiarlo cuando quieras.",
     "month": "mes",
     "year": "año",
-    "choose": "Seleccionar"
+    "choose": "Seleccionar",
+    "awesome": "¡Genial!",
+    "newTestPossible": "Ya puedes realizar un nuevo GPS"
 }

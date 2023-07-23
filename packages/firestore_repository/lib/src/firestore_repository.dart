@@ -55,6 +55,14 @@ class FirestoreRepository {
         .update(user);
   }
 
+  /// Listen to user.
+  Stream<DocumentSnapshot<Map<String, dynamic>>> listenUser(String id) {
+    return _environmentReference
+        .collection(CollectionKeys.users)
+        .doc(id)
+        .snapshots();
+  }
+
   /// Gets a list of coaching tests from Firestore.
   Future<List<Map<String, dynamic>>> getCoachingTestList() async {
     final snapshot = await _environmentReference
