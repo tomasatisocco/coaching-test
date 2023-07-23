@@ -173,10 +173,10 @@ class _AppViewState extends State<AppView> {
         ),
       ],
       redirect: (context, state) async {
-        final userMap = context.read<DataPersistenceRepository>().getUser();
-        if (userMap == null) return '/start';
         final location = state.location;
         if (location == '/admin_login') return location;
+        final userMap = context.read<DataPersistenceRepository>().getUser();
+        if (userMap == null) return '/start';
         final user = UserDataModel.fromJson(userMap);
         switch (user.status) {
           case Status.registered:
