@@ -105,7 +105,7 @@ class _AppViewState extends State<AppView> {
       routes: <GoRoute>[
         GoRoute(
           path: '/start',
-          name: 'StartPage.name',
+          name: StartPage.name,
           builder: (_, state) {
             return const StartPage();
           },

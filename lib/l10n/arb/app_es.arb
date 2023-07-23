@@ -154,5 +154,7 @@
     "year": "año",
     "choose": "Seleccionar",
     "awesome": "¡Genial!",
-    "newTestPossible": "Ya puedes realizar un nuevo GPS"
+    "newTestPossible": "Ya puedes realizar un nuevo GPS",
+    "cancel": "Cancelar",
+    "sureToLogout": "¿Estás seguro que quieres cerrar sesión?"
 }

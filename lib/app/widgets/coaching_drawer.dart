@@ -1,5 +1,6 @@
 import 'package:coaching/admin_panel/admin_login/view/adming_login_page.dart';
 import 'package:coaching/app/widgets/language_switch_widget.dart';
+import 'package:coaching/app/widgets/logout_button.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -46,6 +47,8 @@ class CoachingDrawer extends StatelessWidget {
             },
           ),
           const LanguageSwitch(),
+          const Spacer(),
+          const LogoutButton(),
         ],
       ),
     );

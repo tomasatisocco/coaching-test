@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 class StartPage extends StatelessWidget {
   const StartPage({super.key});
 
+  static const name = 'StartPage';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
