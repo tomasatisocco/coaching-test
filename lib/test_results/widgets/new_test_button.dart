@@ -1,7 +1,6 @@
 import 'package:coaching/coaching_test/view/coaching_test_page.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/test_results/cubit/congratulations_cubit.dart';
-import 'package:coaching/welcome/view/welcome_page.dart';
 import 'package:data_persistence_repository/data_persistence_repository.dart';
 import 'package:firestore_repository/firestore_repository.dart';
 import 'package:flutter/material.dart';
@@ -59,18 +58,19 @@ class NewTestButtonView extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               ElevatedButton(
-                onPressed: () async {
-                  final dataPersistence =
-                      context.read<DataPersistenceRepository>();
-                  GoRouter.of(context).goNamed(WelcomePage.name);
-                  await dataPersistence.deleteCoachingTest();
-                  await dataPersistence.deleteUser();
-                },
+                onPressed: () async =>
+                    context.read<CongratulationsCubit>().startNewTest(),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.primary,
                 ),
                 child: state is CongratulationsLoading
-                    ? const Center(child: CircularProgressIndicator())
+                    ? const SizedBox(
+                        height: 24,
+                        width: 24,
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
                     : Padding(
                         padding: const EdgeInsets.all(12),
                         child: Text(
