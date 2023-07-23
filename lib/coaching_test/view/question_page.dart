@@ -159,7 +159,7 @@ class QuestionPageMobileView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(24),
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.83,
+              height: MediaQuery.sizeOf(context).height - 130,
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.tertiary,
                 borderRadius: const BorderRadius.all(
@@ -167,69 +167,73 @@ class QuestionPageMobileView extends StatelessWidget {
                 ),
               ),
               padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  Text(
-                    question.getQuestion(context.l10n),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Text(
+                      question.getQuestion(context.l10n),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    question.getDescription(
-                      context.l10n,
-                      context.read<RemoteConfigurations>(),
+                    const SizedBox(height: 8),
+                    Text(
+                      question.getDescription(
+                        context.l10n,
+                        context.read<RemoteConfigurations>(),
+                      ),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 16,
+                      ),
                     ),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 16,
+                    const SizedBox(
+                      height: 32,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 32,
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: ListView.builder(
-                      itemCount: question.answers(context.l10n).length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade300,
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: RadioListTile(
-                              value: index,
-                              groupValue: selectedValue,
-                              activeColor:
-                                  Theme.of(context).colorScheme.primary,
-                              dense: true,
-                              onChanged: (value) => onSelectedValue(value ?? 0),
-                              contentPadding: const EdgeInsets.all(4),
-                              title: Text(
-                                // ignore: lines_longer_than_80_chars
-                                '${lettersMap[index] ?? ''} - ${question.answers(context.l10n).keys.elementAt(index)}',
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: question.answers(context.l10n).length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade300,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: RadioListTile(
+                                value: index,
+                                groupValue: selectedValue,
+                                activeColor:
+                                    Theme.of(context).colorScheme.primary,
+                                dense: true,
+                                onChanged: (value) =>
+                                    onSelectedValue(value ?? 0),
+                                contentPadding: const EdgeInsets.all(4),
+                                title: Text(
+                                  // ignore: lines_longer_than_80_chars
+                                  '${lettersMap[index] ?? ''} - ${question.answers(context.l10n).keys.elementAt(index)}',
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                  const Spacer(),
-                  NextQuestionButton(
-                    onCompleted: onCompleted,
-                    onBackPress: onBackPress,
-                    questionKey: question.key,
-                  ),
-                  const SizedBox(height: 8),
-                ],
+                    const SizedBox(height: 8),
+                    NextQuestionButton(
+                      onCompleted: onCompleted,
+                      onBackPress: onBackPress,
+                      questionKey: question.key,
+                    ),
+                    const SizedBox(height: 8),
+                  ],
+                ),
               ),
             ),
           ),
