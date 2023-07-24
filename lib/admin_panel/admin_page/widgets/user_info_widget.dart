@@ -25,10 +25,64 @@ class UserInfoWidget extends StatelessWidget {
           }
           final user = state.user!;
           final userStatus = user.status?.index;
-          return Column(
-            children: [
-              UserStatusRow(userStatus: userStatus ?? 0),
-            ],
+          final userMap = user.toMap();
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width - 250,
+                  child: Row(
+                    children: [
+                      const SizedBox(width: 20),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Datos Personales',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          ...userMap.entries.map((e) {
+                            if (e.key == 'status' ||
+                                e.key == 'testIds' ||
+                                e.key == 'subscription' ||
+                                e.key == 'isPaid' ||
+                                e.value == null) {
+                              return const SizedBox.shrink();
+                            }
+                            return SizedBox(
+                              width: 500,
+                              height: 30,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      e.key,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 3,
+                                    child: Text(e.value.toString()),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
+                        ],
+                      ),
+                      UserStatusRow(userStatus: userStatus ?? 0),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           );
         },
       ),
