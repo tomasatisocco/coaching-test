@@ -14,6 +14,7 @@ class AdminUsersCubit extends Cubit<AdminUsersState> {
 
   final FirestoreRepository _firestoreRepository;
   late final StreamSubscription<dynamic> _userListSubscription;
+  UserDataModel? _shadowUser;
 
   Future<void> init() async {
     emit(const AdminFetchingUsers());
@@ -30,6 +31,7 @@ class AdminUsersCubit extends Cubit<AdminUsersState> {
           final shadowState = state as AdminUsersFetched;
           user = shadowState.user;
           if (user != null) {
+            _shadowUser = user;
             user = users.firstWhere(
               (element) => element.authId == user!.authId,
               orElse: () => user!,
@@ -49,7 +51,50 @@ class AdminUsersCubit extends Cubit<AdminUsersState> {
     final user = shadowState.users.firstWhere(
       (element) => element.authId == userId,
     );
+    _shadowUser = user;
     emit(shadowState.copyWith(user: user));
+  }
+
+  void updateSelectedUser(UserDataModel user) {
+    if (state is! AdminUsersFetched) return;
+    final shadowState = state as AdminUsersFetched;
+    emit(const AdminFetchingUsers());
+    final users = shadowState.users.map((e) {
+      if (e.authId == user.authId) {
+        return user;
+      }
+      return e;
+    }).toList();
+    emit(shadowState.copyWith(users: users, user: user));
+  }
+
+  bool get isUserUpdated {
+    if (state is! AdminUsersFetched) return false;
+    final shadowState = state as AdminUsersFetched;
+    if (_shadowUser == null) return false;
+    if (shadowState.user == null) return false;
+    return shadowState.user != _shadowUser;
+  }
+
+  void clearUser() {
+    if (state is! AdminUsersFetched) return;
+    final shadowState = state as AdminUsersFetched;
+    emit(shadowState.copyWith(user: _shadowUser));
+  }
+
+  Future<void> updateUser() async {
+    if (state is! AdminUsersFetched) return;
+    final shadowState = state as AdminUsersFetched;
+    final user = shadowState.user;
+    if (user == null) return;
+    try {
+      emit(shadowState.copyWith(isUpdating: true));
+      await _firestoreRepository.updateUser(user.toMap(), user.id!);
+      _shadowUser = user;
+      emit(shadowState.copyWith());
+    } catch (_) {
+      emit(shadowState.copyWith(user: _shadowUser));
+    }
   }
 
   @override

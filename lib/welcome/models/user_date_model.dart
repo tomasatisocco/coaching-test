@@ -2,8 +2,9 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
 import 'package:coaching/welcome/models/subscription.dart';
+import 'package:equatable/equatable.dart';
 
-class UserDataModel {
+class UserDataModel extends Equatable {
   const UserDataModel({
     this.isPaid = false,
     this.id,
@@ -170,6 +171,23 @@ class UserDataModel {
       )
     ''';
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        authId,
+        email,
+        name,
+        birthDate,
+        nationality,
+        residence,
+        certificateDate,
+        createdAt,
+        testIds,
+        status,
+        subscription,
+        isPaid,
+      ];
 }
 
 enum Status {

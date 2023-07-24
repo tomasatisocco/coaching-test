@@ -36,6 +36,37 @@ class UserInfoWidget extends StatelessWidget {
                   width: MediaQuery.sizeOf(context).width - 250,
                   child: Row(
                     children: [
+                      const Spacer(),
+                      ElevatedButton(
+                        onPressed: context.read<AdminUsersCubit>().isUserUpdated
+                            ? () => context.read<AdminUsersCubit>().clearUser()
+                            : null,
+                        child: const Text('Reestablecer'),
+                      ),
+                      const SizedBox(width: 20),
+                      ElevatedButton(
+                        onPressed: context.read<AdminUsersCubit>().isUserUpdated
+                            ? () => context.read<AdminUsersCubit>().updateUser()
+                            : null,
+                        child: state.isUpdating
+                            ? const SizedBox(
+                                height: 20,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              )
+                            : const Text('Actualizar'),
+                      ),
+                      const SizedBox(width: 20),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.sizeOf(context).width - 250,
+                  child: Row(
+                    children: [
                       const SizedBox(width: 20),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +130,15 @@ class UserInfoWidget extends StatelessWidget {
                               trailing: Switch(
                                 value: state.user?.isPaid ?? false,
                                 activeTrackColor: Colors.green,
-                                onChanged: (value) {},
+                                onChanged: (value) {
+                                  final user = state.user;
+                                  if (user == null) return;
+                                  context
+                                      .read<AdminUsersCubit>()
+                                      .updateSelectedUser(
+                                        user.copyWith(isPaid: value),
+                                      );
+                                },
                               ),
                             ),
                           ),

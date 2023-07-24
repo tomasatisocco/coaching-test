@@ -16,23 +16,30 @@ class AdminFetchingUsers extends AdminUsersState {
 }
 
 class AdminUsersFetched extends AdminUsersState {
-  const AdminUsersFetched({required this.users, this.user});
+  const AdminUsersFetched({
+    required this.users,
+    this.user,
+    this.isUpdating = false,
+  });
 
   final List<UserDataModel> users;
   final UserDataModel? user;
+  final bool isUpdating;
 
   AdminUsersFetched copyWith({
     List<UserDataModel>? users,
     UserDataModel? user,
+    bool isUpdating = false,
   }) {
     return AdminUsersFetched(
       users: users ?? this.users,
       user: user ?? this.user,
+      isUpdating: isUpdating,
     );
   }
 
   @override
-  List<Object> get props => [users, user ?? ''];
+  List<Object> get props => [users, user ?? '', isUpdating];
 }
 
 class AdminUsersError extends AdminUsersState {
