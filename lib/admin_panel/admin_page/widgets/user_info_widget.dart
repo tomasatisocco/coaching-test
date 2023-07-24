@@ -1,6 +1,8 @@
 import 'package:coaching/admin_panel/admin_page/cubits/users_cubit/admin_users_cubit.dart';
 import 'package:coaching/admin_panel/admin_page/widgets/user_status_row.dart';
+import 'package:coaching/admin_panel/admin_page/widgets/user_subscription.dart';
 import 'package:coaching/l10n/l10n.dart';
+import 'package:coaching/welcome/models/subscription.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -77,7 +79,16 @@ class UserInfoWidget extends StatelessWidget {
                           }),
                         ],
                       ),
-                      UserStatusRow(userStatus: userStatus ?? 0),
+                      Column(
+                        children: [
+                          UserStatusRow(userStatus: userStatus ?? 0),
+                          const SizedBox(height: 16),
+                          UserSubscriptionWidget(
+                            userSubscription:
+                                state.user?.subscription ?? Subscription.none,
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
