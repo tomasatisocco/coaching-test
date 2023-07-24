@@ -1,6 +1,8 @@
+import 'package:coaching/admin_panel/admin_page/cubits/users_cubit/admin_users_cubit.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/welcome/models/subscription.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserSubscriptionWidget extends StatelessWidget {
   const UserSubscriptionWidget({
@@ -33,21 +35,30 @@ class UserSubscriptionWidget extends StatelessWidget {
                 width: 70,
                 child: Padding(
                   padding: const EdgeInsets.all(8),
-                  child: Column(
-                    children: [
-                      Icon(
-                        subscription.icon,
-                        color: userSubscription == subscription
-                            ? Colors.blue
-                            : Colors.grey,
-                        size: 30,
-                      ),
-                      Text(
-                        subscription.title(context.l10n),
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 12),
-                      ),
-                    ],
+                  child: GestureDetector(
+                    onTap: () {
+                      final cubit = context.read<AdminUsersCubit>();
+                      final user = (cubit.state as AdminUsersFetched).user!;
+                      context.read<AdminUsersCubit>().updateSelectedUser(
+                            user.copyWith(subscription: subscription),
+                          );
+                    },
+                    child: Column(
+                      children: [
+                        Icon(
+                          subscription.icon,
+                          color: userSubscription == subscription
+                              ? Colors.blue
+                              : Colors.grey,
+                          size: 30,
+                        ),
+                        Text(
+                          subscription.title(context.l10n),
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );
