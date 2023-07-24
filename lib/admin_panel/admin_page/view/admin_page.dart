@@ -1,6 +1,7 @@
 import 'package:coaching/admin_panel/admin_login/widgets/admin_drawer.dart';
 import 'package:coaching/admin_panel/admin_page/cubits/tests_cubit/admin_tests_cubit.dart';
 import 'package:coaching/admin_panel/admin_page/cubits/users_cubit/admin_users_cubit.dart';
+import 'package:coaching/admin_panel/admin_page/widgets/users_column.dart';
 import 'package:coaching/coaching_test/models/test_model_keys.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/test_results/widgets/field_score_widget.dart';
@@ -56,62 +57,7 @@ class AdminView extends StatelessWidget {
       endDrawer: const AdminDrawer(),
       body: Row(
         children: [
-          Column(
-            children: [
-              Container(
-                height: 40,
-                width: 250,
-                color: Theme.of(context).primaryColor,
-                child: const Center(
-                  child: Text(
-                    'Usuarios',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                width: 250,
-                height: MediaQuery.of(context).size.height - 100,
-                color: Colors.grey.shade100,
-                child: BlocBuilder<AdminUsersCubit, AdminUsersState>(
-                  builder: (context, state) {
-                    if (state is! AdminUsersFetched) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    final users = state.users
-                      ..sort(
-                        (a, b) => (b.createdAt ?? DateTime.now()).compareTo(
-                          a.createdAt ?? DateTime.now(),
-                        ),
-                      );
-                    return ListView.builder(
-                      itemCount: users.length,
-                      itemBuilder: (context, index) {
-                        final userId = users[index].authId;
-                        final selectedUserId = state.user?.authId;
-                        return ListTile(
-                          title: Text(users[index].name ?? ''),
-                          subtitle: Text(users[index].email ?? ''),
-                          selected: selectedUserId == userId,
-                          onTap: () async {
-                            if (userId == null) return;
-                            await context
-                                .read<AdminUsersCubit>()
-                                .selectUser(userId);
-                          },
-                        );
-                      },
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
+          const UsersColumn(),
           Column(
             children: [
               Container(
