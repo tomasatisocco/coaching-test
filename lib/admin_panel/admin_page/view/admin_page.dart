@@ -2,11 +2,7 @@ import 'package:coaching/admin_panel/admin_login/widgets/admin_drawer.dart';
 import 'package:coaching/admin_panel/admin_page/cubits/tests_cubit/admin_tests_cubit.dart';
 import 'package:coaching/admin_panel/admin_page/cubits/users_cubit/admin_users_cubit.dart';
 import 'package:coaching/admin_panel/admin_page/widgets/users_column.dart';
-import 'package:coaching/coaching_test/models/test_model_keys.dart';
 import 'package:coaching/l10n/l10n.dart';
-import 'package:coaching/test_results/widgets/field_score_widget.dart';
-import 'package:coaching/test_results/widgets/total_score_widget.dart';
-import 'package:coaching/utils/color_getters.dart';
 import 'package:firestore_repository/firestore_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -88,75 +84,6 @@ class AdminView extends StatelessWidget {
                       return SingleChildScrollView(
                         child: Column(
                           children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width - 250,
-                              color: Theme.of(context).primaryColor,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  GeneralScoreWidget(
-                                    score: state.test.totalQualification
-                                        .toString(),
-                                    radio: 40,
-                                    scoreColor: getTotalColor(
-                                      state.test.totalQualification,
-                                    ),
-                                  ),
-                                  FieldScoreWidget(
-                                    title: context.l10n.qualityOfService,
-                                    radio: 20,
-                                    score: state.test.getGroupAnswersTotal(
-                                      AnswerGroup.qualityOfService,
-                                    ),
-                                    scoreColor: getQualityColor(
-                                      state.test.getGroupAnswersTotal(
-                                        AnswerGroup.qualityOfService,
-                                      ),
-                                    ),
-                                    removeUpperPadding: true,
-                                  ),
-                                  FieldScoreWidget(
-                                    title: context.l10n.businessCreation,
-                                    radio: 20,
-                                    score: state.test.getGroupAnswersTotal(
-                                      AnswerGroup.business,
-                                    ),
-                                    scoreColor: getQualityColor(
-                                      state.test.getGroupAnswersTotal(
-                                        AnswerGroup.business,
-                                      ),
-                                    ),
-                                    removeUpperPadding: true,
-                                  ),
-                                  FieldScoreWidget(
-                                    title: context.l10n.personalWellness,
-                                    radio: 20,
-                                    score: state.test.getGroupAnswersTotal(
-                                      AnswerGroup.personal,
-                                    ),
-                                    scoreColor: getQualityColor(
-                                      state.test.getGroupAnswersTotal(
-                                        AnswerGroup.personal,
-                                      ),
-                                    ),
-                                    removeUpperPadding: true,
-                                  ),
-                                  FieldScoreWidget(
-                                    title: context.l10n.aportToTheCommunity,
-                                    radio: 20,
-                                    score: state.test.getGroupAnswersTotal(
-                                      AnswerGroup.community,
-                                    ),
-                                    scoreColor: getQualityColor(
-                                      state.test.getGroupAnswersTotal(
-                                        AnswerGroup.community,
-                                      ),
-                                    ),
-                                    removeUpperPadding: true,
-                                  ),
-                                ],
-                              ),
-                            ),
                             ListTile(
                               title: Text(
                                 state.test.coachingTestDate.toString(),
