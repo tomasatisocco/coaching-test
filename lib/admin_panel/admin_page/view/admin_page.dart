@@ -1,6 +1,7 @@
 import 'package:coaching/admin_panel/admin_login/widgets/admin_drawer.dart';
 import 'package:coaching/admin_panel/admin_page/cubits/tests_cubit/admin_tests_cubit.dart';
 import 'package:coaching/admin_panel/admin_page/cubits/users_cubit/admin_users_cubit.dart';
+import 'package:coaching/admin_panel/admin_page/widgets/user_info_widget.dart';
 import 'package:coaching/admin_panel/admin_page/widgets/users_column.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:firestore_repository/firestore_repository.dart';
@@ -70,6 +71,7 @@ class AdminView extends StatelessWidget {
                   ),
                 ),
               ),
+              const UserInfoWidget(),
             ],
           ),
         ],
