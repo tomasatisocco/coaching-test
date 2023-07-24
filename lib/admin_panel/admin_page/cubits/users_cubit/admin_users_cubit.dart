@@ -25,7 +25,18 @@ class AdminUsersCubit extends Cubit<AdminUsersState> {
               (e) => UserDataModel.fromMap(e.data()).copyWith(authId: e.id),
             )
             .toList();
-        emit(AdminUsersFetched(users: users));
+        UserDataModel? user;
+        if (state is AdminUsersFetched) {
+          final shadowState = state as AdminUsersFetched;
+          user = shadowState.user;
+          if (user != null) {
+            user = users.firstWhere(
+              (element) => element.authId == user!.authId,
+              orElse: () => user!,
+            );
+          }
+        }
+        emit(AdminUsersFetched(users: users, user: user));
       });
     } catch (_) {
       emit(const AdminUsersError());
