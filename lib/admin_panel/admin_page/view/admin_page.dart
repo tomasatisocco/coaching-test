@@ -1,5 +1,4 @@
 import 'package:coaching/admin_panel/admin_login/widgets/admin_drawer.dart';
-import 'package:coaching/admin_panel/admin_page/cubits/tests_cubit/admin_tests_cubit.dart';
 import 'package:coaching/admin_panel/admin_page/cubits/users_cubit/admin_users_cubit.dart';
 import 'package:coaching/admin_panel/admin_page/widgets/user_info_widget.dart';
 import 'package:coaching/admin_panel/admin_page/widgets/users_column.dart';
@@ -24,11 +23,6 @@ class _AdminPageState extends State<AdminPage> {
           create: (context) => AdminUsersCubit(
             firestoreRepository: context.read<FirestoreRepository>(),
           )..init(),
-        ),
-        BlocProvider(
-          create: (context) => AdminTestsCubit(
-            firestoreRepository: context.read<FirestoreRepository>(),
-          ),
         ),
       ],
       child: const AdminView(),

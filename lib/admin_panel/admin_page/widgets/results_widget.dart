@@ -1,7 +1,67 @@
 import 'package:coaching/admin_panel/admin_page/cubits/tests_cubit/admin_tests_cubit.dart';
 import 'package:coaching/l10n/l10n.dart';
+import 'package:firestore_repository/firestore_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+class TestExpandableWidget extends StatefulWidget {
+  const TestExpandableWidget({super.key, required this.testIds});
+
+  final List<String>? testIds;
+
+  @override
+  State<TestExpandableWidget> createState() => _TestExpandableWidgetState();
+}
+
+class _TestExpandableWidgetState extends State<TestExpandableWidget> {
+  int selected = -1;
+  late List<String>? testIds;
+
+  @override
+  void initState() {
+    if (widget.testIds?.isEmpty ?? false) {
+      testIds = null;
+    } else {
+      testIds = widget.testIds?.reversed.toList();
+    }
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: MediaQuery.sizeOf(context).width - 250,
+      height: 300,
+      child: Visibility(
+        visible: testIds?.isNotEmpty ?? false,
+        child: ListView.builder(
+          itemCount: testIds?.length ?? 0,
+          itemBuilder: (context, index) {
+            return BlocProvider(
+              key: ValueKey(testIds?[index]),
+              create: (context) => AdminTestsCubit(
+                firestoreRepository: context.read<FirestoreRepository>(),
+                testId: testIds?[index] ?? '',
+              ),
+              child: ExpansionTile(
+                title: Text(testIds?[index] ?? ''),
+                initiallyExpanded: index == selected,
+                onExpansionChanged: (newState) {
+                  setState(() {
+                    selected = newState ? index : -1;
+                  });
+                },
+                children: const [
+                  ResultsWidget(),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
 
 class ResultsWidget extends StatelessWidget {
   const ResultsWidget({super.key});
@@ -9,10 +69,13 @@ class ResultsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height - 100,
+      height: 200,
       width: MediaQuery.of(context).size.width - 250,
       child: BlocBuilder<AdminTestsCubit, AdminTestsState>(
         builder: (context, state) {
+          if (state is AdminTestsInitial) {
+            context.read<AdminTestsCubit>().getTest();
+          }
           if (state is AdminTestsFetching) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -22,78 +85,30 @@ class ResultsWidget extends StatelessWidget {
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  ListTile(
-                    title: Text(
-                      state.test.coachingTestDate.toString(),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
+                  SizedBox(
+                    height: 30,
+                    child: ListTile(
+                      title: Text(
+                        state.test.coachingTestDate.toString(),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  ListTile(
-                    title: Text(
-                      context.l10n.name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(state.user.name ?? ''),
-                  ),
-                  ListTile(
-                    title: Text(
-                      context.l10n.email,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(state.user.email ?? ''),
-                  ),
-                  ListTile(
-                    title: Text(
-                      context.l10n.nationality,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(state.user.nationality ?? ''),
-                  ),
-                  ListTile(
-                    title: Text(
-                      context.l10n.residenceCountry,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(state.user.residence ?? ''),
-                  ),
-                  ListTile(
-                    title: Text(
-                      context.l10n.birthDate,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(state.user.birthDate ?? ''),
-                  ),
-                  ListTile(
-                    title: Text(
-                      context.l10n.yearOfCertification,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(state.user.certificateDate ?? ''),
                   ),
                   ...state.test.questions.map((e) {
-                    return ListTile(
-                      title: Text(e.getQuestion(context.l10n)),
-                      subtitle: Text(
-                        e
-                            .answers(context.l10n)
-                            .map(
-                              (key, value) => MapEntry(value, key),
-                            )[e.value ?? 0 ~/ e.multiplier]
-                            .toString(),
+                    return SizedBox(
+                      height: 40,
+                      child: ListTile(
+                        title: Text(e.getQuestion(context.l10n)),
+                        subtitle: Text(
+                          e
+                              .answers(context.l10n)
+                              .map(
+                                (key, value) => MapEntry(value, key),
+                              )[e.value ?? 0 ~/ e.multiplier]
+                              .toString(),
+                        ),
                       ),
                     );
                   }),

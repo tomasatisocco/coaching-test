@@ -1,4 +1,5 @@
 import 'package:coaching/admin_panel/admin_page/cubits/users_cubit/admin_users_cubit.dart';
+import 'package:coaching/admin_panel/admin_page/widgets/results_widget.dart';
 import 'package:coaching/admin_panel/admin_page/widgets/user_status_row.dart';
 import 'package:coaching/admin_panel/admin_page/widgets/user_subscription.dart';
 import 'package:coaching/l10n/l10n.dart';
@@ -41,7 +42,7 @@ class UserInfoWidget extends StatelessWidget {
                         onPressed: context.read<AdminUsersCubit>().isUserUpdated
                             ? () => context.read<AdminUsersCubit>().clearUser()
                             : null,
-                        child: const Text('Reestablecer'),
+                        child: Text(context.l10n.clear),
                       ),
                       const SizedBox(width: 20),
                       ElevatedButton(
@@ -57,7 +58,7 @@ class UserInfoWidget extends StatelessWidget {
                                   ),
                                 ),
                               )
-                            : const Text('Actualizar'),
+                            : Text(context.l10n.update),
                       ),
                       const SizedBox(width: 20),
                     ],
@@ -147,6 +148,7 @@ class UserInfoWidget extends StatelessWidget {
                     ],
                   ),
                 ),
+                TestExpandableWidget(testIds: user.testIds),
               ],
             ),
           );

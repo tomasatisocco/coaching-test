@@ -75,9 +75,9 @@ class FirestoreRepository {
   Future<Map<String, dynamic>?> getTest(String id) async {
     final snapshot = await _environmentReference
         .collection(CollectionKeys.coachingTests)
-        .where('userId', isEqualTo: id)
+        .doc(id)
         .get();
-    return snapshot.docs.first.data();
+    return snapshot.data();
   }
 
   /// Gets a list of users from Firestore.

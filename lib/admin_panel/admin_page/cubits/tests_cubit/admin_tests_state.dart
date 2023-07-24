@@ -15,11 +15,9 @@ class AdminTestsFetching extends AdminTestsState {
 class AdminTestsFetched extends AdminTestsState {
   const AdminTestsFetched({
     required this.test,
-    required this.user,
   });
 
   final CoachingTest test;
-  final UserDataModel user;
 }
 
 class AdminTestsError extends AdminTestsState {
