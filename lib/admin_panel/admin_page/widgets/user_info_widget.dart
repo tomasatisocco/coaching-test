@@ -87,6 +87,22 @@ class UserInfoWidget extends StatelessWidget {
                             userSubscription:
                                 state.user?.subscription ?? Subscription.none,
                           ),
+                          Container(
+                            width: 200,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                            ),
+                            child: ListTile(
+                              title: const Text('Pago'),
+                              trailing: Switch(
+                                value: state.user?.isPaid ?? false,
+                                activeTrackColor: Colors.green,
+                                onChanged: (value) {},
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ],
