@@ -38,15 +38,8 @@ class _AdminPageState extends State<AdminPage> {
   }
 }
 
-class AdminView extends StatefulWidget {
+class AdminView extends StatelessWidget {
   const AdminView({super.key});
-
-  @override
-  State<AdminView> createState() => _AdminViewState();
-}
-
-class _AdminViewState extends State<AdminView> {
-  String? selectedId;
 
   @override
   Widget build(BuildContext context) {
@@ -99,19 +92,17 @@ class _AdminViewState extends State<AdminView> {
                     return ListView.builder(
                       itemCount: users.length,
                       itemBuilder: (context, index) {
-                        final testId = users[index].authId;
+                        final userId = users[index].authId;
+                        final selectedUserId = state.user?.authId;
                         return ListTile(
                           title: Text(users[index].name ?? ''),
                           subtitle: Text(users[index].email ?? ''),
-                          selected: selectedId == testId,
+                          selected: selectedUserId == userId,
                           onTap: () async {
-                            if (testId == null) return;
+                            if (userId == null) return;
                             await context
-                                .read<AdminTestsCubit>()
-                                .getTest(users[index]);
-                            setState(() {
-                              selectedId = testId;
-                            });
+                                .read<AdminUsersCubit>()
+                                .selectUser(userId);
                           },
                         );
                       },
