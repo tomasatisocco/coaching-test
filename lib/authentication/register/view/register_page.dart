@@ -142,6 +142,16 @@ class _RegisterViewState extends State<RegisterView> {
                             value,
                             context.l10n,
                           ),
+                          onFieldSubmitted: (_) {
+                            if (!formKey.currentState!.validate()) return;
+                            context
+                                .read<RegisterCubit>()
+                                .registerWithEmailAndPassword(
+                                  _emailController.text,
+                                  _passwordController.text,
+                                  _confirmPasswordController.text,
+                                );
+                          },
                         ),
                         const SizedBox(height: 16),
                         Visibility(

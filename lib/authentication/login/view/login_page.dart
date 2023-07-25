@@ -141,6 +141,15 @@ class _LoginViewState extends State<LoginView> {
                             value,
                             context.l10n,
                           ),
+                          onFieldSubmitted: (_) {
+                            if (!formKey.currentState!.validate()) return;
+                            context
+                                .read<LoginCubit>()
+                                .logInWithEmailAndPassword(
+                                  _emailController.text,
+                                  _passwordController.text,
+                                );
+                          },
                         ),
                         const SizedBox(height: 16),
                         Visibility(
