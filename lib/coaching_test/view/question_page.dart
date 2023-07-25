@@ -1,4 +1,4 @@
-import 'package:coaching/app/widgets/language_switch_widget.dart';
+import 'package:coaching/app/widgets/coaching_drawer.dart';
 import 'package:coaching/coaching_test/cubit/coaching_test_cubit.dart';
 import 'package:coaching/coaching_test/models/question_model.dart';
 import 'package:coaching/coaching_test/widgets/next_question_button.dart';
@@ -148,11 +148,8 @@ class QuestionPageMobileView extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         toolbarHeight: 32,
-        actions: const [
-          LanguageSwitch(),
-          SizedBox(width: 16),
-        ],
       ),
+      endDrawer: const CoachingDrawer(),
       body: Column(
         children: [
           TestProgressBar(currentPageIndex: currentPageIndex),
@@ -268,11 +265,8 @@ class QuestionPageDesktopView extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         toolbarHeight: 32,
-        actions: const [
-          LanguageSwitch(),
-          SizedBox(width: 16),
-        ],
       ),
+      endDrawer: const CoachingDrawer(),
       body: SingleChildScrollView(
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
