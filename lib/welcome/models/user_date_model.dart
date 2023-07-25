@@ -7,6 +7,7 @@ import 'package:equatable/equatable.dart';
 class UserDataModel extends Equatable {
   const UserDataModel({
     this.isPaid = false,
+    this.isRead = false,
     this.id,
     this.authId,
     this.createdAt,
@@ -34,6 +35,7 @@ class UserDataModel extends Equatable {
   final Status? status;
   final Subscription? subscription;
   final bool isPaid;
+  final bool isRead;
 
   factory UserDataModel.newUser({
     required String authId,
@@ -84,6 +86,7 @@ class UserDataModel extends Equatable {
     Status? status,
     Subscription? subscription,
     bool? isPaid,
+    bool? isRead,
   }) {
     return UserDataModel(
       id: id ?? this.id,
@@ -99,6 +102,7 @@ class UserDataModel extends Equatable {
       status: status ?? this.status,
       subscription: subscription ?? this.subscription,
       isPaid: isPaid ?? this.isPaid,
+      isRead: isRead ?? this.isRead,
     );
   }
 
@@ -118,6 +122,7 @@ class UserDataModel extends Equatable {
       'status': status?.index,
       'subscription': subscription?.index,
       'isPaid': isPaid,
+      'isRead': isRead,
     };
   }
 
@@ -145,6 +150,7 @@ class UserDataModel extends Equatable {
           ? null
           : Subscription.values[map['subscription'] as int],
       isPaid: map['isPaid'] as bool? ?? false,
+      isRead: map['isRead'] as bool? ?? false,
     );
   }
 
@@ -168,6 +174,7 @@ class UserDataModel extends Equatable {
         testIds: $testIds,
         status: $status,
         subscription: $subscription,
+        isRead: $isRead,
       )
     ''';
   }
@@ -187,6 +194,7 @@ class UserDataModel extends Equatable {
         status,
         subscription,
         isPaid,
+        isRead,
       ];
 }
 

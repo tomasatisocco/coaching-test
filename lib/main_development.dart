@@ -15,8 +15,8 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  final firestoreRepository = FirestoreRepository.development();
-  final storageRepository = StorageRepository.development();
+  final firestoreRepository = FirestoreRepository.production();
+  final storageRepository = StorageRepository.production();
   final dataPersistenceRepository = DataPersistenceRepository();
   final remoteConfigurations = RemoteConfigurations();
   final authRepository = AuthRepository();

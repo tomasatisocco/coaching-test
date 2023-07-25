@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:coaching/admin_panel/admin_page/cubits/users_cubit/admin_users_cubit.dart';
 import 'package:coaching/admin_panel/admin_page/widgets/user_info_widget.dart';
 import 'package:flutter/material.dart';
@@ -67,12 +69,31 @@ class UsersColumn extends StatelessWidget {
                       title: Text(users[index].name ?? ''),
                       subtitle: Text(users[index].email ?? ''),
                       selected: selectedUserId == userId,
+                      minLeadingWidth: 0,
+                      leading: users[index].isRead
+                          ? null
+                          : const Column(
+                              children: [
+                                Spacer(),
+                                Icon(
+                                  Icons.circle,
+                                  color: Colors.blue,
+                                  size: 10,
+                                ),
+                                Spacer(),
+                              ],
+                            ),
                       onTap: () async {
                         if (userId == null) return;
+                        unawaited(
+                          context
+                              .read<AdminUsersCubit>()
+                              .markUserAsRead(user: users[index]),
+                        );
                         await context
                             .read<AdminUsersCubit>()
                             .selectUser(userId);
-                        if (!isMobile) return;
+                        if (users[index].isRead) return;
                       },
                     );
                   },

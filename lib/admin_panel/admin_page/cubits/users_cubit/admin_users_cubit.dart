@@ -105,6 +105,16 @@ class AdminUsersCubit extends Cubit<AdminUsersState> {
     }
   }
 
+  Future<void> markUserAsRead({required UserDataModel user}) async {
+    if (state is! AdminUsersFetched) return;
+    try {
+      await _firestoreRepository.updateUser(
+        user.copyWith(isRead: true).toMap(),
+        user.authId!,
+      );
+    } catch (_) {}
+  }
+
   @override
   Future<void> close() {
     _userListSubscription.cancel();
