@@ -23,7 +23,7 @@ class AdminUsersCubit extends Cubit<AdminUsersState> {
           _firestoreRepository.listenUserList().listen((snapshots) {
         final users = snapshots.docs
             .map(
-              (e) => UserDataModel.fromMap(e.data()).copyWith(authId: e.id),
+              (e) => UserDataModel.fromMap(e.data()),
             )
             .toList();
         UserDataModel? user;
@@ -110,7 +110,7 @@ class AdminUsersCubit extends Cubit<AdminUsersState> {
     try {
       await _firestoreRepository.updateUser(
         user.copyWith(isRead: true).toMap(),
-        user.authId!,
+        user.id!,
       );
     } catch (_) {}
   }
@@ -124,7 +124,7 @@ class AdminUsersCubit extends Cubit<AdminUsersState> {
       final updated = user.copyWith(isRead: false);
       await _firestoreRepository.updateUser(
         updated.toMap(),
-        user.authId!,
+        user.id!,
       );
     } catch (_) {}
   }
