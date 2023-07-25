@@ -108,10 +108,36 @@ class AdminUsersCubit extends Cubit<AdminUsersState> {
   Future<void> markUserAsRead({required UserDataModel user}) async {
     if (state is! AdminUsersFetched) return;
     try {
+      final shadowState = state as AdminUsersFetched;
+      final updated = user.copyWith(isRead: true);
       await _firestoreRepository.updateUser(
-        user.copyWith(isRead: true).toMap(),
+        updated.toMap(),
         user.authId!,
       );
+      final users = shadowState.users.map((e) {
+        if (e.authId == user.authId) {
+          return updated;
+        }
+        return e;
+      }).toList();
+      _shadowUser = updated;
+      emit(shadowState.copyWith(users: users, user: updated));
+    } catch (_) {}
+  }
+
+  Future<void> markUserAsUnread() async {
+    if (state is! AdminUsersFetched) return;
+    try {
+      final shadowState = state as AdminUsersFetched;
+      final user = shadowState.user;
+      if (user == null) return;
+      final updated = user.copyWith(isRead: false);
+      emit(shadowState.copyWith(user: updated));
+      await _firestoreRepository.updateUser(
+        updated.toMap(),
+        user.authId!,
+      );
+      _shadowUser = updated;
     } catch (_) {}
   }
 

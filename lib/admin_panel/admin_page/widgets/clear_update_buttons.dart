@@ -42,6 +42,12 @@ class ClearUpdateButtons extends StatelessWidget {
                       )
                     : Text(context.l10n.update),
               ),
+              IconButton(
+                onPressed: () async {
+                  await context.read<AdminUsersCubit>().markUserAsUnread();
+                },
+                icon: const Icon(Icons.remove_red_eye_rounded),
+              ),
               const SizedBox(width: 20),
             ],
           );
