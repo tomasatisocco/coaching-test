@@ -49,9 +49,9 @@ class UserInfoWidget extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                'Datos Personales',
-                                style: TextStyle(
+                              Text(
+                                context.l10n.personalData,
+                                style: const TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                 ),
