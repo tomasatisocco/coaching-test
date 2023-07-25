@@ -33,7 +33,7 @@ class AdminUsersFetched extends AdminUsersState {
   }) {
     return AdminUsersFetched(
       users: users ?? this.users,
-      user: user ?? this.user,
+      user: user,
       isUpdating: isUpdating,
     );
   }

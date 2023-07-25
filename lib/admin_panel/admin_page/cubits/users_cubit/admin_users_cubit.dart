@@ -96,10 +96,10 @@ class AdminUsersCubit extends Cubit<AdminUsersState> {
     final user = shadowState.user;
     if (user == null) return;
     try {
-      emit(shadowState.copyWith(isUpdating: true));
+      emit(shadowState.copyWith(isUpdating: true, user: user));
       await _firestoreRepository.updateUser(user.toMap(), user.id!);
       _shadowUser = user;
-      emit(shadowState.copyWith());
+      emit(shadowState.copyWith(user: user));
     } catch (_) {
       emit(shadowState.copyWith(user: _shadowUser));
     }
@@ -108,20 +108,10 @@ class AdminUsersCubit extends Cubit<AdminUsersState> {
   Future<void> markUserAsRead({required UserDataModel user}) async {
     if (state is! AdminUsersFetched) return;
     try {
-      final shadowState = state as AdminUsersFetched;
-      final updated = user.copyWith(isRead: true);
       await _firestoreRepository.updateUser(
-        updated.toMap(),
+        user.copyWith(isRead: true).toMap(),
         user.authId!,
       );
-      final users = shadowState.users.map((e) {
-        if (e.authId == user.authId) {
-          return updated;
-        }
-        return e;
-      }).toList();
-      _shadowUser = updated;
-      emit(shadowState.copyWith(users: users, user: updated));
     } catch (_) {}
   }
 
@@ -132,12 +122,23 @@ class AdminUsersCubit extends Cubit<AdminUsersState> {
       final user = shadowState.user;
       if (user == null) return;
       final updated = user.copyWith(isRead: false);
-      emit(shadowState.copyWith(user: updated));
       await _firestoreRepository.updateUser(
         updated.toMap(),
         user.authId!,
       );
-      _shadowUser = updated;
+    } catch (_) {}
+  }
+
+  Future<void> deleteUser() async {
+    if (state is! AdminUsersFetched) return;
+    try {
+      final shadowState = state as AdminUsersFetched;
+      final user = shadowState.user;
+      if (user == null) return;
+      await _firestoreRepository.deleteUser(user.authId!);
+      final users = shadowState.users.where((e) => e.authId != user.authId);
+      _shadowUser = null;
+      emit(shadowState.copyWith(users: users.toList(), user: null));
     } catch (_) {}
   }
 

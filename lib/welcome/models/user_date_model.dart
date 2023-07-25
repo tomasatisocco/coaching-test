@@ -194,7 +194,6 @@ class UserDataModel extends Equatable {
         status,
         subscription,
         isPaid,
-        isRead,
       ];
 }
 

@@ -126,6 +126,14 @@ class FirestoreRepository {
     final adminIds = snapshot.data()!['id_list'] as List<dynamic>;
     return adminIds.contains(id);
   }
+
+  /// Delete user
+  Future<void> deleteUser(String id) async {
+    await _environmentReference
+        .collection(CollectionKeys.users)
+        .doc(id)
+        .delete();
+  }
 }
 
 /// {@template collection_keys}

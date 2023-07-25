@@ -159,5 +159,9 @@
     "sureToLogout": "¿Estás seguro que quieres cerrar sesión?",
     "localizeYourself": "Ubícate dentro de tu camino de desarrollo y explota tu crecimiento con asesoramiento profesional.",
     "update": "Actualizar",
-    "clear": "Limpiar"
+    "clear": "Limpiar",
+    "delete": "Eliminar",
+    "deleteUser": "Eliminar usuario",
+    "deleteUserWarning": "¿Estás seguro que quieres eliminar este usuario? Esta acción no se puede deshacer.",
+    "personalData": "Datos personales"
 }

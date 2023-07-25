@@ -48,6 +48,38 @@ class ClearUpdateButtons extends StatelessWidget {
                 },
                 icon: const Icon(Icons.remove_red_eye_rounded),
               ),
+              IconButton(
+                onPressed: () async {
+                  await showDialog<void>(
+                    context: context,
+                    builder: (_) {
+                      return AlertDialog(
+                        title: Text(context.l10n.deleteUser),
+                        content: Text(
+                          context.l10n.deleteUserWarning,
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text(context.l10n.cancel),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              context.read<AdminUsersCubit>().deleteUser();
+                            },
+                            child: Text(context.l10n.delete),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                icon: const Icon(
+                  Icons.delete_forever_rounded,
+                  color: Colors.red,
+                ),
+              ),
               const SizedBox(width: 20),
             ],
           );
