@@ -22,6 +22,7 @@ class StartButton extends StatelessWidget {
         if (state is WelcomeLoaded) {
           return context.goNamed(CoachingTestPage.name);
         }
+        if (state is! WelcomeError) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Row(
