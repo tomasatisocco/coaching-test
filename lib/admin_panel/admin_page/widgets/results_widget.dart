@@ -20,7 +20,7 @@ class TestExpandableWidget extends StatefulWidget {
 
 class _TestExpandableWidgetState extends State<TestExpandableWidget> {
   int selected = -1;
-  late List<String>? testIds;
+  List<String>? testIds;
 
   @override
   void initState() {
@@ -30,6 +30,16 @@ class _TestExpandableWidgetState extends State<TestExpandableWidget> {
       testIds = widget.testIds?.reversed.toList();
     }
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant TestExpandableWidget oldWidget) {
+    if (widget.testIds?.isEmpty ?? false) {
+      testIds = null;
+    } else {
+      testIds = widget.testIds?.reversed.toList();
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
