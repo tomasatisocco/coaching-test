@@ -168,7 +168,7 @@ class _WelcomeFormWidgetState extends State<WelcomeFormWidget> {
                 await welcomeCubit.submitUser(
                   name: nameController.text,
                   birthDate: birthDateController.text,
-                  nationality: birthDateController.text,
+                  nationality: nationalityController.text,
                   residence: residenceController.text,
                   certificateDate: certificateDateController.text,
                 );
