@@ -6,6 +6,7 @@ import 'package:coaching/l10n/l10n.dart';
 import 'package:firestore_repository/firestore_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 class AdminPage extends StatefulWidget {
   const AdminPage({super.key});
@@ -46,29 +47,37 @@ class AdminView extends StatelessWidget {
         ),
       ),
       endDrawer: const AdminDrawer(),
-      body: Row(
-        children: [
-          const UsersColumn(),
-          Column(
-            children: [
-              Container(
-                height: 40,
-                width: MediaQuery.of(context).size.width - 250,
-                color: Theme.of(context).primaryColor,
-                child: Center(
-                  child: Text(
-                    context.l10n.results,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+      body: ResponsiveBuilder(
+        builder: (context, sizingInformation) {
+          if (sizingInformation.isMobile) {
+            return const UsersColumn(isMobile: true);
+          } else {
+            return Row(
+              children: [
+                const UsersColumn(),
+                Column(
+                  children: [
+                    Container(
+                      height: 40,
+                      width: MediaQuery.of(context).size.width - 250,
+                      color: Theme.of(context).primaryColor,
+                      child: Center(
+                        child: Text(
+                          context.l10n.results,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                    const UserInfoWidget(),
+                  ],
                 ),
-              ),
-              const UserInfoWidget(),
-            ],
-          ),
-        ],
+              ],
+            );
+          }
+        },
       ),
     );
   }

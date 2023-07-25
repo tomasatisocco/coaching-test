@@ -5,9 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TestExpandableWidget extends StatefulWidget {
-  const TestExpandableWidget({super.key, required this.testIds});
+  const TestExpandableWidget({
+    super.key,
+    required this.testIds,
+    this.isMobile = false,
+  });
 
   final List<String>? testIds;
+  final bool isMobile;
 
   @override
   State<TestExpandableWidget> createState() => _TestExpandableWidgetState();
@@ -30,7 +35,9 @@ class _TestExpandableWidgetState extends State<TestExpandableWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.sizeOf(context).width - 250,
+      width: widget.isMobile
+          ? MediaQuery.sizeOf(context).width
+          : MediaQuery.sizeOf(context).width - 250,
       height: 300,
       child: Visibility(
         visible: testIds?.isNotEmpty ?? false,
@@ -51,8 +58,10 @@ class _TestExpandableWidgetState extends State<TestExpandableWidget> {
                     selected = newState ? index : -1;
                   });
                 },
-                children: const [
-                  ResultsWidget(),
+                children: [
+                  ResultsWidget(
+                    isMobile: widget.isMobile,
+                  ),
                 ],
               ),
             );
@@ -64,13 +73,17 @@ class _TestExpandableWidgetState extends State<TestExpandableWidget> {
 }
 
 class ResultsWidget extends StatelessWidget {
-  const ResultsWidget({super.key});
+  const ResultsWidget({super.key, this.isMobile = false});
+
+  final bool isMobile;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 200,
-      width: MediaQuery.of(context).size.width - 250,
+      width: isMobile
+          ? MediaQuery.sizeOf(context).width
+          : MediaQuery.sizeOf(context).width - 250,
       child: BlocBuilder<AdminTestsCubit, AdminTestsState>(
         builder: (context, state) {
           if (state is AdminTestsInitial) {

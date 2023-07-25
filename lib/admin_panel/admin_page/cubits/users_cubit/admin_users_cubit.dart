@@ -82,6 +82,14 @@ class AdminUsersCubit extends Cubit<AdminUsersState> {
     emit(shadowState.copyWith(user: _shadowUser));
   }
 
+  void unSelectUser() {
+    if (state is! AdminUsersFetched) return;
+    final shadowState = state as AdminUsersFetched;
+    emit(const AdminFetchingUsers());
+    _shadowUser = null;
+    emit(AdminUsersFetched(users: shadowState.users));
+  }
+
   Future<void> updateUser() async {
     if (state is! AdminUsersFetched) return;
     final shadowState = state as AdminUsersFetched;
