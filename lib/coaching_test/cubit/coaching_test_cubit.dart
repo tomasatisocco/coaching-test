@@ -29,14 +29,16 @@ class CoachingTestCubit extends Cubit<CoachingTestState> {
 
   Future<void> init() async {
     try {
-      final localTest = _dataPersistenceRepository.getCoachingTest();
-      if (localTest != null) {
-        emit(CoachingTestUpdated(CoachingTest.fromMap(localTest)));
-      }
       final user =
           UserDataModel.fromJson(_dataPersistenceRepository.getUser()!);
       if (user.status == Status.testStarted) return;
       final updated = user.copyWith(status: Status.testStarted);
+      final localTest = _dataPersistenceRepository.getCoachingTest();
+      if (localTest != null) {
+        emit(CoachingTestUpdated(CoachingTest.fromMap(localTest)));
+      } else {
+        emit(CoachingTestUpdated(CoachingTest.newTest(user.id!)));
+      }
       await _firestoreRepository.updateUser(updated.toMap(), user.id!);
     } catch (_) {}
   }

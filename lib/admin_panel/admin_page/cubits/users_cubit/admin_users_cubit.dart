@@ -107,9 +107,20 @@ class AdminUsersCubit extends Cubit<AdminUsersState> {
 
   Future<void> markUserAsRead({required UserDataModel user}) async {
     if (state is! AdminUsersFetched) return;
+    if (user.isRead) return;
     try {
+      final shadowState = state as AdminUsersFetched;
+      final updated = user.copyWith(isRead: true);
+      final users = shadowState.users.map((e) {
+        if (e.authId == user.authId) {
+          return updated;
+        }
+        return e;
+      }).toList();
+      _shadowUser = updated;
+      emit(shadowState.copyWith(users: users, user: updated));
       await _firestoreRepository.updateUser(
-        user.copyWith(isRead: true).toMap(),
+        updated.toMap(),
         user.id!,
       );
     } catch (_) {}
@@ -122,6 +133,14 @@ class AdminUsersCubit extends Cubit<AdminUsersState> {
       final user = shadowState.user;
       if (user == null) return;
       final updated = user.copyWith(isRead: false);
+      final users = shadowState.users.map((e) {
+        if (e.authId == user.authId) {
+          return updated;
+        }
+        return e;
+      }).toList();
+      emit(shadowState.copyWith(users: users, user: updated));
+      _shadowUser = updated;
       await _firestoreRepository.updateUser(
         updated.toMap(),
         user.id!,
@@ -138,7 +157,7 @@ class AdminUsersCubit extends Cubit<AdminUsersState> {
       await _firestoreRepository.deleteUser(user.authId!);
       final users = shadowState.users.where((e) => e.authId != user.authId);
       _shadowUser = null;
-      emit(shadowState.copyWith(users: users.toList(), user: null));
+      emit(shadowState.copyWith(users: users.toList()));
     } catch (_) {}
   }
 
