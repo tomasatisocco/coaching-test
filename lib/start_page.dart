@@ -1,5 +1,5 @@
 import 'package:coaching/app/widgets/coaching_drawer.dart';
-import 'package:coaching/authentication/login/view/login_page.dart';
+import 'package:coaching/authentication/register/view/register_page.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
@@ -75,7 +75,7 @@ class StartPage extends StatelessWidget {
                   onPressed: () async {
                     await showDialog<void>(
                       context: context,
-                      builder: (context) => const LoginPage(),
+                      builder: (context) => const RegisterPage(),
                     );
                   },
                   child: SizedBox(
