@@ -85,30 +85,24 @@ class ResultsWidget extends StatelessWidget {
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 30,
-                    child: ListTile(
-                      title: Text(
-                        state.test.coachingTestDate.toString(),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
+                  ListTile(
+                    title: Text(
+                      state.test.coachingTestDate.toString(),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                   ...state.test.questions.map((e) {
-                    return SizedBox(
-                      height: 40,
-                      child: ListTile(
-                        title: Text(e.getQuestion(context.l10n)),
-                        subtitle: Text(
-                          e
-                              .answers(context.l10n)
-                              .map(
-                                (key, value) => MapEntry(value, key),
-                              )[e.value ?? 0 ~/ e.multiplier]
-                              .toString(),
-                        ),
+                    return ListTile(
+                      title: Text(e.getQuestion(context.l10n)),
+                      subtitle: Text(
+                        e
+                            .answers(context.l10n)
+                            .map(
+                              (key, value) => MapEntry(value, key),
+                            )[e.value ?? 0 ~/ e.multiplier]
+                            .toString(),
                       ),
                     );
                   }),

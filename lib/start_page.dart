@@ -74,8 +74,9 @@ class StartPage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () async {
                     await showDialog<void>(
-                        context: context,
-                        builder: (context) => const LoginPage());
+                      context: context,
+                      builder: (context) => const LoginPage(),
+                    );
                   },
                   child: SizedBox(
                     width: 200,

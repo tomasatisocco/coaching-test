@@ -24,7 +24,7 @@ class UserSubscriptionWidget extends StatelessWidget {
           ),
         ),
         SizedBox(
-          width: 300,
+          width: 400,
           height: 100,
           child: ListView.builder(
             itemCount: Subscription.values.length,

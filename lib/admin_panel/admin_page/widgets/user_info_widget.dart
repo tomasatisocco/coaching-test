@@ -4,6 +4,7 @@ import 'package:coaching/admin_panel/admin_page/widgets/user_status_row.dart';
 import 'package:coaching/admin_panel/admin_page/widgets/user_subscription.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/welcome/models/subscription.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -66,86 +67,93 @@ class UserInfoWidget extends StatelessWidget {
                 ),
                 SizedBox(
                   width: MediaQuery.sizeOf(context).width - 250,
-                  child: Row(
-                    children: [
-                      const SizedBox(width: 20),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                  child: ScrollConfiguration(
+                    behavior: MyCustomScrollBehavior(),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      primary: true,
+                      child: Row(
                         children: [
-                          const Text(
-                            'Datos Personales',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          ...userMap.entries.map((e) {
-                            if (e.key == 'status' ||
-                                e.key == 'testIds' ||
-                                e.key == 'subscription' ||
-                                e.key == 'isPaid' ||
-                                e.value == null) {
-                              return const SizedBox.shrink();
-                            }
-                            return SizedBox(
-                              width: 500,
-                              height: 30,
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      e.key,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
+                          const SizedBox(width: 20),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Datos Personales',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              ...userMap.entries.map((e) {
+                                if (e.key == 'status' ||
+                                    e.key == 'testIds' ||
+                                    e.key == 'subscription' ||
+                                    e.key == 'isPaid' ||
+                                    e.value == null) {
+                                  return const SizedBox.shrink();
+                                }
+                                return SizedBox(
+                                  width: 500,
+                                  height: 30,
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          e.key,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                      Expanded(
+                                        flex: 3,
+                                        child: Text(e.value.toString()),
+                                      ),
+                                    ],
                                   ),
-                                  Expanded(
-                                    flex: 3,
-                                    child: Text(e.value.toString()),
-                                  ),
-                                ],
+                                );
+                              }),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              UserStatusRow(userStatus: userStatus ?? 0),
+                              const SizedBox(height: 16),
+                              UserSubscriptionWidget(
+                                userSubscription: state.user?.subscription ??
+                                    Subscription.none,
                               ),
-                            );
-                          }),
+                              Container(
+                                width: 200,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white,
+                                ),
+                                child: ListTile(
+                                  title: const Text('Pago'),
+                                  trailing: Switch(
+                                    value: state.user?.isPaid ?? false,
+                                    activeTrackColor: Colors.green,
+                                    onChanged: (value) {
+                                      final user = state.user;
+                                      if (user == null) return;
+                                      context
+                                          .read<AdminUsersCubit>()
+                                          .updateSelectedUser(
+                                            user.copyWith(isPaid: value),
+                                          );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
-                      Column(
-                        children: [
-                          UserStatusRow(userStatus: userStatus ?? 0),
-                          const SizedBox(height: 16),
-                          UserSubscriptionWidget(
-                            userSubscription:
-                                state.user?.subscription ?? Subscription.none,
-                          ),
-                          Container(
-                            width: 200,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.white,
-                            ),
-                            child: ListTile(
-                              title: const Text('Pago'),
-                              trailing: Switch(
-                                value: state.user?.isPaid ?? false,
-                                activeTrackColor: Colors.green,
-                                onChanged: (value) {
-                                  final user = state.user;
-                                  if (user == null) return;
-                                  context
-                                      .read<AdminUsersCubit>()
-                                      .updateSelectedUser(
-                                        user.copyWith(isPaid: value),
-                                      );
-                                },
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
                 ),
                 TestExpandableWidget(testIds: user.testIds),
@@ -156,4 +164,14 @@ class UserInfoWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+class MyCustomScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+        PointerDeviceKind.stylus,
+        PointerDeviceKind.unknown,
+      };
 }
