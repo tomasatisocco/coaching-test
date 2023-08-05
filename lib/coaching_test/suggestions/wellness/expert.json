@@ -1,0 +1,37 @@
+{
+    "1": {
+        "1": "Se sugiere iniciar con actividad física",
+        "2": "Se sugiere incrementar la cantidad de actividad física realizada",
+        "3": "Se sugiere incrementar la cantidad de actividad física realizada",
+        "4": "Se sugiere sostener la cantidad de actividad física realizada",
+        "5": "Se sugiere sostener la cantidad de actividad física realizada"
+    },
+    "2": {
+        "1": "Se sugiere incrementar el tiempo dedicado a las relaciones familiares",
+        "2": "Se sugiere incrementar el tiempo dedicado a las relaciones familiares",
+        "3": "Se sugiere incrementar el tiempo dedicado a las relaciones familiares",
+        "4": "Se sugiere sostener el tiempo dedicado a las relaciones familiares",
+        "5": "Se sugiere sostener el tiempo dedicado a las relaciones familiares"
+    },
+    "3": {
+        "1": "Se sugiere incrementar el tiempo dedicado a relaciones sociales",
+        "2": "Se sugiere incrementar la cantidad de tiempo dedicado a relaciones sociales",
+        "3": "Se sugiere incrementar la cantidad de tiempo dedicado a relaciones sociales",
+        "4": "Se sugiere sostener la cantidad de tiempo dedicado a relaciones sociales",
+        "5": "Se sugiere sostener la cantidad de tiempo dedicado a relaciones sociales"
+    },
+    "4": {
+        "1": "Se sugiere iniciar a tener contacto con la naturaleza",
+        "2": "Se sugiere incrementar la cantidad de tiempo en contacto con la naturaleza",
+        "3": "Se sugiere incrementar la cantidad de tiempo en contacto con la naturaleza",
+        "4": "Se sugiere sostener la cantidad de tiempo en contacto con la naturaleza",
+        "5": "Se sugiere sostener la cantidad de tiempo en contacto con la naturaleza"
+    },
+    "5": {
+        "1": "Se sugiere iniciar con actividades de ocio",
+        "2": "Se sugiere incrementar la cantidad de tiempo dedicado al ocio",
+        "3": "Se sugiere incrementar la cantidad de tiempo dedicado al ocio",
+        "4": "Se sugiere sostener la cantidad de tiempo dedicado al ocio",
+        "5": "Se sugiere sostener la cantidad de tiempo dedicado al ocio"
+    }
+}
