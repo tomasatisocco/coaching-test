@@ -117,19 +117,10 @@ class ResultsWidget extends StatelessWidget {
                     ),
                   ),
                   ...state.test.questions.map((e) {
-                    final multiplier = e.multiplier;
-                    final value = e.value ?? 0;
-                    final total = value ~/ multiplier;
+                    ;
                     return ListTile(
                       title: Text(e.getQuestion(context.l10n)),
-                      subtitle: Text(
-                        e
-                            .answers(context.l10n)
-                            .map(
-                              (key, value) => MapEntry(value, key),
-                            )[total]
-                            .toString(),
-                      ),
+                      subtitle: Text(e.answerText(context.l10n)),
                     );
                   }),
                 ],

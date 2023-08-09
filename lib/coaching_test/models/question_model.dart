@@ -38,6 +38,11 @@ abstract class QuestionModel {
     };
   }
 
+  int get answerIndex => (value ?? 0) ~/ multiplier;
+
+  String answerText(AppLocalizations l10n) =>
+      answers(l10n).keys.elementAt(answerIndex);
+
   static QuestionModel? fromMap(Map<String, dynamic> map) {
     switch (map.keys.first) {
       case AnswerQuestionKeys.profesionalImprovement:
