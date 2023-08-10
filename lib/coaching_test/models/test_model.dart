@@ -172,7 +172,7 @@ class CoachingTest {
       final completeMap = json.decode(file) as Map<String, dynamic>;
       final questionMap = completeMap[question.key] as Map<String, dynamic>?;
       final suggestion =
-          questionMap?[question.answerIndex.toString()] as String?;
+          questionMap?[(question.answerIndex + 1).toString()] as String?;
       return suggestion;
     } catch (e) {
       return null;

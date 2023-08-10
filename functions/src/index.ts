@@ -148,6 +148,173 @@ async function addResultPDF(
 }
 
 /**
+ * This function adds the suggestions page to the pdf.
+ * @param {PDFDocument} pdfDoc The PDF document.
+ * @param {string[]} qualitySuggestions The path to the results.
+ * @param {string[]} businessSuggestions The path to the results.
+ * @param {string[]} wellnessSuggestions The path to the results.
+ * @param {string[]} communitySuggestions The path to the results.
+ */
+async function addSuggestionsPage(
+  pdfDoc: PDFDocument,
+  qualitySuggestions: string[],
+  businessSuggestions: string[],
+  wellnessSuggestions: string[],
+  communitySuggestions: string[],
+) : Promise<void> {
+  const page = pdfDoc.insertPage(5);
+  const height = page.getSize().height;
+  const font = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+  const boldFont = await pdfDoc.embedFont(StandardFonts.TimesRomanBoldItalic);
+  const fontSize = 12;
+  const lineHeight = 20;
+  let y = height - 100;
+  const title = "Las orientaciones por dominios";
+  page.drawText(
+    title,
+    {
+      x: 30,
+      y: y,
+      size: 16,
+      color: rgb(0, 0, 0),
+      font: boldFont,
+    }
+  );
+  y -= lineHeight * 2;
+  page.drawText(
+    "Calidad de servicio",
+    {
+      x: 50,
+      y: y,
+      size: 14,
+      color: rgb(0, 0, 0),
+      font: boldFont,
+    }
+  );
+  y -= lineHeight;
+  qualitySuggestions.forEach((suggestion) => {
+    page.drawText("• ", {
+      x: 70,
+      y,
+      size: fontSize,
+      color: rgb(0, 0, 0),
+      font,
+    });
+    page.drawText(
+      suggestion,
+      {
+        x: 85,
+        y: y,
+        size: fontSize,
+        color: rgb(0, 0, 0),
+        font: font,
+      }
+    );
+    y -= lineHeight;
+  });
+
+  y -= lineHeight;
+  page.drawText(
+    "Calidad de negocio",
+    {
+      x: 50,
+      y: y,
+      size: 14,
+      color: rgb(0, 0, 0),
+      font: boldFont,
+    }
+  );
+  y -= lineHeight;
+  businessSuggestions.forEach((suggestion) => {
+    page.drawText("• ", {
+      x: 70,
+      y,
+      size: fontSize,
+      color: rgb(0, 0, 0),
+      font,
+    });
+    page.drawText(
+      suggestion,
+      {
+        x: 85,
+        y: y,
+        size: fontSize,
+        color: rgb(0, 0, 0),
+        font: font,
+      }
+    );
+    y -= lineHeight;
+  });
+
+  y -= lineHeight;
+  page.drawText(
+    "Bienestar personal",
+    {
+      x: 50,
+      y: y,
+      size: 14,
+      color: rgb(0, 0, 0),
+      font: boldFont,
+    }
+  );
+  y -= lineHeight;
+  wellnessSuggestions.forEach((suggestion) => {
+    page.drawText("• ", {
+      x: 70,
+      y,
+      size: fontSize,
+      color: rgb(0, 0, 0),
+      font,
+    });
+    page.drawText(
+      suggestion,
+      {
+        x: 85,
+        y: y,
+        size: fontSize,
+        color: rgb(0, 0, 0),
+        font: font,
+      }
+    );
+    y -= lineHeight;
+  });
+
+  y -= lineHeight;
+  page.drawText(
+    "Aportes a la profesión",
+    {
+      x: 50,
+      y: y,
+      size: 14,
+      color: rgb(0, 0, 0),
+      font: boldFont,
+    }
+  );
+  y -= lineHeight;
+  communitySuggestions.forEach((suggestion) => {
+    page.drawText("• ", {
+      x: 70,
+      y,
+      size: fontSize,
+      color: rgb(0, 0, 0),
+      font,
+    });
+    page.drawText(
+      suggestion,
+      {
+        x: 85,
+        y: y,
+        size: fontSize,
+        color: rgb(0, 0, 0),
+        font: font,
+      }
+    );
+    y -= lineHeight;
+  });
+  functions.logger.log("Suggestions page added to PDF");
+}
+
+/**
  * This function adds the guide to the pdf.
  * @param {PDFDocument} pdfDoc The PDF document.
  * @param {string} resultsPath The path to the results.
@@ -176,12 +343,20 @@ async function addGuidePDF(
  * @param {string} guidePath The path to the guide.
  * @param {string} userName The user name.
  * @param {string} date The date of the test.
+ * @param {string[]} qualitySuggestions The quality suggestions.
+ * @param {string[]} businessSuggestions The business suggestions.
+ * @param {string[]} wellnessSuggestions The wellness suggestions.
+ * @param {string[]} communitySuggestions The community suggestions.
  */
 async function createPDF(
   resultsPath: string,
   guidePath: string,
   userName: string,
   date: string,
+  qualitySuggestions: string[],
+  businessSuggestions: string[],
+  wellnessSuggestions: string[],
+  communitySuggestions: string[],
 ): Promise<PDFDocument> {
   const filePath = "development/testresult.pdf";
   const iconPath = "development/live_as_coach_icon.png";
@@ -212,6 +387,14 @@ async function createPDF(
 
   // Add result PDF to the default PDF
   await addResultPDF(pdfDoc, resultsPath);
+
+  await addSuggestionsPage(
+    pdfDoc,
+    qualitySuggestions,
+    businessSuggestions,
+    wellnessSuggestions,
+    communitySuggestions,
+  );
 
   await addGuidePDF(pdfDoc, guidePath);
 
@@ -267,6 +450,10 @@ exports.readDevTests = functions
     const testId = context.params.testId;
     const userId = newValue.userId;
     const guide = newValue.guide;
+    const qualitySuggestions = newValue.quality_suggestions;
+    const businessSuggestions = newValue.business_suggestions;
+    const wellnessSuggestions = newValue.wellness_suggestions;
+    const communitySuggestions = newValue.community_suggestions;
     functions.logger.log("New test read in dev", testId);
 
     const userReference = await admin.firestore()
@@ -276,11 +463,26 @@ exports.readDevTests = functions
     const userEmail = userData?.email;
     const date = newValue?.coachingTestDate;
     functions.logger.log("User info", userName, userEmail);
+    await admin.firestore()
+      .doc("environments/development/users/"+userId)
+      .update({status: 5});
 
     const resultsPath = "development/UsersResults/"+userId+".pdf";
     const guidePath = "development/"+guide;
-    const pdfDoc = await createPDF(resultsPath, guidePath, userName, date);
+    const pdfDoc = await createPDF(
+      resultsPath,
+      guidePath,
+      userName,
+      date,
+      qualitySuggestions,
+      businessSuggestions,
+      wellnessSuggestions,
+      communitySuggestions,
+    );
     await sendEmail(pdfDoc, userEmail, userName);
+    await admin.firestore()
+      .doc("environments/development/users/"+userId)
+      .update({status: 6});
   });
 
 exports.readStageTests = functions
@@ -291,6 +493,10 @@ exports.readStageTests = functions
     const testId = context.params.testId;
     const userId = newValue.userId;
     const guide = newValue.guide;
+    const qualitySuggestions = newValue.quality_suggestions;
+    const businessSuggestions = newValue.business_suggestions;
+    const wellnessSuggestions = newValue.wellness_suggestions;
+    const communitySuggestions = newValue.community_suggestions;
     functions.logger.log("New test read in stage", testId);
 
     const userReference = await admin.firestore()
@@ -303,7 +509,16 @@ exports.readStageTests = functions
 
     const resultsPath = "staging/UsersResults/"+userId+".pdf";
     const guidePath = "development/"+guide;
-    const pdfDoc = await createPDF(resultsPath, guidePath, userName, date);
+    const pdfDoc = await createPDF(
+      resultsPath,
+      guidePath,
+      userName,
+      date,
+      qualitySuggestions,
+      businessSuggestions,
+      wellnessSuggestions,
+      communitySuggestions,
+    );
     await sendEmail(pdfDoc, userEmail, userName);
   });
 
@@ -315,6 +530,10 @@ exports.readProdTests = functions
     const testId = context.params.testId;
     const userId = newValue.userId;
     const guide = newValue.guide;
+    const qualitySuggestions = newValue.quality_suggestions;
+    const businessSuggestions = newValue.business_suggestions;
+    const wellnessSuggestions = newValue.wellness_suggestions;
+    const communitySuggestions = newValue.community_suggestions;
     functions.logger.log("New test read in production", testId);
 
     const userReference = await admin.firestore()
@@ -327,6 +546,15 @@ exports.readProdTests = functions
 
     const resultsPath = "production/UsersResults/"+userId+".pdf";
     const guidePath = "development/"+guide;
-    const pdfDoc = await createPDF(resultsPath, guidePath, userName, date);
+    const pdfDoc = await createPDF(
+      resultsPath,
+      guidePath,
+      userName,
+      date,
+      qualitySuggestions,
+      businessSuggestions,
+      wellnessSuggestions,
+      communitySuggestions,
+    );
     await sendEmail(pdfDoc, userEmail, userName);
   });
