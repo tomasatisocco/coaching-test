@@ -32,5 +32,13 @@ enum AnswerGroup {
   personal,
   community;
 
+  static AnswerGroup? fromKey(String key) {
+    if (key.startsWith('1')) return AnswerGroup.qualityOfService;
+    if (key.startsWith('2')) return AnswerGroup.business;
+    if (key.startsWith('3')) return AnswerGroup.personal;
+    if (key.startsWith('4')) return AnswerGroup.community;
+    return null;
+  }
+
   int get groupIndex => super.index + 1;
 }

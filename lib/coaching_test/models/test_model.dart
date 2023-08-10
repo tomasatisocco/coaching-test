@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:coaching/coaching_test/models/question_model.dart';
 import 'package:coaching/coaching_test/models/question_model_implementation.dart';
 import 'package:coaching/coaching_test/models/test_model_keys.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class CoachingTest {
@@ -81,10 +82,76 @@ class CoachingTest {
     return 'master_guide.pdf';
   }
 
-  Map<String, dynamic> toMap() {
+  String get getQualityLevelName {
+    final total = getGroupAnswersTotal(AnswerGroup.qualityOfService);
+    if (total < 22) return Level.beginner;
+    if (total < 28) return Level.advancedBeginner;
+    if (total < 37) return Level.advanced;
+    if (total < 41) return Level.expert;
+    return Level.master;
+  }
+
+  String get getBusinessLevelName {
+    final total = getGroupAnswersTotal(AnswerGroup.business);
+    if (total < 3) return Level.beginner;
+    if (total < 17) return Level.advancedBeginner;
+    if (total < 28) return Level.advanced;
+    if (total < 37) return Level.expert;
+    return Level.master;
+  }
+
+  String get getPersonalLevelName {
+    final total = getGroupAnswersTotal(AnswerGroup.personal);
+    if (total < 6) return Level.beginner;
+    if (total < 10) return Level.advancedBeginner;
+    if (total < 15) return Level.advanced;
+    if (total < 20) return Level.expert;
+    return Level.master;
+  }
+
+  String get getCommunityLevelName {
+    final total = getGroupAnswersTotal(AnswerGroup.community);
+    if (total < 8) return Level.beginner;
+    if (total < 12) return Level.advancedBeginner;
+    if (total < 17) return Level.advanced;
+    if (total < 25) return Level.expert;
+    return Level.master;
+  }
+
+  Future<Map<String, dynamic>> toMap() async {
     final answersMap = <String, dynamic>{};
+    final qualitySuggestions = <String>[];
+    final businessSuggestions = <String>[];
+    final wellnessSuggestions = <String>[];
+    final communitySuggestions = <String>[];
     for (final question in questions) {
       answersMap[question.key] = question.value;
+      final group = AnswerGroup.fromKey(question.key);
+      switch (group) {
+        case AnswerGroup.qualityOfService:
+          final filePath = './suggestions/quality/$getQualityLevelName.json';
+          final suggestion = await getSuggestion(filePath, question);
+          if (suggestion != null) qualitySuggestions.add(suggestion);
+          break;
+        case AnswerGroup.business:
+          final filePath = './suggestions/business/$getBusinessLevelName.json';
+          final suggestion = await getSuggestion(filePath, question);
+          if (suggestion != null) businessSuggestions.add(suggestion);
+          break;
+        case AnswerGroup.personal:
+          final filePath = './suggestions/wellness/$getPersonalLevelName.json';
+          final suggestion = await getSuggestion(filePath, question);
+          if (suggestion != null) wellnessSuggestions.add(suggestion);
+          break;
+        case AnswerGroup.community:
+          final filePath =
+              './suggestions/community/$getCommunityLevelName.json';
+          final suggestion = await getSuggestion(filePath, question);
+          if (suggestion != null) communitySuggestions.add(suggestion);
+          break;
+        case null:
+          break;
+      }
     }
     return <String, dynamic>{
       'userId': userId,
@@ -92,7 +159,24 @@ class CoachingTest {
           DateFormat('yyyy-MM-dd hh:mm').format(coachingTestDate),
       'answers': answersMap,
       'guide': _getGuide(),
+      'quality_suggestions': qualitySuggestions,
+      'business_suggestions': businessSuggestions,
+      'wellness_suggestions': wellnessSuggestions,
+      'community_suggestions': communitySuggestions,
     };
+  }
+
+  Future<String?> getSuggestion(String filePath, QuestionModel question) async {
+    try {
+      final file = await rootBundle.loadString(filePath);
+      final completeMap = json.decode(file) as Map<String, dynamic>;
+      final questionMap = completeMap[question.key] as Map<String, dynamic>?;
+      final suggestion =
+          questionMap?[question.answerIndex.toString()] as String?;
+      return suggestion;
+    } catch (e) {
+      return null;
+    }
   }
 
   @override
@@ -150,3 +234,11 @@ Set<QuestionModel> emptyQuestions = {
   ProfessionIntelectualQuestion(),
   CertificationsQuestion(),
 };
+
+class Level {
+  static const beginner = 'beginner';
+  static const advancedBeginner = 'advanced_beginner';
+  static const advanced = 'advanced';
+  static const expert = 'expert';
+  static const master = 'master';
+}

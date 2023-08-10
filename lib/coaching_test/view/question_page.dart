@@ -327,7 +327,7 @@ class QuestionPageDesktopView extends StatelessWidget {
                     Column(
                       children: [
                         const Spacer(flex: 2),
-                        // TODO: Abstract this calculation
+                        // TODO(TT): Abstract this calculation
                         SizedBox(
                           height: MediaQuery.of(context).size.height *
                                       0.15 *

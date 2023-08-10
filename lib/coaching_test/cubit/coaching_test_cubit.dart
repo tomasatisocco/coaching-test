@@ -46,7 +46,8 @@ class CoachingTestCubit extends Cubit<CoachingTestState> {
   Future<void> updateTest(String key, int value) async {
     emit(CoachingTestUpdating(state.testModel));
     final updatedTest = _updateTest(key, value);
-    await _dataPersistenceRepository.setCoachingTest(updatedTest.toMap());
+    final map = await updatedTest.toMap();
+    await _dataPersistenceRepository.setCoachingTest(map);
     emit(CoachingTestUpdated(updatedTest));
   }
 
@@ -54,9 +55,8 @@ class CoachingTestCubit extends Cubit<CoachingTestState> {
     emit(CoachingTestUpdating(state.testModel));
     try {
       await _uploadPDF(l10n);
-      final testId = await _firestoreRepository.addCoachingTest(
-        state.testModel.toMap(),
-      );
+      final map = await state.testModel.toMap();
+      final testId = await _firestoreRepository.addCoachingTest(map);
       final user =
           UserDataModel.fromJson(_dataPersistenceRepository.getUser()!);
       final updated = user.copyWith(

@@ -117,7 +117,6 @@ class ResultsWidget extends StatelessWidget {
                     ),
                   ),
                   ...state.test.questions.map((e) {
-                    ;
                     return ListTile(
                       title: Text(e.getQuestion(context.l10n)),
                       subtitle: Text(e.answerText(context.l10n)),
