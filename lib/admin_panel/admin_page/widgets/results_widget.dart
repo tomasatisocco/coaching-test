@@ -60,19 +60,31 @@ class _TestExpandableWidgetState extends State<TestExpandableWidget> {
                 firestoreRepository: context.read<FirestoreRepository>(),
                 testId: testIds?[index] ?? '',
               ),
-              child: ExpansionTile(
-                title: Text(testIds?[index] ?? ''),
-                initiallyExpanded: index == selected,
-                onExpansionChanged: (newState) {
-                  setState(() {
-                    selected = newState ? index : -1;
-                  });
+              child: Builder(
+                builder: (context) {
+                  return ExpansionTile(
+                    title: Text(testIds?[index] ?? ''),
+                    // trailing: ElevatedButton(
+                    //   child: Text('Reenviar resultados'),
+                    //   onPressed: () {
+                    //     context
+                    //         .read<AdminTestsCubit>()
+                    //         .reSendTest(testIds?[index]);
+                    //   },
+                    // ),
+                    initiallyExpanded: index == selected,
+                    onExpansionChanged: (newState) {
+                      setState(() {
+                        selected = newState ? index : -1;
+                      });
+                    },
+                    children: [
+                      ResultsWidget(
+                        isMobile: widget.isMobile,
+                      ),
+                    ],
+                  );
                 },
-                children: [
-                  ResultsWidget(
-                    isMobile: widget.isMobile,
-                  ),
-                ],
               ),
             );
           },

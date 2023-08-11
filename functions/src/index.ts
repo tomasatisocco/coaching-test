@@ -498,6 +498,9 @@ exports.readStageTests = functions
     const wellnessSuggestions = newValue.wellness_suggestions;
     const communitySuggestions = newValue.community_suggestions;
     functions.logger.log("New test read in stage", testId);
+    await admin.firestore()
+      .doc("environments/staging/users/"+userId)
+      .update({status: 5});
 
     const userReference = await admin.firestore()
       .doc("environments/staging/users/"+userId).get();
@@ -520,6 +523,9 @@ exports.readStageTests = functions
       communitySuggestions,
     );
     await sendEmail(pdfDoc, userEmail, userName);
+    await admin.firestore()
+      .doc("environments/staging/users/"+userId)
+      .update({status: 6});
   });
 
 exports.readProdTests = functions
@@ -535,6 +541,9 @@ exports.readProdTests = functions
     const wellnessSuggestions = newValue.wellness_suggestions;
     const communitySuggestions = newValue.community_suggestions;
     functions.logger.log("New test read in production", testId);
+    await admin.firestore()
+      .doc("environments/production/users/"+userId)
+      .update({status: 5});
 
     const userReference = await admin.firestore()
       .doc("environments/production/users/"+userId).get();
@@ -557,4 +566,50 @@ exports.readProdTests = functions
       communitySuggestions,
     );
     await sendEmail(pdfDoc, userEmail, userName);
+    await admin.firestore()
+      .doc("environments/production/users/"+userId)
+      .update({status: 6});
+  });
+
+// Send email from http call
+exports.sendEmail = functions
+  .region("southamerica-east1")
+  .https.onCall( async (data, context) => {
+    const testId = data.testId;
+    const testReference = await admin.firestore()
+      .doc("environments/development/coaching_tests/"+testId).get();
+    const test = testReference.data();
+    const userId = test?.userId;
+    const userReference = await admin.firestore()
+      .doc("environments/development/users/"+userId).get();
+    const userData = userReference.data();
+    const userName = userData?.name;
+    const userEmail = userData?.email;
+    const date = test?.coachingTestDate;
+    const guide = test?.guide;
+    const qualitySuggestions = test?.quality_suggestions;
+    const businessSuggestions = test?.business_suggestions;
+    const wellnessSuggestions = test?.wellness_suggestions;
+    const communitySuggestions = test?.community_suggestions;
+    functions.logger.log("User info", userName, userEmail);
+    await admin.firestore()
+      .doc("environments/production/users/"+userId)
+      .update({status: 5});
+
+    const resultsPath = "development/UsersResults/"+userId+".pdf";
+    const guidePath = "development/"+guide;
+    const pdfDoc = await createPDF(
+      resultsPath,
+      guidePath,
+      userName,
+      date,
+      qualitySuggestions,
+      businessSuggestions,
+      wellnessSuggestions,
+      communitySuggestions,
+    );
+    await sendEmail(pdfDoc, userEmail, userName);
+    await admin.firestore()
+      .doc("environments/production/users/"+userId)
+      .update({status: 6});
   });

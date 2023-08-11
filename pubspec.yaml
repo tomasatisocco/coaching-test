@@ -10,6 +10,7 @@ dependencies:
   auth_repository:
     path: packages/auth_repository
   bloc: ^8.1.2
+  cloud_functions: ^4.3.4
   data_persistence_repository:
     path: packages/data_persistence_repository
   equatable: ^2.0.3
