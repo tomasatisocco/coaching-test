@@ -35,8 +35,6 @@ class AdminTestsCubit extends Cubit<AdminTestsState> {
           .call<void>(
         <String, dynamic>{'testId': testId},
       );
-    } catch (e) {
-      print('Error: $e');
-    }
+    } catch (_) {}
   }
 }

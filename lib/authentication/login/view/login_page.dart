@@ -43,7 +43,7 @@ class _LoginViewState extends State<LoginView> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
   late GlobalKey<FormState> formKey;
-  var isPasswordVisible = false;
+  var _isPasswordVisible = false;
 
   @override
   void initState() {
@@ -137,16 +137,16 @@ class _LoginViewState extends State<LoginView> {
                             suffixIcon: IconButton(
                               onPressed: () {
                                 setState(() {
-                                  isPasswordVisible = !isPasswordVisible;
+                                  _isPasswordVisible = !_isPasswordVisible;
                                 });
                               },
-                              icon: isPasswordVisible
+                              icon: _isPasswordVisible
                                   ? const Icon(Icons.visibility_outlined)
                                   : const Icon(Icons.visibility_off_outlined),
                             ),
                           ),
                           controller: _passwordController,
-                          obscureText: !isPasswordVisible,
+                          obscureText: !_isPasswordVisible,
                           validator: (value) =>
                               AdminLoginValidators.validatePassword(
                             value,
