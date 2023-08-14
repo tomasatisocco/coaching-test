@@ -3,8 +3,8 @@ import 'dart:convert';
 
 import 'package:coaching/coaching_test/models/question_model.dart';
 import 'package:coaching/coaching_test/models/question_model_implementation.dart';
+import 'package:coaching/coaching_test/models/suggestions/suggestions.dart';
 import 'package:coaching/coaching_test/models/test_model_keys.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 class CoachingTest {
@@ -127,26 +127,102 @@ class CoachingTest {
     for (final question in questions) {
       answersMap[question.key] = question.value;
       final group = AnswerGroup.fromKey(question.key);
+      Map<String, Map<String, String>>? resultsMap;
       switch (group) {
         case AnswerGroup.qualityOfService:
-          final filePath = './suggestions/quality/$getQualityLevelName.json';
-          final suggestion = await getSuggestion(filePath, question);
+          final level = getQualityLevelName;
+          switch (level) {
+            case Level.beginner:
+              resultsMap = qualityBeginner;
+              break;
+            case Level.advancedBeginner:
+              resultsMap = qualityAdvancedBeginner;
+              break;
+            case Level.advanced:
+              resultsMap = qualityAdvanced;
+              break;
+            case Level.expert:
+              resultsMap = qualityExpert;
+              break;
+            case Level.master:
+              resultsMap = qualityMaster;
+              break;
+          }
+          final questionMap = resultsMap?[question.key];
+          final suggestion =
+              questionMap?[((question.value ?? 0) + 1).toString()];
           if (suggestion != null) qualitySuggestions.add(suggestion);
           break;
         case AnswerGroup.business:
-          final filePath = './suggestions/business/$getBusinessLevelName.json';
-          final suggestion = await getSuggestion(filePath, question);
+          final level = getBusinessLevelName;
+          switch (level) {
+            case Level.beginner:
+              resultsMap = businessBeginner;
+              break;
+            case Level.advancedBeginner:
+              resultsMap = businessAdvancedBeginner;
+              break;
+            case Level.advanced:
+              resultsMap = businessAdvanced;
+              break;
+            case Level.expert:
+              resultsMap = businessExpert;
+              break;
+            case Level.master:
+              resultsMap = businessMaster;
+              break;
+          }
+          final questionMap = resultsMap?[question.key];
+          final suggestion =
+              questionMap?[((question.value ?? 0) + 1).toString()];
           if (suggestion != null) businessSuggestions.add(suggestion);
           break;
         case AnswerGroup.personal:
-          final filePath = './suggestions/wellness/$getPersonalLevelName.json';
-          final suggestion = await getSuggestion(filePath, question);
+          final level = getPersonalLevelName;
+          switch (level) {
+            case Level.beginner:
+              resultsMap = wellnessBeginner;
+              break;
+            case Level.advancedBeginner:
+              resultsMap = wellnessAdvancedBeginner;
+              break;
+            case Level.advanced:
+              resultsMap = wellnessAdvanced;
+              break;
+            case Level.expert:
+              resultsMap = wellnessExpert;
+              break;
+            case Level.master:
+              resultsMap = wellnessMaster;
+              break;
+          }
+          final questionMap = resultsMap?[question.key];
+          final suggestion =
+              questionMap?[((question.value ?? 0) + 1).toString()];
           if (suggestion != null) wellnessSuggestions.add(suggestion);
           break;
         case AnswerGroup.community:
-          final filePath =
-              './suggestions/community/$getCommunityLevelName.json';
-          final suggestion = await getSuggestion(filePath, question);
+          final level = getCommunityLevelName;
+          switch (level) {
+            case Level.beginner:
+              resultsMap = communityBeginner;
+              break;
+            case Level.advancedBeginner:
+              resultsMap = communityAdvancedBeginner;
+              break;
+            case Level.advanced:
+              resultsMap = communityAdvanced;
+              break;
+            case Level.expert:
+              resultsMap = communityExpert;
+              break;
+            case Level.master:
+              resultsMap = communityMaster;
+              break;
+          }
+          final questionMap = resultsMap?[question.key];
+          final suggestion =
+              questionMap?[((question.value ?? 0) + 1).toString()];
           if (suggestion != null) communitySuggestions.add(suggestion);
           break;
         case null:
@@ -164,19 +240,6 @@ class CoachingTest {
       'wellness_suggestions': wellnessSuggestions,
       'community_suggestions': communitySuggestions,
     };
-  }
-
-  Future<String?> getSuggestion(String filePath, QuestionModel question) async {
-    try {
-      final file = await rootBundle.loadString(filePath);
-      final completeMap = json.decode(file) as Map<String, dynamic>;
-      final questionMap = completeMap[question.key] as Map<String, dynamic>?;
-      final suggestion =
-          questionMap?[(question.answerIndex + 1).toString()] as String?;
-      return suggestion;
-    } catch (e) {
-      return null;
-    }
   }
 
   @override
