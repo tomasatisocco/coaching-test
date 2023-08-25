@@ -13,7 +13,7 @@ class AdminLoginCubit extends Cubit<AdminLoginState> {
     required FirestoreRepository firestoreRepository,
   })  : _authRepository = authRepository,
         _firestoreRepository = firestoreRepository,
-        super(AdminLoginInitial());
+        super(const AdminLoginInitial());
 
   final AuthRepository _authRepository;
   final FirestoreRepository _firestoreRepository;
@@ -21,19 +21,19 @@ class AdminLoginCubit extends Cubit<AdminLoginState> {
 
   Future<void> init() async {
     _authSubscription = _authRepository.listenToAuthState().listen((u) async {
-      if (u == null) return emit(UserLogOutSuccess());
+      if (u == null) return emit(const UserLogOutSuccess());
       final isUserAdmin = await _firestoreRepository.isUserAdmin(u.uid);
-      if (!isUserAdmin) return emit(AdminNotAuthorized());
-      emit(AdminLoginSuccess());
+      if (!isUserAdmin) return emit(const AdminNotAuthorized());
+      emit(AdminLoginSuccess(u.email));
     });
   }
 
   Future<void> login(String email, String password) async {
     try {
-      emit(AdminLoginLoading());
+      emit(const AdminLoginLoading());
       await _authRepository.signInWithEmailAndPassword(email, password);
     } catch (e) {
-      emit(AdminLoginFailure());
+      emit(const AdminLoginFailure());
     }
   }
 

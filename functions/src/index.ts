@@ -4,6 +4,7 @@ import * as nodemailer from "nodemailer";
 import * as dotenv from "dotenv";
 import {Storage} from "@google-cloud/storage";
 import {PDFDocument, StandardFonts, rgb} from "pdf-lib";
+import axios from "axios";
 
 // Initialize Firebase Admin SDK
 admin.initializeApp();
@@ -574,7 +575,7 @@ exports.readProdTests = functions
 // Send email from http call
 exports.sendEmail = functions
   .region("southamerica-east1")
-  .https.onCall( async (data, context) => {
+  .https.onCall( async (data) => {
     const testId = data.testId;
     const testReference = await admin.firestore()
       .doc("environments/development/coaching_tests/"+testId).get();
@@ -612,4 +613,48 @@ exports.sendEmail = functions
     await admin.firestore()
       .doc("environments/production/users/"+userId)
       .update({status: 6});
+  });
+
+// Receive [String] authorization code and [String] state and OAuth
+exports.mercadoPagoOAuth = functions
+  .region("southamerica-east1")
+  .runWith({secrets: ["MP_CLIENT_ID", "MP_CLIENT_SECRET"]})
+  .https.onCall(async (data) => {
+    const code = data.code;
+    const state = data.state;
+    const url = "https://api.mercadopago.com/oauth/token";
+    const body = {
+      client_secret: process.env.MP_CLIENT_SECRET,
+      client_id: process.env.MP_CLIENT_ID,
+      grant_type: "authorization_code",
+      code,
+      redirect_uri: "https://coaching-test-3c129.web.app/mercadopago",
+    };
+    const response = await axios.post(url, body);
+
+    if (response.status !== 200) {
+      throw new functions.https.HttpsError(
+        "internal",
+        "Mercado Pago OAuth failed",
+      );
+    }
+
+    const json = await response.data;
+    const intentsDoc = await admin.firestore()
+      .doc("environments/production/mp/intents")
+      .get();
+    const intentsList = intentsDoc.data()?.intentsList;
+    const intent = intentsList.find(
+      (intent:any) => intent.identifier === state,
+    );
+    const mail = intent.mail;
+    const usersDoc = await admin.firestore()
+      .collection("environments/production/users")
+      .where("email", "==", mail)
+      .get();
+    const userId = usersDoc.docs[0].id;
+    await admin.firestore()
+      .collection("environments/production/mp")
+      .doc("authorization")
+      .update({...json, userId});
   });

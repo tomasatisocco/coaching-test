@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -33,8 +34,25 @@ class RemoteConfigurations {
       RemoteConfigsKeys.dollarPrice,
     );
   }
+
+  List<String> get whiteListVendors {
+    final value = remoteConfig
+        .getValue(
+          RemoteConfigsKeys.whiteListVendors,
+        )
+        .asString();
+    return (jsonDecode(value) as List<dynamic>).cast();
+  }
+
+  String get clientId {
+    return remoteConfig.getString(
+      RemoteConfigsKeys.clientId,
+    );
+  }
 }
 
 class RemoteConfigsKeys {
   static const String dollarPrice = 'dollar_price';
+  static const String whiteListVendors = 'whitelist_vendors';
+  static const String clientId = 'client_id';
 }

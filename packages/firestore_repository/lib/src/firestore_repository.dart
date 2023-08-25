@@ -134,6 +134,32 @@ class FirestoreRepository {
         .doc(id)
         .delete();
   }
+
+  ///
+  Future<void> addIntent({
+    required String userEmail,
+    required String identifier,
+  }) async {
+    try {
+      final intent =
+          await _environmentReference.collection(CollectionKeys.mp).get();
+      final intentMapList =
+          intent.docs.last.data()['intentsList'] as List<dynamic>;
+      final intentList = intentMapList.map<Intent>(Intent.fromMap).toList();
+      final newIntent = Intent(
+        userEmail: userEmail,
+        identifier: identifier,
+        createdAt: Timestamp.now(),
+      );
+      intentList.add(newIntent);
+      await _environmentReference
+          .collection(CollectionKeys.mp)
+          .doc('intents')
+          .update({
+        'intentsList': intentList.map((e) => e.toMap()).toList(),
+      });
+    } catch (_) {}
+  }
 }
 
 /// {@template collection_keys}
@@ -151,6 +177,9 @@ class CollectionKeys {
 
   /// Admin users collection key.
   static const adminUsers = 'admin_users';
+
+  /// Mercado Pago collection key.
+  static const mp = 'mp';
 }
 
 /// {@template environment_keys}
@@ -165,4 +194,42 @@ class Environments {
 
   /// Production environment key.
   static const production = 'production';
+}
+
+///
+class Intent {
+  ///
+  const Intent({
+    required this.userEmail,
+    required this.identifier,
+    required this.createdAt,
+  });
+
+  ///
+  factory Intent.fromMap(dynamic map) {
+    map = map as Map<String, dynamic>;
+    return Intent(
+      userEmail: map['mail'] as String?,
+      identifier: map['identifier'] as String?,
+      createdAt: map['createdAt'] as Timestamp?,
+    );
+  }
+
+  ///
+  Map<String, dynamic> toMap() {
+    return {
+      'mail': userEmail,
+      'identifier': identifier,
+      'createdAt': createdAt,
+    };
+  }
+
+  ///
+  final String? userEmail;
+
+  ///
+  final String? identifier;
+
+  ///
+  final Timestamp? createdAt;
 }

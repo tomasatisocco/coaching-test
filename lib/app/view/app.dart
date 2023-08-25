@@ -6,6 +6,7 @@ import 'package:coaching/authentication/register/view/register_page.dart';
 import 'package:coaching/coaching_test/models/test_model.dart';
 import 'package:coaching/coaching_test/view/coaching_test_page.dart';
 import 'package:coaching/l10n/l10n.dart';
+import 'package:coaching/mp_authorized/mp_authorized_page.dart';
 import 'package:coaching/payment/view/payment_page.dart';
 import 'package:coaching/remote_configs.dart';
 import 'package:coaching/start_page.dart';
@@ -17,6 +18,7 @@ import 'package:data_persistence_repository/data_persistence_repository.dart';
 import 'package:firestore_repository/firestore_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:functions_repository/functions_repository.dart';
 import 'package:go_router/go_router.dart';
 import 'package:storage_repository/storage_repository.dart';
 
@@ -28,6 +30,7 @@ class App extends StatelessWidget {
     required this.storageRepository,
     required this.remoteConfigurations,
     required this.authRepository,
+    required this.functionsRepository,
   });
 
   final FirestoreRepository firestoreRepository;
@@ -35,6 +38,7 @@ class App extends StatelessWidget {
   final StorageRepository storageRepository;
   final RemoteConfigurations remoteConfigurations;
   final AuthRepository authRepository;
+  final FunctionsRepository functionsRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +49,7 @@ class App extends StatelessWidget {
         RepositoryProvider.value(value: storageRepository),
         RepositoryProvider.value(value: remoteConfigurations),
         RepositoryProvider.value(value: authRepository),
+        RepositoryProvider.value(value: functionsRepository),
       ],
       child: BlocProvider(
         create: (context) => LocalizationsCubit(),
@@ -171,9 +176,23 @@ class _AppViewState extends State<AppView> {
             return const AdminLoginPage();
           },
         ),
+        GoRoute(
+          path: '/mercadopago',
+          name: MPAuthorizedPage.name,
+          builder: (_, state) {
+            final code = state.queryParameters['code'];
+            final identifier = state.queryParameters['state'];
+            return MPAuthorizedPage(
+              code: code,
+              identifier: identifier,
+            );
+          },
+        ),
       ],
       redirect: (context, state) async {
         final location = state.location;
+
+        if (location.contains('mercadopago')) return location;
         if (location == '/admin_login') return location;
         final userMap = context.read<DataPersistenceRepository>().getUser();
         if (userMap == null) return '/start';

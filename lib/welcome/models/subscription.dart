@@ -79,7 +79,7 @@ enum Subscription {
           l10n.makeGPS,
           l10n.receiveInform,
           l10n.scheduleSessionAnual,
-          l10n.saveMoney
+          l10n.saveMoney,
         ];
     }
   }

@@ -6,7 +6,7 @@ const wellnessExpert = {
     '2': 'Se sugiere incrementar la cantidad de actividad física realizada',
     '3': 'Se sugiere incrementar la cantidad de actividad física realizada',
     '4': 'Se sugiere sostener la cantidad de actividad física realizada',
-    '5': 'Se sugiere sostener la cantidad de actividad física realizada'
+    '5': 'Se sugiere sostener la cantidad de actividad física realizada',
   },
   '302': {
     '1':
@@ -16,7 +16,7 @@ const wellnessExpert = {
     '3':
         'Se sugiere incrementar el tiempo dedicado a las relaciones familiares',
     '4': 'Se sugiere sostener el tiempo dedicado a las relaciones familiares',
-    '5': 'Se sugiere sostener el tiempo dedicado a las relaciones familiares'
+    '5': 'Se sugiere sostener el tiempo dedicado a las relaciones familiares',
   },
   '303': {
     '1': 'Se sugiere incrementar el tiempo dedicado a relaciones sociales',
@@ -27,7 +27,7 @@ const wellnessExpert = {
     '4':
         'Se sugiere sostener la cantidad de tiempo dedicado a relaciones sociales',
     '5':
-        'Se sugiere sostener la cantidad de tiempo dedicado a relaciones sociales'
+        'Se sugiere sostener la cantidad de tiempo dedicado a relaciones sociales',
   },
   '304': {
     '1': 'Se sugiere iniciar a tener contacto con la naturaleza',
@@ -38,13 +38,13 @@ const wellnessExpert = {
     '4':
         'Se sugiere sostener la cantidad de tiempo en contacto con la naturaleza',
     '5':
-        'Se sugiere sostener la cantidad de tiempo en contacto con la naturaleza'
+        'Se sugiere sostener la cantidad de tiempo en contacto con la naturaleza',
   },
   '305': {
     '1': 'Se sugiere iniciar con actividades de ocio',
     '2': 'Se sugiere incrementar la cantidad de tiempo dedicado al ocio',
     '3': 'Se sugiere incrementar la cantidad de tiempo dedicado al ocio',
     '4': 'Se sugiere sostener la cantidad de tiempo dedicado al ocio',
-    '5': 'Se sugiere sostener la cantidad de tiempo dedicado al ocio'
-  }
+    '5': 'Se sugiere sostener la cantidad de tiempo dedicado al ocio',
+  },
 };

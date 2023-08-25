@@ -1,15 +1,31 @@
 part of 'admin_login_cubit.dart';
 
-abstract class AdminLoginState {}
+abstract class AdminLoginState {
+  const AdminLoginState(this.email);
 
-class AdminLoginInitial extends AdminLoginState {}
+  final String? email;
+}
 
-class AdminLoginLoading extends AdminLoginState {}
+class AdminLoginInitial extends AdminLoginState {
+  const AdminLoginInitial([super.email]);
+}
 
-class AdminLoginSuccess extends AdminLoginState {}
+class AdminLoginLoading extends AdminLoginState {
+  const AdminLoginLoading([super.email]);
+}
 
-class AdminLoginFailure extends AdminLoginState {}
+class AdminLoginSuccess extends AdminLoginState {
+  const AdminLoginSuccess([super.email]);
+}
 
-class AdminNotAuthorized extends AdminLoginState {}
+class AdminLoginFailure extends AdminLoginState {
+  const AdminLoginFailure([super.email]);
+}
 
-class UserLogOutSuccess extends AdminLoginState {}
+class AdminNotAuthorized extends AdminLoginState {
+  const AdminNotAuthorized([super.email]);
+}
+
+class UserLogOutSuccess extends AdminLoginState {
+  const UserLogOutSuccess([super.email]);
+}

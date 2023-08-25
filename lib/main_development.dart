@@ -8,6 +8,7 @@ import 'package:coaching/remote_configs.dart';
 import 'package:data_persistence_repository/data_persistence_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firestore_repository/firestore_repository.dart';
+import 'package:functions_repository/functions_repository.dart';
 import 'package:storage_repository/storage_repository.dart';
 
 void main() async {
@@ -20,6 +21,7 @@ void main() async {
   final dataPersistenceRepository = DataPersistenceRepository();
   final remoteConfigurations = RemoteConfigurations();
   final authRepository = AuthRepository();
+  const functionsRepository = FunctionsRepository();
 
   await dataPersistenceRepository.init();
   await remoteConfigurations.init();
@@ -33,6 +35,7 @@ void main() async {
         dataPersistenceRepository: dataPersistenceRepository,
         remoteConfigurations: remoteConfigurations,
         authRepository: authRepository,
+        functionsRepository: functionsRepository,
       ),
     ),
   );

@@ -6,7 +6,7 @@ const communityAdvancedBeginner = {
     '2': 'Se sugiere incrementar el número de actividades con colegas',
     '3': 'Se sugiere incrementar el número de actividades con colegas',
     '4': 'Se sugiere sostener el número de actividades con colegas',
-    '5': 'Se sugiere disminuir el número de actividades con colegas'
+    '5': 'Se sugiere disminuir el número de actividades con colegas',
   },
   '402': {
     '1': 'Se sugiere iniciar a realizar aportes a la profesión de coaching',
@@ -14,14 +14,14 @@ const communityAdvancedBeginner = {
         'Se sugiere incrementar el número de aportes a la profesión de coaching',
     '3': 'Se sugiere sostener el número de aportes a la profesión de coaching',
     '4': 'Se sugiere disminuir el número de aportes a la profesión de coaching',
-    '5': 'Se sugiere disminuir el número de aportes a la profesión de coaching'
+    '5': 'Se sugiere disminuir el número de aportes a la profesión de coaching',
   },
   '403': {
     '1': 'Se sugiere sostener el número de aportes a la profesión de coaching',
     '2': 'Se sugiere disminuir el número de aportes a la profesión de coaching',
     '3': 'Se sugiere disminuir el número de aportes a la profesión de coaching',
     '4': 'Se sugiere disminuir el número de aportes a la profesión de coaching',
-    '5': 'Se sugiere disminuir el número de aportes a la profesión de coaching'
+    '5': 'Se sugiere disminuir el número de aportes a la profesión de coaching',
   },
   '404': {
     '1':
@@ -33,6 +33,6 @@ const communityAdvancedBeginner = {
     '4':
         'Se sugiere disminuir el grado de certificación otorgado por alguna institución profesional',
     '5':
-        'Se sugiere disminuir el grado de certificación otorgado por alguna institución profesional'
-  }
+        'Se sugiere disminuir el grado de certificación otorgado por alguna institución profesional',
+  },
 };

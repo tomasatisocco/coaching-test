@@ -64,7 +64,7 @@ class UserSubscriptionWidget extends StatelessWidget {
               );
             },
           ),
-        )
+        ),
       ],
     );
   }
