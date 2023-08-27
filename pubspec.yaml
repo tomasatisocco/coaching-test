@@ -29,6 +29,7 @@ dependencies:
     path: packages/functions_repository
   go_router: ^9.0.0
   intl: ^0.18.0
+  js: ^0.6.7
   pdf: ^3.10.4
   responsive_builder: ^0.7.0
   storage_repository:

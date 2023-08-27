@@ -140,7 +140,8 @@ class _AppViewState extends State<AppView> {
           path: '/payment',
           name: PaymentPage.name,
           builder: (_, state) {
-            return const PaymentPage();
+            final success = state.queryParameters['success'];
+            return PaymentPage(isSuccess: success == 'true');
           },
         ),
         GoRoute(
@@ -194,6 +195,7 @@ class _AppViewState extends State<AppView> {
 
         if (location.contains('mercadopago')) return location;
         if (location == '/admin_login') return location;
+        if (location.contains('success=true')) return location;
         final userMap = context.read<DataPersistenceRepository>().getUser();
         if (userMap == null) return '/start';
         final user = UserDataModel.fromJson(userMap);

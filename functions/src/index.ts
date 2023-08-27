@@ -5,6 +5,9 @@ import * as dotenv from "dotenv";
 import {Storage} from "@google-cloud/storage";
 import {PDFDocument, StandardFonts, rgb} from "pdf-lib";
 import axios from "axios";
+import * as mercadopago from "mercadopago";
+import {CreatePreferencePayload}
+  from "mercadopago/models/preferences/create-payload.model";
 
 // Initialize Firebase Admin SDK
 admin.initializeApp();
@@ -657,4 +660,46 @@ exports.mercadoPagoOAuth = functions
       .collection("environments/production/mp")
       .doc("authorization")
       .update({...json, userId});
+  });
+
+exports.createCheckout = functions
+  .region("southamerica-east1")
+  .runWith({secrets: ["MP_ACCESS_TOKEN"]})
+  .https.onCall(async (data) => {
+    const itemDoc = await admin.firestore()
+      .doc("environments/production/mp/preference_templates")
+      .get();
+
+    const item = itemDoc.get(data.itemId);
+
+    if (!item) {
+      throw new functions.https.HttpsError(
+        "invalid-argument",
+        "Item not found",
+      );
+    }
+
+    mercadopago.configure({
+      access_token: process.env.MP_ACCESS_TOKEN!,
+    });
+    const preference : CreatePreferencePayload = {
+      items: [
+        item,
+      ],
+      back_urls: {
+        success: "https://coaching-test-3c129.web.app/payment?success=true",
+        failure: "https://coaching-test-3c129.web.app/payment",
+        pending: "https://coaching-test-3c129.web.app/payment",
+      },
+      auto_return: "approved",
+    };
+
+    const response = await mercadopago.preferences.create(preference);
+    if (!response.status.toString().startsWith("2")) {
+      throw new functions.https.HttpsError(
+        "internal",
+        "Mercado Pago checkout failed",
+      );
+    }
+    return response.body;
   });

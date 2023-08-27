@@ -12,6 +12,12 @@ class PaymentLoading extends PaymentState {
   const PaymentLoading();
 }
 
+class PaymentSelected extends PaymentState {
+  const PaymentSelected(this.preferenceId);
+
+  final String preferenceId;
+}
+
 class PaymentSuccess extends PaymentState {
   const PaymentSuccess();
 }

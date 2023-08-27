@@ -141,10 +141,11 @@ class FirestoreRepository {
     required String identifier,
   }) async {
     try {
-      final intent =
-          await _environmentReference.collection(CollectionKeys.mp).get();
-      final intentMapList =
-          intent.docs.last.data()['intentsList'] as List<dynamic>;
+      final intent = await _environmentReference
+          .collection(CollectionKeys.mp)
+          .doc('intents')
+          .get();
+      final intentMapList = intent.data()?['intentsList'] as List<dynamic>;
       final intentList = intentMapList.map<Intent>(Intent.fromMap).toList();
       final newIntent = Intent(
         userEmail: userEmail,
