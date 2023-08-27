@@ -1,19 +1,22 @@
 import 'package:bloc/bloc.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:coaching/coaching_test/models/test_model.dart';
 import 'package:firestore_repository/firestore_repository.dart';
+import 'package:functions_repository/functions_repository.dart';
 
 part 'admin_tests_state.dart';
 
 class AdminTestsCubit extends Cubit<AdminTestsState> {
   AdminTestsCubit({
     required FirestoreRepository firestoreRepository,
+    required FunctionsRepository functionsRepository,
     required String testId,
   })  : _firestoreRepository = firestoreRepository,
+        _functionsRepository = functionsRepository,
         _testId = testId,
         super(const AdminTestsInitial());
 
   final FirestoreRepository _firestoreRepository;
+  final FunctionsRepository _functionsRepository;
   final String _testId;
 
   Future<void> getTest() async {
@@ -30,11 +33,9 @@ class AdminTestsCubit extends Cubit<AdminTestsState> {
   Future<void> reSendTest(String? testId) async {
     try {
       if (testId == null) return;
-      await FirebaseFunctions.instanceFor(region: 'southamerica-east1')
-          .httpsCallable('sendEmail')
-          .call<void>(
-        <String, dynamic>{'testId': testId},
-      );
-    } catch (_) {}
+      await _functionsRepository.resendTest(testId);
+    } catch (e) {
+      print(e);
+    }
   }
 }

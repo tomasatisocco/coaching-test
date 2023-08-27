@@ -10,7 +10,6 @@ import 'package:coaching/coaching_test/view/coaching_test_page.dart';
 import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/payment/cubit/payment_cubit.dart';
 import 'package:coaching/payment/widgets/payment_method_widget.dart';
-import 'package:coaching/welcome/models/subscription.dart';
 import 'package:data_persistence_repository/data_persistence_repository.dart';
 import 'package:firestore_repository/firestore_repository.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +30,7 @@ class PaymentPage extends StatelessWidget {
         firestoreRepository: context.read<FirestoreRepository>(),
         dataPersistenceRepository: context.read<DataPersistenceRepository>(),
         functionsRepository: context.read<FunctionsRepository>(),
-      ),
+      )..init(),
       child: PaymentView(isSuccess: isSuccess ?? false),
     );
   }
@@ -73,7 +72,7 @@ class _PaymentViewState extends State<PaymentView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<PaymentCubit, PaymentState>(
+    return BlocConsumer<PaymentCubit, PaymentState>(
       listener: (context, state) {
         if (state is PaymentFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -121,45 +120,59 @@ class _PaymentViewState extends State<PaymentView> {
           );
         }
       },
-      child: Scaffold(
-        appBar: const CoachingAppBar(),
-        endDrawer: const CoachingDrawer(),
-        backgroundColor: Theme.of(context).colorScheme.background,
-        body: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  context.l10n.choosePlan,
-                  style: const TextStyle(
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
+      builder: (context, state) {
+        if (state.subscriptions == null) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return Scaffold(
+          appBar: const CoachingAppBar(),
+          endDrawer: const CoachingDrawer(),
+          backgroundColor: Theme.of(context).colorScheme.background,
+          body: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    context.l10n.choosePlan,
+                    style: const TextStyle(
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                Text(
-                  context.l10n.choosePlanDescription,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 16,
+                  Text(
+                    context.l10n.choosePlanDescription,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 16),
-                const SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      PaymentMethodWidget(subscription: Subscription.basic),
-                      PaymentMethodWidget(subscription: Subscription.premium),
-                    ],
-                  ),
-                ),
-              ],
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    height: 500,
+                    width: (state.subscriptions?.length ?? 0) * 350,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: state.subscriptions?.length ?? 0,
+                      padding: const EdgeInsets.symmetric(horizontal: 32),
+                      separatorBuilder: (context, index) => const SizedBox(
+                        height: 16,
+                      ),
+                      itemBuilder: (context, index) {
+                        return PaymentMethodWidget(
+                          subscription: state.subscriptions![index],
+                        );
+                      },
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

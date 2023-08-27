@@ -1,6 +1,6 @@
 import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/payment/cubit/payment_cubit.dart';
-import 'package:coaching/welcome/models/subscription.dart';
+import 'package:firestore_repository/models/subscriptions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

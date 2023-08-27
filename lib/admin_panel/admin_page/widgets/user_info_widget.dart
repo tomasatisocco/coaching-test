@@ -4,7 +4,6 @@ import 'package:coaching/admin_panel/admin_page/widgets/results_widget.dart';
 import 'package:coaching/admin_panel/admin_page/widgets/user_status_row.dart';
 import 'package:coaching/admin_panel/admin_page/widgets/user_subscription.dart';
 import 'package:coaching/l10n/l10n.dart';
-import 'package:coaching/welcome/models/subscription.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -93,8 +92,9 @@ class UserInfoWidget extends StatelessWidget {
                               UserStatusRow(userStatus: userStatus ?? 0),
                               const SizedBox(height: 16),
                               UserSubscriptionWidget(
-                                userSubscription: state.user?.subscription ??
-                                    Subscription.none,
+                                userSubscription: context
+                                    .read<AdminUsersCubit>()
+                                    .userSubscription,
                               ),
                               Container(
                                 width: 200,
@@ -231,8 +231,9 @@ class UserInfoMobileView extends StatelessWidget {
                             UserStatusRow(userStatus: userStatus ?? 0),
                             const SizedBox(height: 16),
                             UserSubscriptionWidget(
-                              userSubscription:
-                                  state.user?.subscription ?? Subscription.none,
+                              userSubscription: state.subscriptions?.firstWhere(
+                                (element) => element.name == user.subscription,
+                              ),
                             ),
                             Container(
                               width: 200,

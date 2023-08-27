@@ -19,6 +19,7 @@ class AdminUsersCubit extends Cubit<AdminUsersState> {
   Future<void> init() async {
     emit(const AdminFetchingUsers());
     try {
+      final subscriptions = await _firestoreRepository.getSubscriptionTypes();
       _userListSubscription =
           _firestoreRepository.listenUserList().listen((snapshots) {
         final users = snapshots.docs
@@ -38,7 +39,13 @@ class AdminUsersCubit extends Cubit<AdminUsersState> {
             );
           }
         }
-        emit(AdminUsersFetched(users: users, user: user));
+        emit(
+          AdminUsersFetched(
+            users: users,
+            user: user,
+            subscriptions: subscriptions,
+          ),
+        );
       });
     } catch (_) {
       emit(const AdminUsersError());
@@ -58,7 +65,7 @@ class AdminUsersCubit extends Cubit<AdminUsersState> {
   void updateSelectedUser(UserDataModel user) {
     if (state is! AdminUsersFetched) return;
     final shadowState = state as AdminUsersFetched;
-    emit(const AdminFetchingUsers());
+    emit(AdminFetchingUsers(subscriptions: state.subscriptions));
     final users = shadowState.users.map((e) {
       if (e.authId == user.authId) {
         return user;
@@ -85,9 +92,14 @@ class AdminUsersCubit extends Cubit<AdminUsersState> {
   void unSelectUser() {
     if (state is! AdminUsersFetched) return;
     final shadowState = state as AdminUsersFetched;
-    emit(const AdminFetchingUsers());
+    emit(AdminFetchingUsers(subscriptions: state.subscriptions));
     _shadowUser = null;
-    emit(AdminUsersFetched(users: shadowState.users));
+    emit(
+      AdminUsersFetched(
+        users: shadowState.users,
+        subscriptions: state.subscriptions,
+      ),
+    );
   }
 
   Future<void> updateUser() async {
@@ -154,11 +166,25 @@ class AdminUsersCubit extends Cubit<AdminUsersState> {
       final shadowState = state as AdminUsersFetched;
       final user = shadowState.user;
       if (user == null) return;
-      await _firestoreRepository.deleteUser(user.authId!);
-      final users = shadowState.users.where((e) => e.authId != user.authId);
+      await _firestoreRepository.deleteUser(user.id!);
+      final users = shadowState.users.where((e) => e.id != user.id);
       _shadowUser = null;
       emit(shadowState.copyWith(users: users.toList()));
     } catch (_) {}
+  }
+
+  Subscription? get userSubscription {
+    if (state is! AdminUsersFetched) return null;
+    final shadowState = state as AdminUsersFetched;
+    final user = shadowState.user;
+    if (user == null) return null;
+    try {
+      return shadowState.subscriptions?.firstWhere(
+        (element) => element.name == user.subscription,
+      );
+    } catch (_) {
+      return null;
+    }
   }
 
   @override

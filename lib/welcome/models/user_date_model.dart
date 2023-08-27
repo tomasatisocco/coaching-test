@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart' show Timestamp;
-import 'package:coaching/welcome/models/subscription.dart';
 import 'package:equatable/equatable.dart';
 
 class UserDataModel extends Equatable {
@@ -33,7 +32,7 @@ class UserDataModel extends Equatable {
   final String? authId;
   final List<String>? testIds;
   final Status? status;
-  final Subscription? subscription;
+  final String? subscription;
   final bool isPaid;
   final bool isRead;
 
@@ -51,7 +50,6 @@ class UserDataModel extends Equatable {
       name: name,
       birthDate: birthDate,
       status: Status.registered,
-      subscription: Subscription.none,
     );
   }
 
@@ -84,7 +82,7 @@ class UserDataModel extends Equatable {
     String? authId,
     List<String>? testIds,
     Status? status,
-    Subscription? subscription,
+    String? subscription,
     bool? isPaid,
     bool? isRead,
   }) {
@@ -120,7 +118,7 @@ class UserDataModel extends Equatable {
       'createdAt': createdAt.toString(),
       'testIds': testIds,
       'status': status?.index,
-      'subscription': subscription?.index,
+      'subscription': subscription,
       'isPaid': isPaid,
       'isRead': isRead,
     };
@@ -146,9 +144,7 @@ class UserDataModel extends Equatable {
           (map['testIds'] as List<dynamic>?)?.map((e) => e.toString()).toList(),
       status:
           map['status'] == null ? null : Status.values[map['status'] as int],
-      subscription: map['subscription'] == null
-          ? null
-          : Subscription.values[map['subscription'] as int],
+      subscription: map['subscription'] as String?,
       isPaid: map['isPaid'] as bool? ?? false,
       isRead: map['isRead'] as bool? ?? false,
     );

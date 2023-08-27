@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firestore_repository/models/subscriptions.dart';
 
 /// {@template firestore_repository}
 /// A Very Good Project created by Very Good CLI.
@@ -135,7 +136,7 @@ class FirestoreRepository {
         .delete();
   }
 
-  ///
+  /// Add new intent
   Future<void> addIntent({
     required String userEmail,
     required String identifier,
@@ -143,7 +144,7 @@ class FirestoreRepository {
     try {
       final intent = await _environmentReference
           .collection(CollectionKeys.mp)
-          .doc('intents')
+          .doc(CollectionKeys.intents)
           .get();
       final intentMapList = intent.data()?['intentsList'] as List<dynamic>;
       final intentList = intentMapList.map<Intent>(Intent.fromMap).toList();
@@ -155,11 +156,28 @@ class FirestoreRepository {
       intentList.add(newIntent);
       await _environmentReference
           .collection(CollectionKeys.mp)
-          .doc('intents')
+          .doc(CollectionKeys.intents)
           .update({
         'intentsList': intentList.map((e) => e.toMap()).toList(),
       });
     } catch (_) {}
+  }
+
+  /// Get subscription types
+  Future<List<Subscription>?> getSubscriptionTypes() async {
+    try {
+      final snapshot = await _environmentReference
+          .collection(CollectionKeys.mp)
+          .doc(CollectionKeys.preferenceTemplates)
+          .get();
+      final subscriptionTypes = snapshot.data();
+
+      return subscriptionTypes?.entries
+          .map((e) => Subscription.fromMap(e.value as Map<String, dynamic>))
+          .toList();
+    } catch (_) {
+      return null;
+    }
   }
 }
 
@@ -181,6 +199,12 @@ class CollectionKeys {
 
   /// Mercado Pago collection key.
   static const mp = 'mp';
+
+  /// Intents collection key.
+  static const intents = 'intents';
+
+  /// Preference templates collection key.
+  static const preferenceTemplates = 'preference_templates';
 }
 
 /// {@template environment_keys}

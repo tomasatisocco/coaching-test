@@ -1,6 +1,5 @@
-import 'package:coaching/l10n/l10n.dart';
 import 'package:coaching/payment/widgets/pay_button.dart';
-import 'package:coaching/welcome/models/subscription.dart';
+import 'package:firestore_repository/models/subscriptions.dart';
 import 'package:flutter/material.dart';
 
 class PaymentMethodWidget extends StatelessWidget {
@@ -10,7 +9,7 @@ class PaymentMethodWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final benefits = subscription.benefits(context.l10n);
+    final benefits = subscription.benefits;
     return Container(
       height: 500,
       width: 300,
@@ -38,7 +37,7 @@ class PaymentMethodWidget extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            subscription.title(context.l10n),
+            subscription.title ?? '',
             style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -53,22 +52,22 @@ class PaymentMethodWidget extends StatelessWidget {
                 size: 24,
               ),
               Text(
-                subscription.price.toString(),
+                subscription.unitPrice.toString(),
                 style: const TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Visibility(
-                visible: subscription == Subscription.mensual ||
-                    subscription == Subscription.anual,
-                maintainAnimation: true,
-                maintainSize: true,
-                maintainState: true,
-                child: subscription == Subscription.mensual
-                    ? Text(context.l10n.month)
-                    : Text(context.l10n.year),
-              ),
+              // Visibility(
+              //   visible: subscription == Subscription.mensual ||
+              //       subscription == Subscription.anual,
+              //   maintainAnimation: true,
+              //   maintainSize: true,
+              //   maintainState: true,
+              //   child: subscription == Subscription.mensual
+              //       ? Text(context.l10n.month)
+              //       : Text(context.l10n.year),
+              // ),
             ],
           ),
           const SizedBox(height: 16),
@@ -78,7 +77,7 @@ class PaymentMethodWidget extends StatelessWidget {
           const SizedBox(height: 16),
           ListView.builder(
             shrinkWrap: true,
-            itemCount: benefits.length,
+            itemCount: benefits?.length,
             itemBuilder: (context, index) {
               return ListTile(
                 leading: const Icon(
@@ -87,7 +86,7 @@ class PaymentMethodWidget extends StatelessWidget {
                 ),
                 contentPadding: EdgeInsets.zero,
                 horizontalTitleGap: 0,
-                title: Text(benefits[index]),
+                title: Text(benefits?[index] ?? ''),
               );
             },
           ),

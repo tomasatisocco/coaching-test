@@ -38,4 +38,23 @@ class FunctionsRepository {
     });
     return response.data;
   }
+
+  /// Resend a test result
+  Future<void> resendTest(String testId) async {
+    try {
+      await FirebaseFunctions.instanceFor(
+        region: 'southamerica-east1',
+        app: Firebase.app(),
+      )
+          .httpsCallable(
+            'reSendEmail',
+            options: HttpsCallableOptions(
+              timeout: const Duration(seconds: 30),
+            ),
+          )
+          .call<void>();
+    } catch (e) {
+      print(e);
+    }
+  }
 }

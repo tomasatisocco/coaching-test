@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:coaching/welcome/models/subscription.dart';
 import 'package:coaching/welcome/models/user_date_model.dart';
 import 'package:data_persistence_repository/data_persistence_repository.dart';
+import 'package:equatable/equatable.dart';
 import 'package:firestore_repository/firestore_repository.dart';
 import 'package:functions_repository/functions_repository.dart';
 
@@ -21,22 +21,38 @@ class PaymentCubit extends Cubit<PaymentState> {
   final DataPersistenceRepository _dataPersistenceRepository;
   final FunctionsRepository _functionsRepository;
 
+  Future<void> init() async {
+    emit(const PaymentInitial());
+    try {
+      final subscriptions = await _firestoreRepository.getSubscriptionTypes();
+      emit(
+        PaymentInitial(
+          subscriptions: subscriptions
+              ?.where((element) => element.enabled ?? false)
+              .toList(),
+        ),
+      );
+    } catch (_) {
+      emit(const PaymentFailure());
+    }
+  }
+
   Future<void> pay(Subscription subscription) async {
-    emit(const PaymentLoading());
+    emit(PaymentLoading(subscriptions: state.subscriptions));
     try {
       final user = UserDataModel.fromJson(
         _dataPersistenceRepository.getUser()!,
       );
       final updated = user.copyWith(
-        subscription: subscription,
+        subscription: subscription.name,
       );
       await _firestoreRepository.updateUser(updated.toMap(), user.id!);
       await _dataPersistenceRepository.setUser(updated.toJson());
       final preference = await _functionsRepository.createPreference(
-        subscription.name,
+        subscription.name!,
       );
       final preferenceId = preference['id'] as String;
-      emit(PaymentSelected(preferenceId));
+      emit(PaymentSelected(preferenceId, subscriptions: state.subscriptions));
     } catch (_) {
       emit(const PaymentFailure());
     }

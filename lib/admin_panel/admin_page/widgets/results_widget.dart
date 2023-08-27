@@ -3,6 +3,7 @@ import 'package:coaching/l10n/l10n.dart';
 import 'package:firestore_repository/firestore_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:functions_repository/functions_repository.dart';
 
 class TestExpandableWidget extends StatefulWidget {
   const TestExpandableWidget({
@@ -58,6 +59,7 @@ class _TestExpandableWidgetState extends State<TestExpandableWidget> {
               key: ValueKey(testIds?[index]),
               create: (context) => AdminTestsCubit(
                 firestoreRepository: context.read<FirestoreRepository>(),
+                functionsRepository: context.read<FunctionsRepository>(),
                 testId: testIds?[index] ?? '',
               ),
               child: Builder(

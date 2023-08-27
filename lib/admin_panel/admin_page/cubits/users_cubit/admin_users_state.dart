@@ -1,18 +1,20 @@
 part of 'admin_users_cubit.dart';
 
 abstract class AdminUsersState extends Equatable {
-  const AdminUsersState();
+  const AdminUsersState({this.subscriptions});
+
+  final List<Subscription>? subscriptions;
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [subscriptions];
 }
 
 class AdminInitial extends AdminUsersState {
-  const AdminInitial();
+  const AdminInitial({super.subscriptions});
 }
 
 class AdminFetchingUsers extends AdminUsersState {
-  const AdminFetchingUsers();
+  const AdminFetchingUsers({super.subscriptions});
 }
 
 class AdminUsersFetched extends AdminUsersState {
@@ -20,6 +22,7 @@ class AdminUsersFetched extends AdminUsersState {
     required this.users,
     this.user,
     this.isUpdating = false,
+    super.subscriptions,
   });
 
   final List<UserDataModel> users;
@@ -35,11 +38,12 @@ class AdminUsersFetched extends AdminUsersState {
       users: users ?? this.users,
       user: user,
       isUpdating: isUpdating,
+      subscriptions: subscriptions,
     );
   }
 
   @override
-  List<Object> get props => [users, user ?? '', isUpdating];
+  List<Object?> get props => [users, user ?? '', isUpdating, subscriptions];
 }
 
 class AdminUsersError extends AdminUsersState {

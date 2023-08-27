@@ -576,7 +576,7 @@ exports.readProdTests = functions
   });
 
 // Send email from http call
-exports.sendEmail = functions
+exports.reSendEmail = functions
   .region("southamerica-east1")
   .https.onCall( async (data) => {
     const testId = data.testId;
