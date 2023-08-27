@@ -28,7 +28,7 @@
     "question101Description": "Mark the proper answer being 0 any activities, 1 minimum and 4 maximum.",
     "question102": "How many professional session as a coach have you done monthly in media in the last 12 months?",
     "question102Description": "Sum the total in the last 12 months and divide it by 12 and mark the proper answer.",
-    "question103": "What percentage of the total sessions a coach in the last 12 months did you receive supervision?",
+    "question103": "What percentage of the total sessions a coach in the last 12 months did you receive supervisión?",
     "question103Description": "Sum the total in the last 12 months and divide it by 12 and mark the proper answer.",
     "question104": "How do you auto qualify the quality of your sessions as a coach",
     "question104Description": "Mark the proper answer being 0 that you didn't had sessions as coach, 1 minimum and 4 maximum.",

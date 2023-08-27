@@ -10,18 +10,18 @@ const qualityAdvancedBeginner = {
   },
   '102': {
     '1': 'Se sugiere iniciar sesiones como coach',
-    '2': 'Se sugiere incrementar el numero de sesiones como coach',
-    '3': 'Se sugiere incrementar el numero de sesiones como coach',
-    '4': 'Se sugiere sostener el numero de sesiones como coach',
-    '5': 'Se sugiere disminuir el numero de sesiones como coach',
-    '6': 'Se sugiere disminuir el numero de sesiones como coach',
+    '2': 'Se sugiere incrementar el número de sesiones como coach',
+    '3': 'Se sugiere incrementar el número de sesiones como coach',
+    '4': 'Se sugiere sostener el número de sesiones como coach',
+    '5': 'Se sugiere disminuir el número de sesiones como coach',
+    '6': 'Se sugiere disminuir el número de sesiones como coach',
   },
   '103': {
-    '1': 'Se sugiere iniciar la supervision de sus sesiones',
-    '2': 'Se sugiere incrementar la supervision de sus sesiones',
-    '3': 'Se sugiere incrementar la supervision de sus sesiones',
-    '4': 'Se sugiere sostener la supervision de sus sesiones',
-    '5': 'Se sugiere sostener la supervision de sus sesiones',
+    '1': 'Se sugiere iniciar la supervisión de sus sesiones',
+    '2': 'Se sugiere incrementar la supervisión de sus sesiones',
+    '3': 'Se sugiere incrementar la supervisión de sus sesiones',
+    '4': 'Se sugiere sostener la supervisión de sus sesiones',
+    '5': 'Se sugiere sostener la supervisión de sus sesiones',
   },
   '104': {
     '1': 'Se sugiere iniciar sesiones como coach',
@@ -32,17 +32,17 @@ const qualityAdvancedBeginner = {
   },
   '105': {
     '1': 'Se sugiere iniciar sesiones como coachee',
-    '2': 'Se sugiere incrementar el numero de sesiones como coachee',
-    '3': 'Se sugiere sostener el numero de sesiones como coachee',
-    '4': 'Se sugiere sostener el numero de sesiones como coachee',
+    '2': 'Se sugiere incrementar el número de sesiones como coachee',
+    '3': 'Se sugiere sostener el número de sesiones como coachee',
+    '4': 'Se sugiere sostener el número de sesiones como coachee',
   },
   '106': {
     '1': 'Se sugiere iniciar un acompañamiento con un mentor',
     '2': 'Se sugiere sostener el acompañamiento con un mentor',
   },
   '107': {
-    '1': 'Se sugiere no realizar mentarías a otros coaches por el momento',
-    '2': 'Se sugiere disminuir el numero de mentarías a otros coaches',
+    '1': 'Se sugiere no realizar mentorías a otros coaches por el momento',
+    '2': 'Se sugiere disminuir el número de mentorías a otros coaches',
   },
   '108': {
     '1':
@@ -69,11 +69,11 @@ const qualityAdvancedBeginner = {
   },
   '110': {
     '1':
-        'Se sugiere incrementar la importancia se su servicio para sus clientes',
+        'Se sugiere incrementar la importancia de su servicio para sus clientes',
     '2':
-        'Se sugiere incrementar la importancia se su servicio para sus clientes',
+        'Se sugiere incrementar la importancia de su servicio para sus clientes',
     '3':
-        'Se sugiere incrementar la importancia se su servicio para sus clientes',
-    '4': 'Se sugiere sostener la importancia se su servicio para sus clientes',
+        'Se sugiere incrementar la importancia de su servicio para sus clientes',
+    '4': 'Se sugiere sostener la importancia de su servicio para sus clientes',
   },
 };
