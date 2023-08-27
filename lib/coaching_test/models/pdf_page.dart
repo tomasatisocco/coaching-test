@@ -146,6 +146,7 @@ class FieldScoreWidget extends pw.StatelessWidget {
             height: radio * 2,
             width: radio * 2,
             decoration: pw.BoxDecoration(
+              color: scoreColor,
               shape: pw.BoxShape.circle,
               border: pw.Border.all(
                 color: scoreColor,

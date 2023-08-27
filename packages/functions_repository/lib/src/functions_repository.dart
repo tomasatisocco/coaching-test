@@ -47,14 +47,16 @@ class FunctionsRepository {
         app: Firebase.app(),
       )
           .httpsCallable(
-            'reSendEmail',
-            options: HttpsCallableOptions(
-              timeout: const Duration(seconds: 30),
-            ),
-          )
-          .call<void>();
-    } catch (e) {
-      print(e);
-    }
+        'reSendEmail',
+        options: HttpsCallableOptions(
+          timeout: const Duration(seconds: 30),
+        ),
+      )
+          .call<void>(
+        <String, dynamic>{
+          'testId': testId,
+        },
+      );
+    } catch (_) {}
   }
 }
